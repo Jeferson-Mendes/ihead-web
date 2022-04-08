@@ -6,12 +6,12 @@ import { ThemeProvider } from 'styled-components';
 import GlobalStyle from './assets/style/GlobalStyle';
 
 const theme = {
-  bgColor: '#F7F7F7',
-  bgColorGray: '#E5E5E5',
-  orangeColor: '#F5A31A',
-  fontColorGreen: '#16C79A',
-  fontColorWhite: '#F7F7F7',
-  fontColorGray: '#3F3F44',
+  colorWhite: '#FFF',
+  colorGray: '#565353',
+  colorBlack: '#020203',
+  colorGrayBorder: '#E8E8E8',
+  fontColorDarkBlue: '#093366',
+  colorDarkGreen: '#196C3D',
 }
 
 ReactDOM.render(
