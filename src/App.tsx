@@ -1,9 +1,12 @@
-import Signin from "./pages/Signin";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/index";
 
 function App() {
   return (
     <>
-    <Signin/>
+    <Router>
+          <AppRoutes/>
+    </Router>
     </>
   );
 }
