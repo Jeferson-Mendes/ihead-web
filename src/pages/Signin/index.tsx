@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { 
     SignInPageStyled,
     PresentationContainerStyled,
@@ -9,7 +10,9 @@ import {
     FormContainerStyled,
     ButtonContainerStyled,
     RememberAndRecoveryContainerStyled,
-    RegisterLinkStyled
+    RegisterLinkStyled,
+    LabelStyled,
+    InputStyled,
 } from './style';
 
 const Signin: React.FC = () => {
@@ -33,11 +36,11 @@ const Signin: React.FC = () => {
                     <h1>Faça login na sua conta</h1>
                     <FormContainerStyled>
                         <form >
-                            <label htmlFor="email">Email</label>
-                            <input type="email" name='email'/>
+                            <LabelStyled htmlFor="email">Email</LabelStyled>
+                            <InputStyled type="email" name='email'/>
 
-                            <label htmlFor="password">Senha</label>
-                            <input type="password" name='password'/>
+                            <LabelStyled htmlFor="password">Senha</LabelStyled>
+                            <InputStyled type="password" name='password'/>
 
                             <RememberAndRecoveryContainerStyled>
                                 <div>
@@ -59,7 +62,7 @@ const Signin: React.FC = () => {
                 </SignInFormStyled>
 
                 <RegisterLinkStyled>
-                            <span>Não tem uma conta? <a href="#"> Junte-se gratuitamente hoje </a> </span>
+                            <span>Não tem uma conta? <Link to='/register' > Junte-se gratuitamente hoje </Link> </span>
                 </RegisterLinkStyled>
 
             </SignInFormContainerStyled>
