@@ -8,7 +8,10 @@ import GlobalStyle from './assets/style/GlobalStyle';
 const theme = {
   colorWhite: '#FFF',
   colorGray: '#565353',
+  colorBgNavbar: '#3F444A',  // colorBgNavbar: '#019267', colorBgHeader: '#00C897',
+  colorBgHeader: '#565353',
   colorBlack: '#020203',
+  colorAllBlack: '#000',
   colorGrayBorder: '#E8E8E8',
   fontColorDarkBlue: '#093366',
   colorDarkGreen: '#196C3D',
