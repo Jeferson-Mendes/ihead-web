@@ -1,4 +1,5 @@
-import Navbar from "../../components/navbar"
+import React, { useContext } from 'react';
+import Navbar from '../../components/navbar';
 
 import { 
     BeginningContainerStyled,
@@ -18,8 +19,7 @@ import {
  import likedPostsImage from '../../assets/liked-posts.svg'
  import searchSolutionsImage from '../../assets/search-solutions.svg' 
  import avatarImage from '../../assets/avatar.svg';
-import { useContext } from "react";
-import { AuthContext } from "../../contexts/auth";
+import { AuthContext } from '../../contexts/auth';
 
 const Home: React.FC = () => {
     const { user } = useContext(AuthContext);
