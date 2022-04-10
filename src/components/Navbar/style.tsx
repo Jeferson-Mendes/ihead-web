@@ -30,13 +30,21 @@ export const TitleStyled = styled.h3`
 
 export const MenuOptionsContainerStyled = styled.ul`
     li {
-        float: left;
         list-style: none;
-        padding: 1rem;
-        color: ${({theme}) => theme.colorWhite };
-        cursor: pointer;
-        font-size: 0.8rem;
-    }
+        a {
+            float: left;
+            text-decoration: none;
+            padding: 1rem;
+            color: ${({theme}) => theme.colorWhite };
+            cursor: pointer;
+            font-size: 0.8rem;
+    
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+    } 
 `
 export const ProfileContentStyled = styled.div`
     display: flex;
