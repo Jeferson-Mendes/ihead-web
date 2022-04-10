@@ -1,6 +1,6 @@
 import React from "react";
 import Article from '../../components/article';
-import Navbar from '../../components/navbar';
+import Navbar from '../../components/Navbar';
 
 import { 
     SearchContainerStyled,
