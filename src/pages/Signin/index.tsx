@@ -1,5 +1,8 @@
 
+import { useContext } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../contexts/auth';
 import { 
     SignInPageStyled,
     PresentationContainerStyled,
@@ -15,7 +18,25 @@ import {
     InputStyled,
 } from './style';
 
+type Inputs = {
+    email: string;
+    password: string;
+}
+
 const Signin: React.FC = () => {
+    const { signIn } = useContext(AuthContext);
+
+    const { register, handleSubmit } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = async data => {
+        async function handleSignin({ email, password }: Inputs) {
+            console.log(email, password)
+            await signIn({ email, password });
+        }
+
+        await handleSignin({email: data.email, password: data.password});
+    }
+
     return (
         <SignInPageStyled>
             <PresentationContainerStyled>
@@ -35,12 +56,20 @@ const Signin: React.FC = () => {
                     <h4>Bem-vindo de volta</h4>
                     <h1>Faça login na sua conta</h1>
                     <FormContainerStyled>
-                        <form >
+                        <form onSubmit={handleSubmit(onSubmit)}>
                             <LabelStyled htmlFor="email">Email</LabelStyled>
-                            <InputStyled type="email" name='email'/>
+                            <InputStyled
+                            type="email"
+                            // name='email'
+                            {...register('email')}
+                            />
 
                             <LabelStyled htmlFor="password">Senha</LabelStyled>
-                            <InputStyled type="password" name='password'/>
+                            <InputStyled
+                            type="password"
+                            // name='password'
+                            {...register('password')}
+                            />
 
                             <RememberAndRecoveryContainerStyled>
                                 <div>
@@ -50,7 +79,7 @@ const Signin: React.FC = () => {
                                     </label>
                                 </div>
                                 <div>
-                                    <span> <a href="#">Esqueci a senha?</a> </span>
+                                    <span> <Link to='/login'>Esqueci a senha?</Link> </span>
                                 </div>
                             </RememberAndRecoveryContainerStyled>
                             <ButtonContainerStyled>

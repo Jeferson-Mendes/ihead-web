@@ -1,7 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
+import TermsOfUseModal from "../../modal/TermsOfUseModal";
 import { AppName, InputStyled, LabelStyled } from "../Signin/style";
-
+import { useNavigate } from 'react-router-dom';
 import { 
     ImageLogoContainerStyled,
     SignupContainerStyled,
@@ -15,31 +16,44 @@ import {
     RegisterFieldStyled,
     FormContainerStyled,
     InputButtonStyled,
-    GoBackStyled,
+    // GoBackStyled,
+    CancelButtonStyled,
 } from './style';
 
 const Register:React.FC = () => {
-    const [termsChecked, setTermsChecked] = React.useState<boolean>(false)
+    const [termsChecked, setTermsChecked] = React.useState<boolean>(false);
+    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+
+    const navigate = useNavigate();
 
     const handleTermsChecked = () => {
         termsChecked ? setTermsChecked(false) : setTermsChecked(true)
 
         console.log(termsChecked)
     }
+
+    const handleCloseModal = () => {
+        modalIsOpen ? setModalIsOpen(false) : setModalIsOpen(true)
+    }
+
+    const handleNavigateToLogin = () => {
+        navigate('/login');
+    }
+
     return (
         <>
+        <TermsOfUseModal modalIsOpen={modalIsOpen} closeModal={handleCloseModal}/>
         <SignupContainerStyled>
-
             <ImageLogoContainerStyled>
                 <AppName> iHead </AppName>
             </ImageLogoContainerStyled>
 
             <RegisterContainerStyled>
-                <GoBackStyled>
+                {/* <GoBackStyled>
                     <Link to='/login'>
                         Voltar para fazer login
                     </Link>
-                </GoBackStyled>
+                </GoBackStyled> */}
                 <RegisterFieldStyled>
                     <TitleStyled>Crie sua conta</TitleStyled>
                     <FormContainerStyled>
@@ -81,12 +95,13 @@ const Register:React.FC = () => {
                         <CheckboxTermOfServicesStyled>
                                 <label htmlFor="terms"> 
                                 <input type="checkbox" name="terms" id="terms" onChange={handleTermsChecked}/>
-                                <span>Declaro estar ciente de que sou plenamente responsável pelas informações aqui prestadas e pelo <a href="https://www.lipsum.com/">Termo de Uso.</a> </span>
+                                <span>Declaro estar ciente de que sou plenamente responsável pelas informações aqui prestadas e pelo <strong onClick={handleCloseModal}>Termo de Uso.</strong> </span>
                                 </label>  
                         </CheckboxTermOfServicesStyled>
 
 
                         <ButtonContainerStyled>
+                                <CancelButtonStyled onClick={handleNavigateToLogin} type="button" value="Cancelar" />
                                 <InputButtonStyled termsChecked={termsChecked} type="button" value="Enviar" />
                         </ButtonContainerStyled>
                     </FormContainerStyled>

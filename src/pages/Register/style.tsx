@@ -74,6 +74,15 @@ export const CheckboxTermOfServicesStyled = styled.div`
 
         span {
             color: ${({theme}) => theme.colorGray};
+
+            strong {
+                color: ${({theme}) => theme.fontColorDarkBlue};
+                cursor: pointer;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
         }
 `
 
@@ -82,7 +91,18 @@ export const ButtonContainerStyled = styled.div`
     align-items: center;
     justify-content: flex-end;
 
-    padding-top: 2rem;
+    padding-top: 4rem;
+`
+
+export const CancelButtonStyled = styled.input`
+    background-color: ${({theme}) => theme.colorGray};
+    color: ${({theme}) => theme.colorWhite};
+    border: none;
+    padding: 0.8rem;
+    width: 10rem;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    margin-right: 1rem;
 `
 
 export const InputButtonStyled = styled.input<IInputButtonStyled>`
