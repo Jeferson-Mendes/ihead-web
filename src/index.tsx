@@ -8,6 +8,10 @@ import GlobalStyle from './assets/style/GlobalStyle';
 const theme = {
   colorWhite: '#FFF',
   colorGray: '#565353',
+  bgColorGray: '#E5E5E5',
+  colorGray200: '#E5E7EB',
+  colorGray500: '#6B7280',
+  colorGray700: '#374151',
   colorBgNavbar: '#3F444A',  // colorBgNavbar: '#019267', colorBgHeader: '#00C897',
   colorBgHeader: '#565353',
   colorBlack: '#020203',
