@@ -19,12 +19,37 @@ import {
     // GoBackStyled,
     CancelButtonStyled,
 } from './style';
+import { SubmitHandler, useForm } from "react-hook-form";
+import api from "../../service/api";
+
+type Inputs = {
+    name: string;
+    email: string;
+    // semester: number;
+    password: string;
+}
 
 const Register:React.FC = () => {
     const [termsChecked, setTermsChecked] = React.useState<boolean>(false);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
 
     const navigate = useNavigate();
+
+    const { register, handleSubmit } = useForm<Inputs>();
+
+    const onSubmit: SubmitHandler<Inputs> = async data => {
+        async function handleSignin(userData: Inputs) {
+            try {
+                await api.post('/users/create', userData)
+                alert('Usuário cadastrado com sucesso!');
+                navigate('/');
+            } catch (error) {
+                alert('Falha ao cadastrar usuário.');
+            }
+        }
+
+        await handleSignin(data);
+    };
 
     const handleTermsChecked = () => {
         termsChecked ? setTermsChecked(false) : setTermsChecked(true)
@@ -57,20 +82,26 @@ const Register:React.FC = () => {
                 <RegisterFieldStyled>
                     <TitleStyled>Crie sua conta</TitleStyled>
                     <FormContainerStyled>
-                        <FormStyled >
+                        <FormStyled id="formRegister" onSubmit={handleSubmit(onSubmit)}>
                         <LeftFieldInputStyled>
                                 <LabelStyled htmlFor="name"> Nome </LabelStyled>
-                                <InputStyled type="text" name="name" />
+                                <InputStyled
+                                type="text"
+                                {...register('name')}
+                                />
 
                                 <LabelStyled htmlFor="email"> Email </LabelStyled>
-                                <InputStyled type="email" name="email" />
+                                <InputStyled
+                                type="email"
+                                {...register('email')}
+                                />
 
                                 <LabelStyled htmlFor="semester"> Período/Semestre </LabelStyled>
-                                <InputStyled type="number" name="semester" min={1} />
+                                <InputStyled type="number" min={1} max={8} />
 
                                 <LabelStyled htmlFor="password"> Senha </LabelStyled>
                                 <span style={{ float: "right", color:'#565353' }}>Min. 8 caracteres</span>
-                                <InputStyled type="password" name="password" />
+                                <InputStyled type="password" {...register('password')} />
                         
                         </LeftFieldInputStyled>
 
@@ -102,7 +133,12 @@ const Register:React.FC = () => {
 
                         <ButtonContainerStyled>
                                 <CancelButtonStyled onClick={handleNavigateToLogin} type="button" value="Cancelar" />
-                                <InputButtonStyled termsChecked={termsChecked} type="button" value="Enviar" />
+                                { termsChecked
+                                ? 
+                                <InputButtonStyled termsChecked={true} type="submit" form="formRegister">Enviar</InputButtonStyled>
+                                : 
+                                <InputButtonStyled termsChecked={false} type="submit" form="formRegister" disabled>Enviar</InputButtonStyled>
+                                }
                         </ButtonContainerStyled>
                     </FormContainerStyled>
                 </RegisterFieldStyled>

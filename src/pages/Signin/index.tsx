@@ -30,7 +30,6 @@ const Signin: React.FC = () => {
 
     const onSubmit: SubmitHandler<Inputs> = async data => {
         async function handleSignin({ email, password }: Inputs) {
-            console.log(email, password)
             await signIn({ email, password });
         }
 

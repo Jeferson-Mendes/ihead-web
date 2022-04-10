@@ -13,7 +13,7 @@ import {
 import avatarImage from '../../assets/avatar.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface IProps {
     hasHeader: boolean;
@@ -22,14 +22,22 @@ interface IProps {
 
 const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle }) => {
     const { signOut } = useContext(AuthContext);
+
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         signOut();
     }
+
+    const handleNavigateToHome = () => {
+        navigate('/');
+    }
+
     return (
         <>
         <NavbarContainerStyled>
             <NavBarContentStyled>
-                <TitleStyled>iHead</TitleStyled>
+                <TitleStyled onClick={handleNavigateToHome}>iHead</TitleStyled>
                 <MenuOptionsContainerStyled>
                     <li> <Link to='/pesquisar'> Pesquise </Link> </li>
                     <li> <Link to='/'>Perfil</Link> </li>

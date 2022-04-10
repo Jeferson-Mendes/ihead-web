@@ -18,8 +18,11 @@ import {
  import likedPostsImage from '../../assets/liked-posts.svg'
  import searchSolutionsImage from '../../assets/search-solutions.svg' 
  import avatarImage from '../../assets/avatar.svg';
+import { useContext } from "react";
+import { AuthContext } from "../../contexts/auth";
 
 const Home: React.FC = () => {
+    const { user } = useContext(AuthContext);
     return (
         <>
         <Navbar hasHeader={false} />
@@ -34,7 +37,7 @@ const Home: React.FC = () => {
                             </figure>
                             <div>
                                 <h2>Olá,</h2>
-                                <h3>João Mendes de Alencar</h3>
+                                <h3>{user?.name}</h3>
                                 <input type="button" value="Visite Seu Perfil" />
                             </div>
                         </UserInfoStyled>

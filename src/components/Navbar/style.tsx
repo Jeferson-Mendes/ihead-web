@@ -26,6 +26,7 @@ export const NavBarContentStyled = styled.div`
 
 export const TitleStyled = styled.h3`
     color: ${({theme}) => theme.colorWhite };
+    cursor: pointer;
 `
 
 export const MenuOptionsContainerStyled = styled.ul`

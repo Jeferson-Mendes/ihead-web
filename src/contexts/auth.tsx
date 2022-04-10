@@ -1,6 +1,7 @@
 import React, { createContext } from "react";
 import Loading from "../components/loading";
 import { IUser } from "../interfaces";
+import api from "../service/api";
 
 interface ISignInRequest {
     email: string;
@@ -37,7 +38,7 @@ export const AuthProvider:React.FC = ({ children }) => {
                     user: JSON.parse(storagedUser),
                 }
                 setUser(userData.user);
-                // api.defaults.headers.common['Authorization'] = `Bearer ${storagedToken}`;
+                api.defaults.headers.common['Authorization'] = `Bearer ${storagedToken}`;
             }
             setLoading(false)
         }
@@ -47,24 +48,12 @@ export const AuthProvider:React.FC = ({ children }) => {
 
     async function signIn({ email, password }: ISignInRequest): Promise<any> {
         try {
-            // const response = await api.post('auth/signin', { email, password });
+            const response = await api.post('users/login', { email, password });
 
-            // setUser(response.data.user);
-            // api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
-            // localStorage.setItem('Auth:user', JSON.stringify(response.data.user));
-            // localStorage.setItem('Auth:token', response.data.token);
-            const simulatedUser = {
-                _id: 'fddkhsfjkhfek',
-                name: 'Alberto Telles',
-                email:'teste@email.com'
-            }
-            if(email === simulatedUser.email && password === 'senha123') {
-                setUser(simulatedUser);
-                localStorage.setItem('Auth:user', JSON.stringify(simulatedUser));
-                localStorage.setItem('Auth:token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsYmVydG8gVGVsbGVzIiwiaWF0IjoxNTE2MjM5MDIyfQ.5q7swWAq0ltz5fXNcd_zUxU70-kJwf009A6rvEDiOJk');
-            } else {
-                throw new Error('Email or password invalid.')
-            }
+            setUser(response.data.user);
+            api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+            localStorage.setItem('Auth:user', JSON.stringify(response.data.user));
+            localStorage.setItem('Auth:token', response.data.token);
 
         } catch (error) {
             alert('Opss, algo deu errado.');

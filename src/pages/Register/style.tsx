@@ -105,7 +105,7 @@ export const CancelButtonStyled = styled.input`
     margin-right: 1rem;
 `
 
-export const InputButtonStyled = styled.input<IInputButtonStyled>`
+export const InputButtonStyled = styled.button<IInputButtonStyled>`
     background-color: ${({theme}) => theme.fontColorDarkBlue};
     color: ${({theme}) => theme.colorWhite};
     opacity: ${(props) => props.termsChecked ? 1 : 0.4};
