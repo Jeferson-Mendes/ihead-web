@@ -7,7 +7,7 @@ export const ArticleContainerStyled = styled.div`
 
     border-top: 2px solid ${({theme}) => theme.colorGray200};
 
-    width: 80%;
+    width: 100%;
     padding: 1rem;
 `
 export const ImageContainerStyled = styled.div`

@@ -3,8 +3,8 @@ import styled from "styled-components"
 export const NavbarContainerStyled = styled.div`
     background-color: ${({theme}) => theme.colorBgNavbar};
     
-    position: fixed;
-    width: 100vw;
+    position: relative;
+    /* width: 100vw; */
     z-index: 4;
 
     display: flex;
@@ -55,6 +55,9 @@ export const ProfileContentStyled = styled.div`
     figure {
         img {
             width: 2rem;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
         }
     }
 

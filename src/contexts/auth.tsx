@@ -18,6 +18,7 @@ interface IAuthContextData {
     user: IUser | null;
     loading: boolean;
     signIn({email, password}:ISignInRequest): Promise<ISignInResponse>;
+    handleGoogleLogin(user: IUser, token: string): Promise<void>;
     signOut(): void;
 }
 
@@ -54,11 +55,17 @@ export const AuthProvider:React.FC = ({ children }) => {
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
             localStorage.setItem('Auth:user', JSON.stringify(response.data.user));
             localStorage.setItem('Auth:token', response.data.token);
-
         } catch (error) {
             alert('Opss, algo deu errado.');
             return;
         }
+    }
+
+    async function handleGoogleLogin(user: IUser, token: string): Promise<void> {
+        setUser(user);
+        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+        localStorage.setItem('Auth:user', JSON.stringify(user));
+        localStorage.setItem('Auth:token', token);
     }
 
     function signOut() {
@@ -73,7 +80,7 @@ export const AuthProvider:React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={ { signed: !!user, user, signIn, signOut, loading } }>
+        <AuthContext.Provider value={ { signed: !!user, user, signIn, signOut, loading, handleGoogleLogin } }>
             { children }
         </AuthContext.Provider>
     )

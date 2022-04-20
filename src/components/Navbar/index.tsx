@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle }) => {
-    const { signOut } = useContext(AuthContext);
+    const { signOut, user } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -40,13 +40,13 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle }) => {
                 <TitleStyled onClick={handleNavigateToHome}>iHead</TitleStyled>
                 <MenuOptionsContainerStyled>
                     <li> <Link to='/pesquisar'> Pesquise </Link> </li>
-                    <li> <Link to='/'>Perfil</Link> </li>
+                    <li> <Link to='/perfil'>Perfil</Link> </li>
                     <li> <Link to='/'>Publicar</Link> </li>
                     <li> <Link to='/'>Notificações</Link> </li>
                 </MenuOptionsContainerStyled>
                 <ProfileContentStyled>
                     <figure>
-                        <img src={avatarImage} alt="avatar" />
+                        <img src={ user?.picture ? `${user?.picture}` : avatarImage} alt="avatar" />
                     </figure>
                     <span onClick={handleLogout}>Sair</span>
                 </ProfileContentStyled>

@@ -19,6 +19,9 @@ const theme = {
   colorGrayBorder: '#E8E8E8',
   fontColorDarkBlue: '#093366',
   colorDarkGreen: '#196C3D',
+  lightBlue: '#9FB4C7',
+  lightGreen: '#B0F2B4',
+  yellowColor: '#F4D35E',
 }
 
 ReactDOM.render(
