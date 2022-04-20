@@ -6,7 +6,7 @@ export const SearchContainerStyled = styled.div`
     justify-content: center;
     flex-direction: column;
 
-    padding-top: 14rem;
+    padding-top: 4rem;
     background-color: ${({theme}) => theme.bgColorGray};
 `
 
@@ -20,6 +20,7 @@ export const ArticlesContainerStyled = styled.div`
     justify-content: center;
     flex-direction: column;
 
+    border: 1px solid ${({theme}) => theme.lightBlue};
     border-top: 7px solid ${({theme}) => theme.fontColorDarkBlue};
 `
 
@@ -52,19 +53,21 @@ export const CategoryFieldStyled = styled.div`
     border-bottom: 2px solid ${({theme}) => theme.colorGray200};
     width: 100%;
     align-items: center;
-    justify-content: center;
-    ul {
-        padding: 1.4rem;
-        li {
-            float: left;
-            list-style: none;
-            padding: 0.2rem;
-            margin: 0 0.4rem;
-            border-radius: 2rem;
-            border: 2px solid ${({theme}) => theme.colorGray200};
-            color: ${({theme}) => theme.colorGray700};
-            font-size: 0.8rem;
-            cursor: pointer;
+    justify-content: space-between;
+    &:first-child {
+        ul {
+            padding: 1.4rem;
+            li {
+                float: left;
+                list-style: none;
+                padding: 0.2rem;
+                margin: 0 0.4rem;
+                border-radius: 2rem;
+                border: 2px solid ${({theme}) => theme.colorGray200};
+                color: ${({theme}) => theme.colorGray700};
+                font-size: 0.8rem;
+                cursor: pointer;
+            }
         }
     }
 `
@@ -78,4 +81,20 @@ export const ResultsCountFieldStyled = styled.div`
         color: ${({theme}) => theme.colorGray};
         font-size: 0.8rem;
     }
+`
+
+export const SearchContentStyled = styled.div`
+    width: 60%;
+    position: absolute;
+    top: 20%;
+    z-index: 4;
+    height: 4rem;
+    background-color: ${({theme}) => theme.colorWhite};
+    border: 1px solid ${({theme}) => theme.lightBlue};
+
+    border-radius: 0.7rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 `

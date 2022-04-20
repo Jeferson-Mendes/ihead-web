@@ -47,6 +47,9 @@ export const UserInfoStyled = styled.div`
     figure {
         img {
             width: 7rem;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
         }
     }
 
@@ -81,6 +84,7 @@ export const SearchFieldStyled = styled.div`
             border: none;
             outline: none;
             border-radius: 0.8rem 0 0 0.8rem;
+            box-shadow: 0px 2px 10px grey;
         }
         button {
             padding: 0.6rem;

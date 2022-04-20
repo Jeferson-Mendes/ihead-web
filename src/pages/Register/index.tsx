@@ -1,7 +1,7 @@
 import React from "react";
 // import { Link } from "react-router-dom";
 import TermsOfUseModal from "../../modal/TermsOfUseModal";
-import { AppName, InputStyled, LabelStyled } from "../Signin/style";
+import { AppName, InputStyled, LabelStyled, LoadingStyled } from "../Signin/style";
 import { useNavigate } from 'react-router-dom';
 import { 
     ImageLogoContainerStyled,
@@ -18,6 +18,7 @@ import {
     InputButtonStyled,
     // GoBackStyled,
     CancelButtonStyled,
+    SelectStyled
 } from './style';
 import { SubmitHandler, useForm } from "react-hook-form";
 import api from "../../service/api";
@@ -25,22 +26,43 @@ import api from "../../service/api";
 type Inputs = {
     name: string;
     email: string;
-    // semester: number;
-    password: string;
+    // password: string;
+	phoneNumber: string;
+	semester: number;
+    socialName?: string;
+    genderIdentity?: string;
 }
 
 const Register:React.FC = () => {
     const [termsChecked, setTermsChecked] = React.useState<boolean>(false);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
-
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
+    // const [typedPassword, setTypedPassword] = React.useState<string>('');
+    // const [confirmTypedPassword, setConfirmTypedPassword] = React.useState<string>('');
+    const [passIsEqual, setPassIsEqual] = React.useState<boolean>(false);
+    const [passData, setPassData] = React.useState({
+        password: '',
+        confirmPassword: '',
+      })
+      
     const navigate = useNavigate();
+
+    React.useEffect(() => {
+    passData.confirmPassword === passData.password ? setPassIsEqual(true) : setPassIsEqual(false)
+    },[passData.confirmPassword, passData.password])
+
+
+    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target
+        setPassData({ ...passData, [name]: value })
+      }
 
     const { register, handleSubmit } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async data => {
         async function handleSignin(userData: Inputs) {
             try {
-                await api.post('/users/create', userData)
+                await api.post('/users/create', {...userData, password: passData.password})
                 alert('Usuário cadastrado com sucesso!');
                 navigate('/');
             } catch (error) {
@@ -48,13 +70,14 @@ const Register:React.FC = () => {
             }
         }
 
+        setIsLoading(true)
         await handleSignin(data);
+        setIsLoading(false)
     };
 
     const handleTermsChecked = () => {
         termsChecked ? setTermsChecked(false) : setTermsChecked(true)
 
-        console.log(termsChecked)
     }
 
     const handleCloseModal = () => {
@@ -97,11 +120,22 @@ const Register:React.FC = () => {
                                 />
 
                                 <LabelStyled htmlFor="semester"> Período/Semestre </LabelStyled>
-                                <InputStyled type="number" min={1} max={8} />
+                                <InputStyled
+                                type="number"
+                                min={1}
+                                max={8} 
+                                {...register('semester')}
+                                />
 
                                 <LabelStyled htmlFor="password"> Senha </LabelStyled>
                                 <span style={{ float: "right", color:'#565353' }}>Min. 8 caracteres</span>
-                                <InputStyled type="password" {...register('password')} />
+                                <InputStyled type="password" style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } name="password" onChange={handlePasswordChange} />
+                                {passIsEqual
+                                ?
+                                ''
+                                :
+                                <span style={{ color: 'red', fontSize: '0.8rem', position: 'absolute' }}>Campo de "Senha" deve ser igual a "Confirme a Senha"</span>
+                                }
                         
                         </LeftFieldInputStyled>
 
@@ -109,17 +143,26 @@ const Register:React.FC = () => {
                             
                                 <LabelStyled htmlFor="socialname"> Nome Social </LabelStyled>
                                 <span style={{ float: "right", color:'#093366' }}>*Opcional</span>
-                                <InputStyled type="text" name="socialname" />
+                                <InputStyled type="text" {...register('socialName')} />
 
-                                <LabelStyled htmlFor="gender"> Identidade de Gênero </LabelStyled>
-                                <InputStyled type="text" name="gender" />
+                                <LabelStyled htmlFor="genderIdentity"> Identidade de Gênero </LabelStyled>
+                                <SelectStyled  {...register('genderIdentity')} >
+                                    <option value="Homem_Cisgenero">Homem Cisgênero</option>
+                                    <option value="Mulher_Cisgenero">Mulher Cisgênero</option>
+                                    <option value="Homem_Transgenero">Homem Transgênero</option>
+                                    <option value="Mulher_Transgenero">Mulher Transgênero</option>
+                                    <option value="Nao_Binario">Não-Binário</option>
+                                    <option value="Nao_Informar">Não Informar</option>
+                                    <option value="Outra">Outra Opção</option>
+                                </SelectStyled>
 
                                 <LabelStyled htmlFor="phoneNumber"> Telefone de Contato </LabelStyled>
-                                <InputStyled type="text" name="phoneNumber" min={1} />
+                                <InputStyled type="text" {...register('phoneNumber')} min={1} placeholder="EX: (88) 90000-0000" />
 
-                                <LabelStyled htmlFor="password"> Confirme a Senha </LabelStyled>
+                                <LabelStyled htmlFor="confirmPassword"> Confirme a Senha </LabelStyled>
                                 <span style={{ float: "right", color: '#565353' }}>Min. 8 caracteres</span>
-                                <InputStyled type="password" name="password" />
+                                <InputStyled style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } type="password" name="confirmPassword"  onChange={handlePasswordChange} />
+                                
 
                         </RightFieldInputStyled>
                         </FormStyled>
@@ -135,7 +178,9 @@ const Register:React.FC = () => {
                                 <CancelButtonStyled onClick={handleNavigateToLogin} type="button" value="Cancelar" />
                                 { termsChecked
                                 ? 
-                                <InputButtonStyled termsChecked={true} type="submit" form="formRegister">Enviar</InputButtonStyled>
+                                <InputButtonStyled termsChecked={true} type="submit" form="formRegister" disabled>
+                                    { isLoading ? <LoadingStyled></LoadingStyled> : 'Enviar' }
+                                    </InputButtonStyled>
                                 : 
                                 <InputButtonStyled termsChecked={false} type="submit" form="formRegister" disabled>Enviar</InputButtonStyled>
                                 }

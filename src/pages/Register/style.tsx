@@ -20,7 +20,7 @@ export const ImageLogoContainerStyled = styled.div`
 `
 
 export const RegisterContainerStyled = styled.div`
-    padding-top: 1rem;
+    padding-top: 1.4rem;
 /* div {
     div {
         display: flex;
@@ -39,7 +39,7 @@ export const GoBackStyled = styled.span`
 `
 
 export const RegisterFieldStyled = styled.div`
-    padding: 2rem 6rem;
+    padding: 2rem 6rem 0;
 `
 
 export const FormContainerStyled = styled.div`
@@ -50,6 +50,17 @@ export const FormStyled = styled.form`
     display: flex;
     align-items: center;
     justify-content: space-between;
+`
+
+export const SelectStyled = styled.select`
+    display: block;
+    width: 100%;
+    border: 1.4px solid ${({theme}) => theme.colorGrayBorder};
+    height: 2.4rem;
+    padding: 7px;
+
+    border-radius: 0.3rem;
+    margin: 0.4rem 0 0.4rem 0;
 `
 
 export const TitleStyled = styled.h2`
