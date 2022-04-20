@@ -1,8 +1,10 @@
 
-import { useContext } from 'react';
+import React, { useContext } from 'react';
+import GoogleLogin from 'react-google-login';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/auth';
+import api from '../../service/api';
 import { 
     SignInPageStyled,
     PresentationContainerStyled,
@@ -16,6 +18,8 @@ import {
     RegisterLinkStyled,
     LabelStyled,
     InputStyled,
+    LoginGoogleContainerStyled,
+    LoadingStyled,
 } from './style';
 
 type Inputs = {
@@ -24,7 +28,8 @@ type Inputs = {
 }
 
 const Signin: React.FC = () => {
-    const { signIn } = useContext(AuthContext);
+    const { signIn, handleGoogleLogin } = useContext(AuthContext);
+    const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
     const { register, handleSubmit } = useForm<Inputs>();
 
@@ -33,7 +38,21 @@ const Signin: React.FC = () => {
             await signIn({ email, password });
         }
 
+        setIsLoading(true)
         await handleSignin({email: data.email, password: data.password});
+        setIsLoading(false)
+    }
+
+    const responseSuccessGoogle = async (res: any) => {
+        const tokenId = res.tokenId;
+
+        const response = await api.post('users/google-auth', { tokenId })
+
+        await handleGoogleLogin(response.data.user, response.data.token)
+    }
+
+    const responseFailureGoogle = (res: any) => {
+        console.log(res)
     }
 
     return (
@@ -82,8 +101,20 @@ const Signin: React.FC = () => {
                                 </div>
                             </RememberAndRecoveryContainerStyled>
                             <ButtonContainerStyled>
-                                <button>Entrar</button>
+                                <button>
+                                    { isLoading ? <LoadingStyled></LoadingStyled> : 'Entrar' }
+                                </button>
                             </ButtonContainerStyled>
+                            
+                            <LoginGoogleContainerStyled>
+                                <GoogleLogin
+                                    clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID || ''}
+                                    buttonText="Login com o Google"
+                                    onSuccess={responseSuccessGoogle}
+                                    onFailure={responseFailureGoogle}
+                                    cookiePolicy={'single_host_origin'}
+                                />
+                            </LoginGoogleContainerStyled>
                         </form>
                         
                     </FormContainerStyled>
