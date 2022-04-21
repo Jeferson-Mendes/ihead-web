@@ -26,6 +26,7 @@ import { AuthContext } from "../../contexts/auth";
 import { format } from "date-fns";
 import { IUser } from "../../interfaces";
 import api from "../../service/api";
+import { Link } from "react-router-dom";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -61,11 +62,11 @@ const Profile:React.FC = () => {
 
                 <GridItemActionsStyled>
                     <div>
-                        <ActionButtonStyled>Editar Cadastro</ActionButtonStyled>
-                        <ActionButtonStyled>Fazer Publicação</ActionButtonStyled>
-                        <ActionButtonStyled>Emitir Certificado</ActionButtonStyled>
-                        <ActionButtonStyled>Favoritos</ActionButtonStyled>
-                        <ModerationButtonStyled>Moderação</ModerationButtonStyled>
+                        <ActionButtonStyled> <Link to='/editar'>Editar Cadastro</Link> </ActionButtonStyled>
+                        <ActionButtonStyled> <Link to='/'>Fazer Publicação</Link> </ActionButtonStyled>
+                        <ActionButtonStyled> <Link to='/'>Emitir Certificado</Link> </ActionButtonStyled>
+                        <ActionButtonStyled> <Link to='/'>Favoritos</Link> </ActionButtonStyled>
+                        <ModerationButtonStyled> <Link to='/'>Moderação</Link> </ModerationButtonStyled>
                     </div>
 
                 </GridItemActionsStyled>

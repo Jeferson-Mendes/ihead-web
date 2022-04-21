@@ -98,13 +98,18 @@ export const ActionButtonStyled = styled.button`
     background: transparent;
     min-width: 8rem;
     padding: 0.7rem 0;
-    color: ${({theme}) => theme.fontColorDarkBlue};
-    font-weight: bold;
+    cursor: pointer;
 
     border-radius: 0.4rem;
     border-width: 2px;
     border-style: solid;
     border-image: linear-gradient(to bottom, ${({theme})=> theme.lightBlue}, ${({theme})=> theme.fontColorDarkBlue} ) 1;
+
+    a {
+        text-decoration: none;
+        color: ${({theme}) => theme.fontColorDarkBlue};
+        font-weight: bold;
+    }
 `
 
 export const ModerationButtonStyled = styled.button`
@@ -112,13 +117,18 @@ export const ModerationButtonStyled = styled.button`
     margin: 1rem;
     min-width: 8rem;
     padding: 0.7rem 0;
-    color: ${({theme}) => theme.fontColorDarkBlue};
-    font-weight: bold;
+    cursor: pointer;
 
     border-radius: 0.4rem;
     border-width: 2px;
     border-style: solid;
     border-image: linear-gradient(to bottom, ${({theme})=> theme.lightBlue}, ${({theme})=> theme.fontColorDarkBlue} ) 1;
+
+    a {
+        text-decoration: none;
+        color: ${({theme}) => theme.fontColorDarkBlue};
+    font-weight: bold;
+    }
 `
 
 export const GridItemControlPanelStyled = styled.div`
