@@ -1,6 +1,8 @@
 import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthContext } from '../contexts/auth';
+import ArticleDetail from '../pages/ArticleDetail';
+import FavoritesArticle from '../pages/FavoritesArticle';
 import Home from '../pages/Home';
 import Profile from '../pages/Profile';
 import Register from '../pages/Register';
@@ -19,6 +21,8 @@ const AuthRoutes:React.FC = () => {
             <Route path="/pesquisar" element={ <Search/> } />
             <Route path="/perfil" element={ <Profile/> } />
             <Route path="/editar" element={ <Update/> } />
+            <Route path="/artigo" element={ <ArticleDetail/> } />
+            <Route path="/favoritos" element={ <FavoritesArticle/> } />
             
         </Routes>
     )

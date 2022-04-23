@@ -11,7 +11,9 @@ export const UpdateUserSectionStyled = styled.div`
 
 export const UpdateUserContentStyled = styled.div`
     width: 70%;
+    border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};
+    border-radius: 0.7rem;
     position: relative;
     padding: 2rem;
     top: -2rem;

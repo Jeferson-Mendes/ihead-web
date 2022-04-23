@@ -27,10 +27,12 @@ import { format } from "date-fns";
 import { IUser } from "../../interfaces";
 import api from "../../service/api";
 import { Link } from "react-router-dom";
+import Certificate from "../../modal/Certificate";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
-    const [userDetail, setUserDetail] = React.useState<IUser | undefined>()
+    const [userDetail, setUserDetail] = React.useState<IUser | undefined>();
+    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
     
     React.useEffect(() => {
         async function getUser() {
@@ -41,14 +43,19 @@ const Profile:React.FC = () => {
         getUser();
     })
 
+    const handleCloseModal = () => {
+        modalIsOpen ? setModalIsOpen(false) : setModalIsOpen(true);
+    }
+
     return (
         <>
+        <Certificate modalIsOpen={modalIsOpen} closeModal={handleCloseModal}/>
         <Navbar hasHeader={true} headerTitle="Perfil"/>
         <ProfileContainerStyled>
             <GridProfileContainerStyled>
                 <GridItemProfileFieldStyled>
                     <div>
-                        <img src={userDetail?.picture ? userDetail?.picture : (userDetail?.resource ? userDetail?.resource.secure_url : avatarIcon) } alt="avatarIcon" />
+                        <img src={userDetail?.picture ? `${userDetail?.picture}` : (userDetail?.resource ? userDetail?.resource.secure_url : avatarIcon) } alt="avatarIcon" />
                         <h3>{ user?.name }</h3>
                     </div>
 
@@ -64,7 +71,7 @@ const Profile:React.FC = () => {
                     <div>
                         <ActionButtonStyled> <Link to='/editar'>Editar Cadastro</Link> </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/'>Fazer Publicação</Link> </ActionButtonStyled>
-                        <ActionButtonStyled> <Link to='/'>Emitir Certificado</Link> </ActionButtonStyled>
+                        <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/'>Favoritos</Link> </ActionButtonStyled>
                         <ModerationButtonStyled> <Link to='/'>Moderação</Link> </ModerationButtonStyled>
                     </div>

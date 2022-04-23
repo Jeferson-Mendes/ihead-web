@@ -17,6 +17,8 @@ const AppRoutes:React.FC = () => {
             <Route path="/pesquisar" element={ !signed ? <Navigate replace to="/" /> : <Search/> } />
             <Route path="/perfil" element={ <Navigate replace to="/" /> } />
             <Route path="/editar" element={ <Navigate replace to="/"/> } />
+            <Route path="/artigo" element={ <Navigate replace to="/"/> } />
+            <Route path="/favoritos" element={ <Navigate replace to="/"/> } />
 
         </Routes>
     )

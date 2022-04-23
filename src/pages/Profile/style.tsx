@@ -105,6 +105,8 @@ export const ActionButtonStyled = styled.button`
     border-style: solid;
     border-image: linear-gradient(to bottom, ${({theme})=> theme.lightBlue}, ${({theme})=> theme.fontColorDarkBlue} ) 1;
 
+    color: ${({theme}) => theme.fontColorDarkBlue};
+    font-weight: bold;
     a {
         text-decoration: none;
         color: ${({theme}) => theme.fontColorDarkBlue};
