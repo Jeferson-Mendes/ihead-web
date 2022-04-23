@@ -80,6 +80,15 @@ export const HeaderContentStyled = styled.div`
     margin: auto;
 
     border-radius: 0.4rem;
+
+    a {
+        display: inline-block;
+        padding: 0.8rem 1.6rem;
+        font-size: 1rem;
+        color: #FFF;
+        font-weight: bold;
+        text-decoration: none;    
+    }
 `
 export const HeaderTitleStyled = styled.h2`
     padding: 0.8rem 1.6rem;

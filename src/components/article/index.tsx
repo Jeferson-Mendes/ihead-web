@@ -11,34 +11,47 @@ import {
 
  import heartRegularIcon from '../../assets/heart-regular.svg';
  import heartSolidIcon from '../../assets/heart-solid.svg';
+import { useNavigate } from "react-router-dom";
 
  interface IProps {
      isFavorite: boolean;
+     isRecommendation?: boolean;
  }
 
-const Article:React.FC<IProps> = ({ isFavorite }) => {
+const Article:React.FC<IProps> = ({ isFavorite, isRecommendation = false }) => {
+
+    const navigate = useNavigate();
+
+    const handleNavigateToArticleDetail = () => {
+        navigate('/artigo')
+    }
     return (
         <ArticleContainerStyled>
             <ImageContainerStyled>
-                <img src="https://images.unsplash.com/photo-1619410283995-43d9134e7656?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZ3JhbW1pbmclMjBsYW5ndWFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="bgArticle" />
+                <img onClick={handleNavigateToArticleDetail} src="https://images.unsplash.com/photo-1619410283995-43d9134e7656?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZ3JhbW1pbmclMjBsYW5ndWFnZXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60" alt="bgArticle" />
             </ImageContainerStyled>
             <InfoContainerStyled>
 
-                <TitleFieldStyled>
-                    <img src={ isFavorite? heartSolidIcon : heartRegularIcon } alt="heartSolidIcon" />
+                <TitleFieldStyled onClick={handleNavigateToArticleDetail}>
+                    {!isRecommendation ? (
+                        <img src={ isFavorite? heartSolidIcon : heartRegularIcon } alt="heartSolidIcon" />
+                    ) : ''}
                     <p>Banco de Dados</p>
                     <h4>O que é um banco de dados</h4>
                 </TitleFieldStyled>
 
                 <DescriptionFieldStyled>
+                    {!isRecommendation ? (
                     <span>
                     Lorem ipsum  Fusce pellentesque blandit urna, in pellentesque metus luctus maximus Lorem ipsum  Fusce pellentesque blandit urna, in pellentesque metus luctus maximus
                     Lorem ipsum  Fusce pellentesque blandit urna, in pellentesque metus luctus maximus
                     Lorem ipsum  Fusce pellentesque blandit urna, in pellentesque metus luctus maximus
                     </span>
+
+                    ) : ''}
                 </DescriptionFieldStyled>
                 <AditionalInfoFieldStyled>
-                    <p>(318 Vizualizações)</p>
+                    <p> {!isRecommendation ? '(318 Vizualizações)' : ''} </p>
                     <p>Maria Lucia</p>
                 </AditionalInfoFieldStyled>
             </InfoContainerStyled>

@@ -18,9 +18,10 @@ import { Link, useNavigate } from 'react-router-dom';
 interface IProps {
     hasHeader: boolean;
     headerTitle?: string;
+    hasArrowBack?: boolean;
 }
 
-const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle }) => {
+const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle, hasArrowBack }) => {
     const { signOut, user } = useContext(AuthContext);
 
     const navigate = useNavigate();
@@ -54,9 +55,14 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle }) => {
             { hasHeader ? (
             <HeaderContainerStyled>
                 <HeaderContentStyled>
+                    {hasArrowBack
+                    ?
+                    <Link to='/'>Voltar</Link>
+                     : 
                     <HeaderTitleStyled>
                         {headerTitle}
                     </HeaderTitleStyled>
+                     }
                 </HeaderContentStyled>
             </HeaderContainerStyled>
 

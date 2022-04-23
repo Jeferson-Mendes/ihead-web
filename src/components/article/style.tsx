@@ -12,6 +12,7 @@ export const ArticleContainerStyled = styled.div`
 `
 export const ImageContainerStyled = styled.div`
     height: 8rem;
+    cursor: pointer;
     img {
         height: 100%;
 
@@ -31,6 +32,7 @@ export const InfoContainerStyled = styled.div`
     `
 export const TitleFieldStyled = styled.div`
     width: 100%;
+    cursor: pointer;
     img {
         width: 1rem;
         float: right;
