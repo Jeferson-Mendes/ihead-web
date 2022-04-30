@@ -24,24 +24,13 @@ import hoursIcon from '../../assets/hours.svg';
 import avatarIcon from '../../assets/avatar.svg';
 import { AuthContext } from "../../contexts/auth";
 import { format } from "date-fns";
-import { IUser } from "../../interfaces";
-import api from "../../service/api";
 import { Link } from "react-router-dom";
 import Certificate from "../../modal/Certificate";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
-    const [userDetail, setUserDetail] = React.useState<IUser | undefined>();
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
-    
-    React.useEffect(() => {
-        async function getUser() {
-            const response = await api.get(`/users/${user?.id}`)
-            setUserDetail(response.data.user)
-        }
 
-        getUser();
-    })
 
     const handleCloseModal = () => {
         modalIsOpen ? setModalIsOpen(false) : setModalIsOpen(true);
@@ -55,7 +44,7 @@ const Profile:React.FC = () => {
             <GridProfileContainerStyled>
                 <GridItemProfileFieldStyled>
                     <div>
-                        <img src={userDetail?.picture ? `${userDetail?.picture}` : (userDetail?.resource ? userDetail?.resource.secure_url : avatarIcon) } alt="avatarIcon" />
+                        <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarIcon) } alt="avatarIcon" />
                         <h3>{ user?.name }</h3>
                     </div>
 

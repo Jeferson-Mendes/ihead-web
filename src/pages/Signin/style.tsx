@@ -167,8 +167,8 @@ export const LoadingStyled = styled.div`
     border: 4px solid #f3f3f3;
     border-radius: 50%;
     border-top: 4px solid ${({theme}) => theme.colorDarkGreen};
-    width: 1.7rem;
-    height: 1.7rem;
+    width: 1rem;
+    height: 1rem;
     margin: auto;
     -webkit-animation: spin 2s linear infinite; /* Safari */
     animation: spin 2s linear infinite;

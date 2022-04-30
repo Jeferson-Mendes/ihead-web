@@ -20,6 +20,7 @@ interface IAuthContextData {
     signIn({email, password}:ISignInRequest): Promise<ISignInResponse>;
     handleGoogleLogin(user: IUser, token: string): Promise<void>;
     signOut(): void;
+    updateUserContext(newUser: IUser): any;
 }
 
 export const AuthContext = createContext<IAuthContextData>({} as IAuthContextData);
@@ -55,8 +56,8 @@ export const AuthProvider:React.FC = ({ children }) => {
             api.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
             localStorage.setItem('Auth:user', JSON.stringify(response.data.user));
             localStorage.setItem('Auth:token', response.data.token);
-        } catch (error) {
-            alert('Opss, algo deu errado.');
+        } catch (error: any) {
+            alert(error.response.data.message);
             return;
         }
     }
@@ -73,6 +74,14 @@ export const AuthProvider:React.FC = ({ children }) => {
         setUser(null);
     }
 
+    function updateUserContext(newUser: IUser): any {
+        setUser(newUser);
+        localStorage.removeItem('Auth:user')
+        localStorage.setItem('Auth:user', JSON.stringify(newUser));
+
+        return;
+    }
+
     if (loading) {
         return (
             <Loading/>
@@ -80,7 +89,7 @@ export const AuthProvider:React.FC = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={ { signed: !!user, user, signIn, signOut, loading, handleGoogleLogin } }>
+        <AuthContext.Provider value={ { signed: !!user, user, signIn, signOut, loading, handleGoogleLogin, updateUserContext } }>
             { children }
         </AuthContext.Provider>
     )

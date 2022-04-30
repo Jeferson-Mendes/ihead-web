@@ -44,7 +44,7 @@ const Home: React.FC = () => {
                     <ProfileFieldStyled>
                         <UserInfoStyled>
                             <figure>
-                                <img src={user?.picture ? `${user?.picture}` : avatarImage} alt="avatar" />
+                                <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarImage) } alt="avatar" />
                             </figure>
                             <div>
                                 <h2>Olá,</h2>

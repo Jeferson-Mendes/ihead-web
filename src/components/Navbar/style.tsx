@@ -53,8 +53,11 @@ export const ProfileContentStyled = styled.div`
     justify-content: center;
 
     figure {
+        width: 2rem;
+        height: 2rem;
         img {
-            width: 2rem;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             object-position: center;

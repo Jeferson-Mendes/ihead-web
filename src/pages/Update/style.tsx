@@ -25,6 +25,7 @@ export const AvatarContainerStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     figure {
         width: 8rem;
@@ -32,9 +33,29 @@ export const AvatarContainerStyled = styled.div`
 
         img {
             width: 100%;
+            height: 100%;
             object-fit: cover;
             object-position: center;
+            border-radius: 50%;
         }
+    }
+
+    input[type="file"] {
+    display: none;
+    }
+
+    label {
+        padding: 0.7rem;
+        width: 8rem;
+        background-color: #333;
+        color: #FFF;
+        text-transform: uppercase;
+        text-align: center;
+        display: block;
+        font-size: 0.7rem;
+        border-radius: 0.7rem;
+        margin-top: 1rem;
+        cursor: pointer;
     }
 `
 

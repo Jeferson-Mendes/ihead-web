@@ -45,8 +45,11 @@ export const UserInfoStyled = styled.div`
     justify-content: center;
 
     figure {
+        width: 7rem;
+        height: 7rem;
         img {
-            width: 7rem;
+            width: 100%;
+            height: 100%;
             border-radius: 50%;
             object-fit: cover;
             object-position: center;

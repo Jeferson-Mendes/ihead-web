@@ -47,7 +47,7 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle, hasArrowBack }) => {
                 </MenuOptionsContainerStyled>
                 <ProfileContentStyled>
                     <figure>
-                        <img src={ user?.picture ? `${user?.picture}` : avatarImage} alt="avatar" />
+                        <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarImage) } alt="avatar" />
                     </figure>
                     <span onClick={handleLogout}>Sair</span>
                 </ProfileContentStyled>
