@@ -22,6 +22,10 @@ const Home: React.FC = () => {
     const { user } = useContext(AuthContext);
     const navigate = useNavigate()
 
+    const handleNavigateToMakePublication = () => {
+        navigate('/artigo/criar')
+    }
+
     const handleNavigateToSearch = () => {
         navigate('/pesquisar')
     }
@@ -65,7 +69,9 @@ const Home: React.FC = () => {
                     <FieldStyled>
                         <p>Comece aqui!</p>
                         <GridContentStyled>
-                            <GridStyled imageUrl="https://cdn.pixabay.com/photo/2016/03/26/13/09/cup-of-coffee-1280537_960_720.jpg">
+                            <GridStyled
+                            onClick={handleNavigateToMakePublication}
+                            imageUrl="https://cdn.pixabay.com/photo/2016/03/26/13/09/cup-of-coffee-1280537_960_720.jpg">
                                 <figcaption> <span>Fazer uma publicação</span> </figcaption>
                             </GridStyled>
                             <GridStyled

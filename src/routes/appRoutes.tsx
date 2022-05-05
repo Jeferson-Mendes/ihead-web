@@ -19,6 +19,8 @@ const AppRoutes:React.FC = () => {
             <Route path="/editar" element={ <Navigate replace to="/"/> } />
             <Route path="/artigo" element={ <Navigate replace to="/"/> } />
             <Route path="/favoritos" element={ <Navigate replace to="/"/> } />
+            <Route path="/artigo/criar" element={ <Navigate replace to="/"/> } />
+            <Route path="/denuncias/gerenciar" element={ <Navigate replace to="/"/> } />
 
         </Routes>
     )

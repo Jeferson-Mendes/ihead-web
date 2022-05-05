@@ -62,7 +62,7 @@ const Profile:React.FC = () => {
                         <ActionButtonStyled> <Link to='/'>Fazer Publicação</Link> </ActionButtonStyled>
                         <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/'>Favoritos</Link> </ActionButtonStyled>
-                        <ModerationButtonStyled> <Link to='/'>Moderação</Link> </ModerationButtonStyled>
+                        <ModerationButtonStyled> <Link to='/denuncias/gerenciar'>Moderação</Link> </ModerationButtonStyled>
                     </div>
 
                 </GridItemActionsStyled>
