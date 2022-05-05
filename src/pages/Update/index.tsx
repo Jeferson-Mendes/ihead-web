@@ -29,6 +29,8 @@ import {
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import api from "../../service/api";
+import { checkOrganizationalEmail } from "../../utils/checkOrganizationalEmail";
+import { normalizePhoneNumber } from "../../utils/formatPhoneNumber";
 
 type Inputs = {
     name: string;
@@ -60,7 +62,14 @@ const Update:React.FC = () => {
 
     function handleInputChange(event: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {
         const { name, value } = event.target
-        setFormData({ ...formData, [name]: value })
+        if (name === 'phoneNumber') {
+            const phone = normalizePhoneNumber(event.target.value)
+            if(phone) {
+                setFormData({ ...formData, [name]: phone.value })
+            }
+        } else {
+            setFormData({ ...formData, [name]: value })
+        }
     }
 
     function handleFileSelected(event:ChangeEvent<HTMLInputElement>) {
@@ -80,6 +89,11 @@ const Update:React.FC = () => {
         event.preventDefault();
 
         const { name, email, phoneNumber, semester, genderIdentity, socialName } = formData;
+
+        if (!checkOrganizationalEmail(email)) {
+            alert('Insira um email de dentro da Instituição.')
+            return
+        }
 
         const data = new FormData();
 
@@ -144,6 +158,7 @@ const Update:React.FC = () => {
                                 type="text"
                                 name="name"
                                 onChange={handleInputChange}
+                                required
                                 value={formData.name}
                                 />
 
@@ -152,6 +167,7 @@ const Update:React.FC = () => {
                                 type="email"
                                 name="email"
                                 onChange={handleInputChange}
+                                required
                                 value={formData.email}
                                 />
 
@@ -194,7 +210,7 @@ const Update:React.FC = () => {
                                 name="phoneNumber"
                                 value={formData.phoneNumber}
                                 onChange={handleInputChange}
-                                min={1}
+                                maxLength={11}
                                 placeholder="EX: (88) 90000-0000" />
 
                                 {/* <LabelStyled htmlFor="confirmPassword"> Confirme a Senha </LabelStyled>

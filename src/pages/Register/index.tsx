@@ -3,6 +3,7 @@ import React from "react";
 import TermsOfUseModal from "../../modal/TermsOfUseModal";
 import { AppName, InputStyled, LabelStyled, LoadingStyled } from "../Signin/style";
 import { useNavigate } from 'react-router-dom';
+// import InputMask from 'react-input-mask'; 
 import { 
     ImageLogoContainerStyled,
     SignupContainerStyled,
@@ -22,12 +23,14 @@ import {
 } from './style';
 import { SubmitHandler, useForm } from "react-hook-form";
 import api from "../../service/api";
+import { normalizePhoneNumber } from "../../utils/formatPhoneNumber";
+import { checkOrganizationalEmail } from "../../utils/checkOrganizationalEmail";
 
 type Inputs = {
     name: string;
     email: string;
     // password: string;
-	phoneNumber: string;
+	// phoneNumber: string;
 	semester: number;
     socialName?: string;
     genderIdentity?: string;
@@ -40,6 +43,7 @@ const Register:React.FC = () => {
     // const [typedPassword, setTypedPassword] = React.useState<string>('');
     // const [confirmTypedPassword, setConfirmTypedPassword] = React.useState<string>('');
     const [passIsEqual, setPassIsEqual] = React.useState<boolean>(false);
+    const [phoneState, setPhoneState] = React.useState<string>('');
     const [passData, setPassData] = React.useState({
         password: '',
         confirmPassword: '',
@@ -57,12 +61,20 @@ const Register:React.FC = () => {
         setPassData({ ...passData, [name]: value })
       }
 
+    const handleChangePhone = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const phone = normalizePhoneNumber(event.target.value)
+        if(phone) {
+            setPhoneState(phone.value);
+        }
+      }
+
     const { register, handleSubmit } = useForm<Inputs>();
 
     const onSubmit: SubmitHandler<Inputs> = async data => {
         async function handleSignin(userData: Inputs) {
+            const data = Object.assign(userData, {phoneNumber: phoneState}, { password: passData.password })
             try {
-                await api.post('/users/create', {...userData, password: passData.password})
+                await api.post('/users/create', data)
                 alert('Usuário cadastrado com sucesso!');
                 navigate('/');
             } catch (error) {
@@ -70,9 +82,24 @@ const Register:React.FC = () => {
             }
         }
 
+        if (!data.socialName) {
+            delete data.socialName;
+        }
+
+        if (!passIsEqual) {
+            alert('As senhas devem ser iguais.')
+            return
+        }
+
+        if (!checkOrganizationalEmail(data.email)) {
+            alert('Insira um email de dentro da Instituição.')
+            return
+        }
+
         setIsLoading(true)
         await handleSignin(data);
         setIsLoading(false)
+
     };
 
     const handleTermsChecked = () => {
@@ -110,13 +137,13 @@ const Register:React.FC = () => {
                                 <LabelStyled htmlFor="name"> Nome </LabelStyled>
                                 <InputStyled
                                 type="text"
-                                {...register('name')}
+                                {...register("name", { required: true })}
                                 />
 
                                 <LabelStyled htmlFor="email"> Email </LabelStyled>
                                 <InputStyled
                                 type="email"
-                                {...register('email')}
+                                {...register('email', { required: true })}
                                 />
 
                                 <LabelStyled htmlFor="semester"> Período/Semestre </LabelStyled>
@@ -124,12 +151,12 @@ const Register:React.FC = () => {
                                 type="number"
                                 min={1}
                                 max={8} 
-                                {...register('semester')}
+                                {...register('semester', { required: true })}
                                 />
 
                                 <LabelStyled htmlFor="password"> Senha </LabelStyled>
                                 <span style={{ float: "right", color:'#565353' }}>Min. 8 caracteres</span>
-                                <InputStyled type="password" style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } name="password" onChange={handlePasswordChange} />
+                                <InputStyled type="password" style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } name="password" required minLength={8} onChange={handlePasswordChange} />
                                 {passIsEqual
                                 ?
                                 ''
@@ -157,11 +184,11 @@ const Register:React.FC = () => {
                                 </SelectStyled>
 
                                 <LabelStyled htmlFor="phoneNumber"> Telefone de Contato </LabelStyled>
-                                <InputStyled type="text" {...register('phoneNumber')} min={1} placeholder="EX: (88) 90000-0000" />
-
+                                {/* <InputStyled type="text" {...register('phoneNumber')} min={1} placeholder="EX: (88) 90000-0000" /> */}
+                                <InputStyled value={phoneState} placeholder="EX: (88) 90000-0000" maxLength={11} onChange={handleChangePhone} type="tel" />
                                 <LabelStyled htmlFor="confirmPassword"> Confirme a Senha </LabelStyled>
                                 <span style={{ float: "right", color: '#565353' }}>Min. 8 caracteres</span>
-                                <InputStyled style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } type="password" name="confirmPassword"  onChange={handlePasswordChange} />
+                                <InputStyled style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } type="password" name="confirmPassword" required minLength={8} onChange={handlePasswordChange} />
                                 
 
                         </RightFieldInputStyled>
@@ -178,11 +205,11 @@ const Register:React.FC = () => {
                                 <CancelButtonStyled onClick={handleNavigateToLogin} type="button" value="Cancelar" />
                                 { termsChecked
                                 ? 
-                                <InputButtonStyled termsChecked={true} type="submit" form="formRegister" disabled>
+                                <InputButtonStyled termsChecked={true} type="submit" form="formRegister">
                                     { isLoading ? <LoadingStyled></LoadingStyled> : 'Enviar' }
                                     </InputButtonStyled>
                                 : 
-                                <InputButtonStyled termsChecked={false} type="submit" form="formRegister" disabled>Enviar</InputButtonStyled>
+                                <InputButtonStyled termsChecked={false} disabled onClick={() => alert('Certifique-se de preencher todas as informações e marque os termos de serviço.')}>Enviar</InputButtonStyled>
                                 }
                         </ButtonContainerStyled>
                     </FormContainerStyled>
