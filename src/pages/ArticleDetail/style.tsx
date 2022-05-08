@@ -15,13 +15,15 @@ export const ArticleDetailContainerStyled = styled.div`
     position: relative;
     top: -2rem;
     z-index: 4;
+    justify-content: center;
 
     display: grid;
     gap: 1rem;
+    grid-template-columns: 1fr;
     grid-template-areas: 
-    'Article Article Article Author Author'
-    'Article Article Article Comments Comments'
-    'Article Article Article Comments Comments';
+    'Article Article Author Author'
+    'Article Article Comments Comments'
+    'Article Article Comments Comments';
 `
 export const GridItemArticleStyled = styled.div`
     grid-area: Article;
@@ -78,6 +80,8 @@ export const GridItemAuthorStyled = styled.div`
                 object-fit: cover;
                 object-position: center;
                 width: 100%;
+                height: 100%;
+                border-radius: 50%;
             }
         }
         span {
@@ -88,6 +92,7 @@ export const GridItemAuthorStyled = styled.div`
 
     div:last-child {
         padding-top: 1rem;
+        overflow-wrap: break-word;
 
         ul li {
             list-style: none;
@@ -107,7 +112,7 @@ export const GridItemCommentsStyled = styled.div`
 `
 
 export const CommentListStyled = styled.div`
-    padding: 4rem 1rem;
+    padding: 1rem 1rem 4rem 1rem;
     overflow-y: auto;
     height: 100%;
 
@@ -127,6 +132,33 @@ export const CommentListStyled = styled.div`
 export const CommentsQuantityStyled = styled.span`
     font-size: 0.8rem;
     color: ${({theme}) => theme.colorGray};
+`
+
+export const FormNewCommentStyled = styled.form`
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    margin: 1rem 0 2rem 0;
+
+    figure {
+        width: 15%;
+        img {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            object-position: center;
+            object-fit: cover;
+        }
+    }
+
+    input {
+        width: 85%;
+        outline: none;
+        border: none;
+        color: ${({theme})=> theme.colorBlack03};
+        border-bottom: 1px solid ${({theme})=> theme.colorBlack03};
+    }
 `
 
 export const RecommendationContainerStyled = styled.div`

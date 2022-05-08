@@ -1,5 +1,6 @@
-import React from "react";
+import React, { FormEvent, useContext } from "react";
 import Navbar from '../../components/Navbar';
+import 'react-quill/dist/quill.snow.css';
 
 import {
     ArticleDetailSectionStyled,
@@ -16,15 +17,91 @@ import {
     ArticleRecommendationFieldStyled,
     ArticleStyled,
     ContentStyled,
+    FormNewCommentStyled,
 } from './style';
 
 import FavoriteIcon from '../../assets/heart-regular.svg';
-import AvatarIcon from '../../assets/avatar.svg';
 import Comment from "../../components/comment";
-import Article from "../../components/article";
+// import Article from "../../components/article";
 import { ArrowLeft, ArrowRight } from "../Search/style";
+import { IArticle, IComment } from "../../ts/interfaces";
+import api from "../../service/api";
+import { format, parseISO } from "date-fns";
+import { useLocation } from "react-router-dom";
+import { AuthContext } from "../../contexts/auth";
+import { getAvatarPath } from "../../utils/getAvatarPath";
 
 const ArticleDetail:React.FC = () => {
+
+    const [article, setArticle] = React.useState<IArticle | null>(null);
+    const [commentsData, setCommentsData] = React.useState<IComment[]>([]);
+    const [newComment, setNewComment] = React.useState<string>("");
+    const [commentsQuantity, setCommentsQuantity] = React.useState<number>(0);
+
+    const { user } = useContext(AuthContext);
+    const location = useLocation();
+
+    const { articleId } = location.state as any;
+
+    React.useEffect(() => {
+        const getArticle = async (articleId: string) => {
+            try {
+                const response = await api.get(`articles/${articleId}`);
+
+                setArticle(response.data.article);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        getArticle(String(articleId))
+        
+    }, [])
+
+    React.useEffect(() => {
+        const getComments = async (articleId: string) => {
+            try {
+                const response = await api.get(`comments/get-by-article/${articleId}`);
+
+                setCommentsData(response.data.comments);
+                setCommentsQuantity(response.data.quantity);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        getComments(String(articleId))
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
+
+    const setContent = (content: string) => {
+        const str = content.replace(/\\n/g, '\n');
+
+        return str;
+    }
+
+    const handleAddNewComment = async (event: FormEvent) => {
+        event.preventDefault()
+
+        setNewComment("")
+
+        const newCommentData = {
+            article: articleId,
+            comment: newComment
+        }
+
+        try {
+            const response = await api.post('/comments', newCommentData)
+
+            setCommentsData([response.data.comment, ...commentsData]);
+            setCommentsQuantity(commentsQuantity + 1);
+        } catch (error: any) {
+            alert(error.response.data.message);
+                return;
+        }
+    }
 
     return (
         <>
@@ -37,23 +114,15 @@ const ArticleDetail:React.FC = () => {
                         <img src={FavoriteIcon} alt="favoriteIcon" />
                     </span>
                     <TitleArticleStyled>
-                        <h2>O que é um banco de dados</h2>
-                        <span>Banco de Dados</span>
+                        <h2>{article?.title}</h2>
+                        <span>{article?.category}</span>
                     </TitleArticleStyled>
                     <ContentArticleStyled>
-                        <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vitae tellus eget felis condimentum congue id eget quam. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut sed est metus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Mauris sed felis in elit scelerisque lobortis. Sed dolor quam, mattis vitae odio sit amet, mollis suscipit ligula. Nam risus nisl, tincidunt at tristique ac, interdum ut est. Nulla at nulla nisi. Phasellus et nibh tellus. Vivamus vehicula sem id neque accumsan, vitae tempus mi cursus. Integer ultricies ante quis luctus accumsan. Aliquam erat volutpat. Curabitur vulputate lectus ac ipsum aliquet fermentum.
-                        </p>
-                        <p>
-                        Nunc lacinia, massa et tempus elementum, mauris erat interdum est, sit amet iaculis urna turpis tristique est. Mauris sodales nunc ante. Maecenas tellus est, molestie vel semper sit amet, ornare sit amet lectus. Nunc congue rhoncus quam, sed accumsan lorem facilisis et. Pellentesque lacinia magna elit, vitae commodo risus fringilla vitae. Aliquam pellentesque felis justo, id commodo lacus auctor vel. Mauris elementum lectus vel metus pretium pharetra. Aenean sit amet mollis purus. Suspendisse in erat et mauris aliquam placerat sit amet sed dolor. Curabitur sagittis eros sed neque tempus, vitae hendrerit metus laoreet. Maecenas tempor ligula sit amet lectus blandit consequat. Curabitur nec dolor vel massa aliquam semper nec sit amet orci. Phasellus vitae rhoncus diam. Quisque eu cursus urna, ac eleifend purus. Vestibulum ac lectus lacus.
-
-                        </p>
-                        <p>
-                        Proin imperdiet nibh luctus turpis suscipit aliquet. Maecenas finibus ipsum in lacus ornare lobortis. In hac habitasse platea dictumst. Pellentesque risus lorem, mollis vel dui at, eleifend tristique dolor. Donec tempor vehicula dui eget suscipit. Aliquam porttitor gravida finibus. Nam quis neque in velit feugiat vulputate. Morbi eget placerat lorem. Donec eu fringilla felis, eget dictum ligula. Nullam tempor felis quis tincidunt mollis. Vivamus semper, quam quis aliquam pellentesque, nunc purus porttitor lectus, vitae placerat enim nulla at purus.
-                        </p>
-                        <p>
-                        Proin imperdiet nibh luctus turpis suscipit aliquet. Maecenas finibus ipsum in lacus ornare lobortis. In hac habitasse platea dictumst. Pellentesque risus lorem, mollis vel dui at, eleifend tristique dolor. Donec tempor vehicula dui eget suscipit. Aliquam porttitor gravida finibus. Nam quis neque in velit feugiat vulputate. Morbi eget placerat lorem. Donec eu fringilla felis, eget dictum ligula. Nullam tempor felis quis tincidunt mollis. Vivamus semper, quam quis aliquam pellentesque, nunc purus porttitor lectus, vitae placerat enim nulla at purus.
-                        </p>
+                    <div className="ql-snow">
+                        <div className="ql-editor" dangerouslySetInnerHTML={{ __html: setContent(article ? article.articleContent: '')}}>
+                        
+                        </div>
+                    </div>
                         
                     </ContentArticleStyled>
                 </ArticleDetailContentStyled>
@@ -61,16 +130,16 @@ const ArticleDetail:React.FC = () => {
                 <GridItemAuthorStyled>
                 <div>
                     <figure>
-                        <img src={AvatarIcon} alt="avatarIcon" />
+                        <img src={ article ? getAvatarPath(article.author): ''} alt="avatarIcon" />
                     </figure>
-                    <span>Leandro de Souza Alencar</span>
+                    <span>{article?.author.name}</span>
                 </div>
                 <div>
                     <ul>
-                        <li> <b>Email:</b>leandro.alencar@gmail.com</li>
-                        <li> <b>Desde:</b>05/03/2022</li>
-                        <li> <b>Registros:</b>07</li>
-                        <li> <b>Horas:</b>02:00</li>
+                        <li> <b>Email:</b>{article?.author.email }</li>
+                        <li> <b>Desde:</b>{ article ? format(parseISO((article.author.createdAt).toString()), 'dd/MM/YYY') : '' }</li>
+                        <li> <b>Registros:</b>{ article?.author.publicationsNumber }</li>
+                        <li> <b>Horas:</b>{ article?.author.contributionTotalHours }</li>
                     </ul>
                 </div>
 
@@ -78,13 +147,34 @@ const ArticleDetail:React.FC = () => {
 
                 <GridItemCommentsStyled>
                     <CommentListStyled>
-                        <CommentsQuantityStyled>2 Comentários</CommentsQuantityStyled>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
-                        <Comment/>
+                        <CommentsQuantityStyled>{commentsQuantity} Comentários</CommentsQuantityStyled>
+                        <FormNewCommentStyled onSubmit={handleAddNewComment}>
+                            <figure>
+                                    <img
+                                    src={ user ? getAvatarPath(user): '' }
+                                    alt="avatar"
+                                     />
+                            </figure>
+                            <label htmlFor="newComment"></label>
+                            <input
+                            type="text"
+                            name="newComment"
+                            id="newComment"
+                            placeholder="Adicionar um comentário público"
+                            value={newComment}
+                            onChange={(event) => setNewComment(event.target.value)}
+                            />
+                        </FormNewCommentStyled>
+                        { commentsData.map(comment => (
+                        <Comment
+                        authorName={comment.user.name}
+                        comment={comment.commentContent}
+                        hour={(comment.createdAt).toString()}
+                        authorPath={getAvatarPath(comment.user)}
+                        key={comment.id}
+                        /> ) ) }
+                        
+                        
 
                     </CommentListStyled>
                 </GridItemCommentsStyled>
@@ -96,10 +186,10 @@ const ArticleDetail:React.FC = () => {
                     <ArrowLeft/>
                     <ArticleRecommendationFieldStyled>
                         <ArticleStyled>
-                            <Article isFavorite={false} isRecommendation={true}/>
+                            {/* <Article isFavorite={false} isRecommendation={true}/> */}
                         </ArticleStyled>
                         <ArticleStyled>
-                            <Article isFavorite={false} isRecommendation={true}/>
+                            {/* <Article isFavorite={false} isRecommendation={true}/> */}
                         </ArticleStyled>
                     </ArticleRecommendationFieldStyled>
                     <ArrowRight/>

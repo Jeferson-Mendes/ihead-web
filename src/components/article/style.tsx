@@ -3,7 +3,7 @@ import styled from "styled-components"
 export const ArticleContainerStyled = styled.div`
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: flex-start;
 
     border-top: 2px solid ${({theme}) => theme.colorGray200};
 
@@ -29,6 +29,7 @@ export const InfoContainerStyled = styled.div`
     justify-content: space-between;
     flex-direction: column;
     padding-left: 2rem;
+    width: 100%;
     `
 export const TitleFieldStyled = styled.div`
     width: 100%;

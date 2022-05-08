@@ -12,8 +12,29 @@ import {
 import FavoriteIcon from '../../assets/heart-regular.svg';
 import AvatarIcon from '../../assets/avatar.svg';
 import ReportIcon from '../../assets/report.svg';
+import { format, getHours, getMinutes, parseISO } from "date-fns";
 
-const Comment:React.FC = () => {
+interface IProps {
+    authorPath?: string;
+    authorName: string;
+    comment: string;
+    hour: string;
+}
+
+const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour }) => {
+
+    const formatHour = (hourDate: string) => {
+        const hour = getHours(parseISO(hourDate));
+        let minute = getMinutes(parseISO(hourDate)).toString();
+        const formatHour = format(parseISO(hourDate), 'aa');
+
+        if (minute.length < 2) {
+            minute = `0${minute}`
+        }
+
+        return `${hour}:${minute} ${formatHour}`;
+
+    }
 
     return (
         <CommentContainerStyled>
@@ -21,15 +42,15 @@ const Comment:React.FC = () => {
                 <span><img src={FavoriteIcon} alt="favoriteIcon" /></span>
                 <div>
                     <figure>
-                        <img src={AvatarIcon} alt="avatarIcon" />
+                        <img src={authorPath ? authorPath : AvatarIcon} alt="avatarIcon" />
                     </figure>
-                    <span>Lucas</span>
+                    <span>{authorName}</span>
                 </div>
             </HeaderStyled>
             <BodyCommentStyled>
-                <p>Sed vel bibendum diam. Nullam imperdiet semper arcu, nec aliquet tellus ullamcorper sit amet. Nam hendrerit, felis sed suscipit consequat.</p>
+                <p>{ comment }</p>
                 <CommentFooterStyled>
-                    <CommentHourStyled>12:00 pm</CommentHourStyled>
+                    <CommentHourStyled>{formatHour(hour)}</CommentHourStyled>
                     <ReportCommentStyled>
                         <img src={ReportIcon} alt="ReportIcon" />
                     </ReportCommentStyled>

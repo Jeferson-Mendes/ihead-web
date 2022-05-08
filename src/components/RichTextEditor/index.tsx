@@ -1,7 +1,9 @@
 import React from "react";
+import DOMPurify from 'dompurify';
 
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+// import 'react-quill/dist/quill.bubble.css';
 
 import './style.css';
 
@@ -20,23 +22,38 @@ const modules = {
 ],
 }
 
-const RichEditor:React.FC = () => {
-  // const [value, setValue] =  React.useState("");
+interface IProps {
+  // textContent: string;
+  setTextContent: React.Dispatch<React.SetStateAction<string>>;
+}
+
+const RichEditor:React.FC<IProps> = ({ setTextContent }) => {
+  // const [value, setValue] = React.useState<string>("");
+
+  function handleChangeTextContent(content: string) {
     
-  // function handleClick() {
-  //   console.log(value)
-  // }
+    const sanitized = createMarkup(content);
+
+    setTextContent(sanitized.__html);
+  }
+
+  const createMarkup = (html:string) => {
+    return  {
+      __html: DOMPurify.sanitize(html)
+    }
+  }
+
     return (
         <>
           <ReactQuill
           modules={modules}
           theme="snow"
-          // onChange={setValue}
-          placeholder="Content goes here..." />
-          {/* <button onClick={handleClick}>Ver html</button>
+          onChange={(content: string) => handleChangeTextContent(content)}
+          placeholder="Comece a digitar por aqui..." />
+          {/* <button onClick={handleClick}>Ver html</button> */}
 
-          <div className="ql-snow">
-            <div className="ql-editor" dangerouslySetInnerHTML={{ __html: value }}>
+          {/* <div className="ql-snow" >
+            <div className="ql-editor" dangerouslySetInnerHTML={createMarkup(value)}>
               
             </div>
           </div> */}

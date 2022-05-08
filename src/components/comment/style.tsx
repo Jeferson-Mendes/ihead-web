@@ -20,10 +20,12 @@ export const HeaderStyled = styled.div`
         align-items: center;
         justify-content: flex-start;
         figure {
-            width: 2.2rem;
-            height: 2.2rem;
+            width: 2rem;
+            height: 2rem;
             img {
                 width: 100%;
+                height: 100%;
+                border-radius: 50%;
                 object-fit: cover;
                 object-position: center;
             }
