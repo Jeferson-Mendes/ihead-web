@@ -20,7 +20,10 @@ import {
     InputStyled,
     LoginGoogleContainerStyled,
     LoadingStyled,
+    BlurContainerStyled,
 } from './style';
+
+import likeIcon from '../../assets/like.svg';
 
 type Inputs = {
     email: string;
@@ -60,11 +63,19 @@ const Signin: React.FC = () => {
             <PresentationContainerStyled>
                 <AppName>iHead</AppName>
                 <ParagraphStyled>
-                    <p>
-                    Um lugar para compartilhar <b>conhecimento </b>
-                     e entender melhor do mundo
-                    da <b>programação</b>.
-                    </p>
+                    <BlurContainerStyled>
+                        
+                        <div>
+                            <img src={likeIcon} alt="likeicon" />
+                            <span>  Partícipe desta comunidade </span>
+                        </div>
+                        <p>
+                        Um lugar para compartilhar conhecimento
+                        e entender melhor do mundo
+                        da programação.
+                        </p>
+
+                    </BlurContainerStyled>
                 </ParagraphStyled>
             </PresentationContainerStyled>
 

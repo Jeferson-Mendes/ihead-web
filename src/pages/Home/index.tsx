@@ -14,9 +14,9 @@ import {
     SearchFieldStyled,
  } from './style';
 
-import avatarImage from '../../assets/avatar.svg';
 import { AuthContext } from '../../contexts/auth';
 import { useNavigate } from 'react-router-dom';
+import { getAvatarPath } from '../../utils/getAvatarPath';
 
 const Home: React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
                     <ProfileFieldStyled>
                         <UserInfoStyled>
                             <figure>
-                                <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarImage) } alt="avatar" />
+                                <img src={ user ? getAvatarPath(user): '' } alt="avatar" />
                             </figure>
                             <div>
                                 <h2>Olá,</h2>

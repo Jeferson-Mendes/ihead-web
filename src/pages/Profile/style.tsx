@@ -11,7 +11,7 @@ export const ProfileContainerStyled = styled.div`
 `
 
 export const GridProfileContainerStyled = styled.div`
-    width: 70%;
+    width: 80%;
     min-height: 100%;
     /* background-color: red; */
     position: relative;
@@ -21,7 +21,7 @@ export const GridProfileContainerStyled = styled.div`
     display: grid;
     gap: 1rem;
     padding: 0 2rem 2rem;
-
+    grid-template-columns: 0fr;
     grid-template-areas:
     'profileField controlPanel controlPanel controlPanel controlPanel controlPanel'
     'profileField publications publications publications publications publications'

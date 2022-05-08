@@ -7,6 +7,7 @@ import GlobalStyle from './assets/style/GlobalStyle';
 
 const theme = {
   colorWhite: '#FFF',
+  colorWhite02: '#F5F5F5',
   colorGray: '#565353',
   bgColorGray: '#E5E5E5',
   colorGray200: '#E5E7EB',
@@ -18,6 +19,7 @@ const theme = {
   // colorBgHeader: '#565353',
   colorBlack: '#020203',
   colorBlack02: '#212121',
+  colorBlack03: '#2A2E2E',
   colorAllBlack: '#000',
   colorGrayBorder: '#E8E8E8',
   fontColorDarkBlue: '#093366',

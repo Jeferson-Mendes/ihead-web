@@ -19,10 +19,10 @@ const FavoritesArticle:React.FC = () => {
                 <FavoritesArticleContainerStyled>
                     <h3>Preferências</h3>
                     <ArticlesFieldStyled>
+                        {/* <Article isFavorite={true}/>
                         <Article isFavorite={true}/>
                         <Article isFavorite={true}/>
-                        <Article isFavorite={true}/>
-                        <Article isFavorite={true}/>
+                        <Article isFavorite={true}/> */}
                     </ArticlesFieldStyled>
                 </FavoritesArticleContainerStyled>
             </FavoritesArticleSectionStyled>

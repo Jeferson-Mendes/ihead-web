@@ -1,6 +1,6 @@
 import React, { createContext } from "react";
 import Loading from "../components/loading";
-import { IUser } from "../interfaces";
+import { IUser } from "../ts/interfaces";
 import api from "../service/api";
 
 interface ISignInRequest {

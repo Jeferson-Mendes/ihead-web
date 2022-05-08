@@ -65,14 +65,12 @@ export const UserInfoStyled = styled.div`
         input {
             margin-top: 1rem;
             padding: 0.4rem 1rem;
-            color: ${({theme}) => theme.colorWhite};
-            background: transparent;
+            color: ${({theme}) => theme.colorBlack};
+            background-color: ${({theme}) => theme.colorWhite};
             cursor: pointer;
 
             border-radius: 0.4rem;
-            border-width: 2px;
-            border-style: solid;
-            border-image: linear-gradient(to bottom, white, gray ) 1;
+            border: solid 2px ${({theme}) => theme.colorGray};
         }
     }
 `

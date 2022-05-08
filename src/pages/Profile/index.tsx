@@ -21,20 +21,52 @@ from './style';
 import publicationsIcon from '../../assets/publication.svg';
 import commentsIcon from '../../assets/comments.svg';
 import hoursIcon from '../../assets/hours.svg';
-import avatarIcon from '../../assets/avatar.svg';
 import { AuthContext } from "../../contexts/auth";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
 import Certificate from "../../modal/Certificate";
+import { getAvatarPath } from "../../utils/getAvatarPath";
+import api from "../../service/api";
+import { IArticle, IUser } from "../../ts/interfaces";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+    const [currentUser, setCurrentUser] = React.useState<IUser>();
+    const [userArticles, setUserArticles] = React.useState<IArticle[]>([]);
 
 
     const handleCloseModal = () => {
         modalIsOpen ? setModalIsOpen(false) : setModalIsOpen(true);
     }
+
+    React.useEffect(() => {
+        async function getCurrentUser(id:string) {
+            try {
+                const response = await api.get(`/users/${id}`);
+                setCurrentUser(response.data.user);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        getCurrentUser(user ? user.id : '');
+    },[])
+
+    React.useEffect(() => {
+        async function getUserArticles(userId:string) {
+            try {
+                const response = await api.get(`/articles/by-user/${userId}`);
+                setUserArticles(response.data.articles);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        getUserArticles(user ? user.id : '');
+    },[])
 
     return (
         <>
@@ -44,7 +76,7 @@ const Profile:React.FC = () => {
             <GridProfileContainerStyled>
                 <GridItemProfileFieldStyled>
                     <div>
-                        <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarIcon) } alt="avatarIcon" />
+                        <img src={ currentUser ? getAvatarPath(currentUser): '' } alt="avatarIcon" />
                         <h3>{ user?.name }</h3>
                     </div>
 
@@ -59,7 +91,7 @@ const Profile:React.FC = () => {
                 <GridItemActionsStyled>
                     <div>
                         <ActionButtonStyled> <Link to='/editar'>Editar Cadastro</Link> </ActionButtonStyled>
-                        <ActionButtonStyled> <Link to='/'>Fazer Publicação</Link> </ActionButtonStyled>
+                        <ActionButtonStyled> <Link to='/artigo/criar'>Fazer Publicação</Link> </ActionButtonStyled>
                         <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/'>Favoritos</Link> </ActionButtonStyled>
                         <ModerationButtonStyled> <Link to='/denuncias/gerenciar'>Moderação</Link> </ModerationButtonStyled>
@@ -74,7 +106,7 @@ const Profile:React.FC = () => {
                         <ControlPanelInfoFieldStyled>
                             <h4>PUBLICAÇÕES</h4>
                             <div>
-                                <p>3</p>
+                                <p>{ currentUser?.publicationsNumber }</p>
                                 <img src={publicationsIcon} alt="publicarionsIcon" />
                             </div>
                         </ControlPanelInfoFieldStyled>
@@ -82,7 +114,7 @@ const Profile:React.FC = () => {
                         <ControlPanelInfoFieldStyled>
                             <h4>COMENTÁRIOS</h4>
                             <div>
-                                <p>8</p>
+                                <p>{ currentUser?.commentsNumber }</p>
                                 <img src={commentsIcon} alt="publicarionsIcon" />
                             </div>
                         </ControlPanelInfoFieldStyled>
@@ -103,10 +135,21 @@ const Profile:React.FC = () => {
                     <h4>Publicações</h4>
 
                     <ArticleFieldStyled>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={false}/>
+                        {userArticles.map(article => (
+
+                            <Article
+                            key={article.id}
+                            isFavorite={false}
+                            articleId={article.id}
+                            authorName={article.author.name}
+                            category={article.category}
+                            description={article.description}
+                            title={article.title}
+                            views={article.views}
+                            coverImagePath={article.coverImage?.secure_url}
+
+                            />
+                        ))}
 
                     </ArticleFieldStyled>
                     

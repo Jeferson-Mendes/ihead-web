@@ -1,6 +1,8 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import Article from '../../components/article';
 import Navbar from '../../components/Navbar';
+import api from "../../service/api";
+import { IArticle } from "../../ts/interfaces";
 import { SearchFieldStyled } from "../Home/style";
 
 import { 
@@ -16,6 +18,36 @@ import {
 
 const Search:React.FC = () => {
     const [carouselSequence, setCarouselSequence] = React.useState<number[]>([1,0,0])
+    const [articles, setArticles] = React.useState<IArticle[]>([]);
+    const [articlesResults, setArticlesResults] = React.useState<IArticle[] | []>([]);
+    const [searchTerms, setSearchTerms] = React.useState<string>('');
+
+    React.useEffect(()=>{
+        async function getArticles() {
+            try {
+                const response = await api.get(`/articles`);
+
+                setArticles(response.data.articles);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            } 
+        }
+
+        getArticles();
+    },[])
+
+    async function handleSearchArticle(event: FormEvent) {
+        event.preventDefault();
+        try {
+            const response = await api.get(`/articles`, { params: { keyword: searchTerms } });
+
+            setArticlesResults(response.data.articles);
+        } catch (error: any) {
+            alert(error.response.data.message);
+            return;
+        } 
+    }
 
     const handleNextCategory = () => {
         const currentIndex = carouselSequence.indexOf(1);
@@ -59,8 +91,14 @@ const Search:React.FC = () => {
             <SearchContainerStyled>
                 <SearchContentStyled>
                     <SearchFieldStyled>
-                        <form>
-                            <input type="text" name="search" id="search" placeholder="Busque por conteúdo"/>
+                        <form onSubmit={handleSearchArticle}>
+                            <input
+                            type="search"
+                            name="search"
+                            id="search"
+                            placeholder="Busque por conteúdo"
+                            onChange={(event) => setSearchTerms(event.target.value)}
+                            />
                             <button>Buscar</button>
                         </form>
                     </SearchFieldStyled>
@@ -94,14 +132,35 @@ const Search:React.FC = () => {
                         </ResultsCountFieldStyled>
                     </HeaderContainerStyled>
                     <div style={{ width: '80%' }}>
-                        <Article isFavorite={true}/>
-                        <Article isFavorite={true}/>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={true}/>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={false}/>
-                        <Article isFavorite={false}/>
-
+                        {
+                            articlesResults.length ? articlesResults.map(article => (
+                                <Article
+                                key={article.id}
+                                isFavorite={false}
+                                authorName={article.author.name}
+                                category={article.category}
+                                description={article.description}
+                                title={article.title}
+                                views={article.views}
+                                articleId={article.id}
+                                coverImagePath={article.coverImage?.secure_url}
+                                />
+    
+                            )) : articles.map(article => (
+                                <Article
+                                key={article.id}
+                                isFavorite={false}
+                                authorName={article.author.name}
+                                category={article.category}
+                                description={article.description}
+                                title={article.title}
+                                views={article.views}
+                                articleId={article.id}
+                                coverImagePath={article.coverImage?.secure_url}
+                                />
+    
+                            ))
+                        }
                     </div>
                 </ArticlesContainerStyled>
             </SearchContainerStyled>

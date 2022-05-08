@@ -10,10 +10,10 @@ import {
     HeaderTitleStyled,
 } from './style';
 
-import avatarImage from '../../assets/avatar.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import { Link, useNavigate } from 'react-router-dom';
+import { getAvatarPath } from '../../utils/getAvatarPath';
 
 interface IProps {
     hasHeader: boolean;
@@ -42,12 +42,12 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle, hasArrowBack }) => {
                 <MenuOptionsContainerStyled>
                     <li> <Link to='/pesquisar'> Pesquise </Link> </li>
                     <li> <Link to='/perfil'>Perfil</Link> </li>
-                    <li> <Link to='/'>Publicar</Link> </li>
+                    <li> <Link to='/artigo/criar'>Publicar</Link> </li>
                     <li> <Link to='/'>Notificações</Link> </li>
                 </MenuOptionsContainerStyled>
                 <ProfileContentStyled>
                     <figure>
-                        <img src={user?.picture ? `${user?.picture}` : (user?.resource ? user?.resource.secure_url : avatarImage) } alt="avatar" />
+                        <img src={ user ? getAvatarPath(user): '' } alt="avatar" />
                     </figure>
                     <span onClick={handleLogout}>Sair</span>
                 </ProfileContentStyled>

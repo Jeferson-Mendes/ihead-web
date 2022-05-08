@@ -3,9 +3,10 @@ import styled from "styled-components";
 export const SearchContainerStyled = styled.div`
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     flex-direction: column;
 
+    min-height: 100vh;
     padding-top: 4rem;
     background-color: ${({theme}) => theme.bgColorGray};
 `

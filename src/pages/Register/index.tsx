@@ -185,7 +185,7 @@ const Register:React.FC = () => {
 
                                 <LabelStyled htmlFor="phoneNumber"> Telefone de Contato </LabelStyled>
                                 {/* <InputStyled type="text" {...register('phoneNumber')} min={1} placeholder="EX: (88) 90000-0000" /> */}
-                                <InputStyled value={phoneState} placeholder="EX: (88) 90000-0000" maxLength={11} onChange={handleChangePhone} type="tel" />
+                                <InputStyled value={phoneState} placeholder="EX: (88) 90000-0000" maxLength={11} onChange={handleChangePhone} required type="tel" />
                                 <LabelStyled htmlFor="confirmPassword"> Confirme a Senha </LabelStyled>
                                 <span style={{ float: "right", color: '#565353' }}>Min. 8 caracteres</span>
                                 <InputStyled style={ passIsEqual? {} : { border: '1px solid red', outline: 'none' } } type="password" name="confirmPassword" required minLength={8} onChange={handlePasswordChange} />

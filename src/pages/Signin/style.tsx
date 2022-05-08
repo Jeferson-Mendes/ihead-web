@@ -31,21 +31,49 @@ export const ParagraphStyled = styled.div`
     justify-content: center;
 
     width: 100%;
-    margin: 30% auto;
+    margin: 50% auto;
+`
+
+export const BlurContainerStyled = styled.div`
+    width: 80%;
+    background: rgba(255, 242, 242, 0.13);
+    mix-blend-mode: normal;
+    backdrop-filter: blur(1.4rem);
+    /* Note: backdrop-filter has minimal browser support */
+
+    border-radius: 10px;
+    padding: 1rem 2rem;
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        width: 70%;
+
+        background-color: ${({theme}) => theme.colorBgHeader};
+        padding: 1rem;
+        border-radius: 1rem;
+
+        span {
+            margin-left: 0.8rem;
+            display: inline-block;
+        }
+    }
 
     p { 
         text-align: left;
-        width: 60%;
-        font-size: 2rem;
+        width: 80%;
+        font-size: 1.4rem;
         color: ${({theme}) => theme.colorWhite};
         /* color: ${({theme}) => theme.fontColorGreen}; */
-        font-weight: bold;
+        /* font-weight: bold; */
+        padding: 1rem 0;
 
-        b {
-            color: yellow;
-        }
+        font-style: normal;
+        font-weight: 500;
+
      }
-
 `
 
 export const SignInFormContainerStyled = styled.div`
