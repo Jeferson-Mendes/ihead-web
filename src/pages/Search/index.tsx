@@ -2,6 +2,7 @@ import React, { FormEvent } from "react";
 import Article from '../../components/article';
 import Navbar from '../../components/Navbar';
 import api from "../../service/api";
+import { CategoryArticleEnum } from "../../ts/enum";
 import { IArticle } from "../../ts/interfaces";
 import { SearchFieldStyled } from "../Home/style";
 
@@ -17,10 +18,15 @@ import {
 } from   './style';
 
 const Search:React.FC = () => {
-    const [carouselSequence, setCarouselSequence] = React.useState<number[]>([1,0,0])
-    const [articles, setArticles] = React.useState<IArticle[]>([]);
-    const [articlesResults, setArticlesResults] = React.useState<IArticle[] | []>([]);
+    const [articles, setArticles] = React.useState<{ article: IArticle, isFavorite: boolean }[]>([]);
+    const [articlesResults, setArticlesResults] = React.useState<{ article: IArticle, isFavorite: boolean }[] | [] | null>([]);
     const [searchTerms, setSearchTerms] = React.useState<string>('');
+    const [categories, setCategories] = React.useState<string[]>([]);
+    const [resultsNumber, setResultsNumber] = React.useState<number>(0);
+
+
+    const [currentGroupCategoryNum, setCurrentGroupCategoryNum] = React.useState<number>(3);
+    const [currentGroupCategory, setCurrentGroupCategory] = React.useState<string[]>(['Html', 'Css', 'Front-end']);
 
     React.useEffect(()=>{
         async function getArticles() {
@@ -28,6 +34,7 @@ const Search:React.FC = () => {
                 const response = await api.get(`/articles`);
 
                 setArticles(response.data.articles);
+                setResultsNumber(response.data.resultsNumber);
             } catch (error: any) {
                 alert(error.response.data.message);
                 return;
@@ -43,6 +50,7 @@ const Search:React.FC = () => {
             const response = await api.get(`/articles`, { params: { keyword: searchTerms } });
 
             setArticlesResults(response.data.articles);
+            setResultsNumber(response.data.resultsNumber);
         } catch (error: any) {
             alert(error.response.data.message);
             return;
@@ -50,38 +58,69 @@ const Search:React.FC = () => {
     }
 
     const handleNextCategory = () => {
-        const currentIndex = carouselSequence.indexOf(1);
+        const categoriesEnum = Object.values(CategoryArticleEnum);
+        
+        const currentCategories = categoriesEnum.splice(currentGroupCategoryNum, 3) 
 
-        switch (currentIndex) {
-            case 0:
-                setCarouselSequence([0,1,0])
-                break;
-            case 1:
-                setCarouselSequence([0,0,1])
-                break
-            case 2:
-                setCarouselSequence([1,0,0])
-                break
-            default:
-                break;
+        setCurrentGroupCategory(currentCategories);
+        setCurrentGroupCategoryNum(currentGroupCategoryNum + 3);
+
+        if (currentGroupCategoryNum > categoriesEnum.length) {
+            setCurrentGroupCategory(['Html', 'Css', 'Front-end']);
+            setCurrentGroupCategoryNum(3);
+
+            return;
         }
+
     }
 
     const handlePrevCategory = () => {
-        const currentIndex = carouselSequence.indexOf(1);
+        const categoriesEnum = Object.values(CategoryArticleEnum);
 
-        switch (currentIndex) {
-            case 0:
-                setCarouselSequence([0,0,1])
-                break;
-            case 1:
-                setCarouselSequence([1,0,0])
-                break
-            case 2:
-                setCarouselSequence([0,1,0])
-                break
-            default:
-                break;
+        const currentCategories = categoriesEnum.splice(currentGroupCategoryNum - 3, 3) 
+        
+        setCurrentGroupCategory(currentCategories);
+        setCurrentGroupCategoryNum(currentGroupCategoryNum - 3);
+
+        if (currentGroupCategoryNum <= 0) {
+            setCurrentGroupCategory(['Git', 'Aws Cloud']);
+            setCurrentGroupCategoryNum(27);
+
+            return;
+        }
+    }
+
+    const handleSearchForCategory = async (category: string) => {
+        let currentCategories = categories;
+        const categoryExists = categories.includes(category);
+
+        if (categoryExists) {
+            const position = categories.indexOf(category);
+            currentCategories.splice(position, 1);
+
+            const newCategories = currentCategories; 
+
+            setCategories([...newCategories, '']);
+            setCategories(categories.filter(value => value !== ''))
+        } else {
+            setCategories([...categories, category]);
+            currentCategories = [...categories, category];
+        }
+        
+        try {
+            console.log(categories)
+            const response = await api.get(`/articles`, { params: { categories: currentCategories.join() } });
+
+            if (!response.data.articles.length) {
+                setArticlesResults(null);
+            } else {
+                setArticlesResults(response.data.articles);
+                setResultsNumber(response.data.resultsNumber);
+
+            }
+        } catch (error: any) {
+            alert(error.response.data.message);
+            return;
         }
     }
 
@@ -107,7 +146,21 @@ const Search:React.FC = () => {
                     <HeaderContainerStyled>
                         <CategoryFieldStyled>
                             <ArrowLeft onClick={handlePrevCategory}></ArrowLeft>
-                            <ul style={{ display: carouselSequence[0] === 1 ? 'block' : 'none' }} >
+
+                            <ul>
+                                {currentGroupCategory.map((category, i) => {
+                                    const isSelected = categories.includes(category)
+                                    return (
+                                        <li
+                                        key={i}
+                                        onClick={() => handleSearchForCategory(category)}
+                                        style={ isSelected ? { backgroundColor: '#019267', color: '#fff' } : {} }
+                                        >
+                                            {category}
+                                        </li>
+                                )})}
+                            </ul>
+                            {/* <ul style={{ display: carouselSequence[0] === 1 ? 'block' : 'none' }} >
                                 <li>Banco de Dados</li>
                                 <li>Estrutura de Dados</li>
                                 <li>JavaScript</li>
@@ -124,39 +177,40 @@ const Search:React.FC = () => {
                                 <li>Nodejs</li>
                                 <li>Java</li>
                                 <li>C#</li>
-                            </ul>
+                            </ul> */}
                             <ArrowRight onClick={handleNextCategory}></ArrowRight>
                         </CategoryFieldStyled>
                         <ResultsCountFieldStyled>
-                            <span>7 Resultados</span>
+                            <span>{resultsNumber} Resultado(s)</span>
                         </ResultsCountFieldStyled>
                     </HeaderContainerStyled>
                     <div style={{ width: '80%' }}>
                         {
+                            articlesResults === null ? <span>Sem resultado</span> :
                             articlesResults.length ? articlesResults.map(article => (
                                 <Article
-                                key={article.id}
-                                isFavorite={false}
-                                authorName={article.author.name}
-                                category={article.category}
-                                description={article.description}
-                                title={article.title}
-                                views={article.views}
-                                articleId={article.id}
-                                coverImagePath={article.coverImage?.secure_url}
+                                key={article.article.id}
+                                isFavorite={article.isFavorite}
+                                authorName={article.article.author.name}
+                                category={article.article.category}
+                                description={article.article.description}
+                                title={article.article.title}
+                                views={article.article.views}
+                                articleId={article.article.id}
+                                coverImagePath={article.article.coverImage?.secure_url}
                                 />
     
                             )) : articles.map(article => (
                                 <Article
-                                key={article.id}
-                                isFavorite={false}
-                                authorName={article.author.name}
-                                category={article.category}
-                                description={article.description}
-                                title={article.title}
-                                views={article.views}
-                                articleId={article.id}
-                                coverImagePath={article.coverImage?.secure_url}
+                                key={article.article.id}
+                                isFavorite={article.isFavorite}
+                                authorName={article.article.author.name}
+                                category={article.article.category}
+                                description={article.article.description}
+                                title={article.article.title}
+                                views={article.article.views}
+                                articleId={article.article.id}
+                                coverImagePath={article.article.coverImage?.secure_url}
                                 />
     
                             ))

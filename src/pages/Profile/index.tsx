@@ -33,7 +33,7 @@ const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
     const [currentUser, setCurrentUser] = React.useState<IUser>();
-    const [userArticles, setUserArticles] = React.useState<IArticle[]>([]);
+    const [userArticles, setUserArticles] = React.useState<{article: IArticle, isFavorite: boolean}[]>([]);
 
 
     const handleCloseModal = () => {
@@ -52,6 +52,7 @@ const Profile:React.FC = () => {
         }
 
         getCurrentUser(user ? user.id : '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     React.useEffect(() => {
@@ -66,6 +67,7 @@ const Profile:React.FC = () => {
         }
 
         getUserArticles(user ? user.id : '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     return (
@@ -138,15 +140,15 @@ const Profile:React.FC = () => {
                         {userArticles.map(article => (
 
                             <Article
-                            key={article.id}
-                            isFavorite={false}
-                            articleId={article.id}
-                            authorName={article.author.name}
-                            category={article.category}
-                            description={article.description}
-                            title={article.title}
-                            views={article.views}
-                            coverImagePath={article.coverImage?.secure_url}
+                            key={article.article.id}
+                            isFavorite={article.isFavorite}
+                            articleId={article.article.id}
+                            authorName={article.article.author.name}
+                            category={article.article.category}
+                            description={article.article.description}
+                            title={article.article.title}
+                            views={article.article.views}
+                            coverImagePath={article.article.coverImage?.secure_url}
 
                             />
                         ))}
