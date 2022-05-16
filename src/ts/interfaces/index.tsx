@@ -11,6 +11,8 @@ export interface IUser {
     publicationsNumber: number;
     commentsNumber: number;
     contributionTotalHours: number;
+    favoriteArticles: IArticle[];
+    favoriteArticleComments: IComment[];
     socialName: string;
     resource?: IResource;
     createdAt: Date;

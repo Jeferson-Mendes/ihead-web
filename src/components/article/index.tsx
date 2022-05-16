@@ -12,6 +12,7 @@ import {
  import heartRegularIcon from '../../assets/heart-regular.svg';
  import heartSolidIcon from '../../assets/heart-solid.svg';
 import { useNavigate } from "react-router-dom";
+import api from "../../service/api";
 
  interface IProps {
      isFavorite: boolean;
@@ -36,11 +37,22 @@ const Article:React.FC<IProps> = ({
     articleId,
     coverImagePath
 }) => {
-
+    const [isFavoriteArticle, setIsFavoriteArticle] = React.useState<boolean>(isFavorite);
     const navigate = useNavigate();
 
     const handleNavigateToArticleDetail = () => {
         navigate('/artigo', { state: { articleId } })
+    }
+
+    const handleFavorite = async () => {
+        if (isFavorite) {
+            await api.delete(`/articles/remove-favorite/${articleId}`)
+            setIsFavoriteArticle(false);
+            return;
+        }
+        await api.post(`/articles/add-favorite/${articleId}`)
+        setIsFavoriteArticle(true)
+        return;
     }
     return (
         <ArticleContainerStyled>
@@ -49,15 +61,19 @@ const Article:React.FC<IProps> = ({
             </ImageContainerStyled>
             <InfoContainerStyled>
 
-                <TitleFieldStyled onClick={handleNavigateToArticleDetail}>
+                <TitleFieldStyled>
                     {!isRecommendation ? (
-                        <img src={ isFavorite? heartSolidIcon : heartRegularIcon } alt="heartSolidIcon" />
+                        <img
+                        src={ isFavoriteArticle? heartSolidIcon : heartRegularIcon }
+                        alt="heartSolidIcon"
+                        onClick={handleFavorite}
+                        />
                     ) : ''}
-                    <p>{ category }</p>
-                    <h4>{ title }</h4>
+                    <p onClick={handleNavigateToArticleDetail}>{ category }</p>
+                    <h4 onClick={handleNavigateToArticleDetail}>{ title }</h4>
                 </TitleFieldStyled>
 
-                <DescriptionFieldStyled>
+                <DescriptionFieldStyled onClick={handleNavigateToArticleDetail}>
                     {!isRecommendation ? (
                     <span>{description}</span>
 
