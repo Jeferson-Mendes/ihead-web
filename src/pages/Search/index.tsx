@@ -1,4 +1,5 @@
 import React, { FormEvent } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import Article from '../../components/article';
 import Navbar from '../../components/Navbar';
 import api from "../../service/api";
@@ -28,6 +29,9 @@ const Search:React.FC = () => {
     const [currentGroupCategoryNum, setCurrentGroupCategoryNum] = React.useState<number>(3);
     const [currentGroupCategory, setCurrentGroupCategory] = React.useState<string[]>(['Html', 'Css', 'Front-end']);
 
+    const location = useLocation();
+    const navigate = useNavigate();
+
     React.useEffect(()=>{
         async function getArticles() {
             try {
@@ -41,7 +45,27 @@ const Search:React.FC = () => {
             } 
         }
 
-        getArticles();
+        async function searchArticles(searchTerm: string) {
+            try {
+                const response = await api.get(`/articles`, { params: { keyword: searchTerm } });
+    
+                setArticlesResults(response.data.articles);
+                setResultsNumber(response.data.resultsNumber);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        const state = location.state as any;
+        if (state as any) {
+            searchArticles(state.searchTerm)
+            
+            navigate(location.pathname, {}); 
+        } else {
+            getArticles();
+        }
+
     },[])
 
     async function handleSearchArticle(event: FormEvent) {

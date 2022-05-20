@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { FormEvent, useContext } from 'react';
 import Navbar from '../../components/Navbar';
 
 import { 
@@ -20,6 +20,8 @@ import { getAvatarPath } from '../../utils/getAvatarPath';
 
 const Home: React.FC = () => {
     const { user } = useContext(AuthContext);
+
+    const [searchTerm, setSearchTerm] = React.useState<string>('');
     const navigate = useNavigate()
 
     const handleNavigateToMakePublication = () => {
@@ -36,6 +38,13 @@ const Home: React.FC = () => {
 
     const handleNavigateToFavorites = () => {
         navigate('/favoritos')
+    }
+
+    const handleSearchArticle = (event: FormEvent) => {
+        event.preventDefault();
+
+        navigate('/pesquisar', { state: { searchTerm } })
+        setSearchTerm('')
     }
 
     return (
@@ -57,8 +66,16 @@ const Home: React.FC = () => {
                             </div>
                         </UserInfoStyled>
                         <SearchFieldStyled>
-                            <form>
-                                <input type="text" name="search" id="search" placeholder="Busque por conteúdo"/>
+                            <form onSubmit={handleSearchArticle}>
+                                <input
+                                type="search"
+                                name="search"
+                                id="search"
+                                placeholder="Busque por conteúdo"
+                                value={searchTerm}
+                                onChange={(event) => setSearchTerm(event.target.value)}
+                                required
+                                />
                                 <button>Buscar</button>
                             </form>
                         </SearchFieldStyled>
