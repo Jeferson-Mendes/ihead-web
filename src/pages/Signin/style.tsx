@@ -29,9 +29,38 @@ export const ParagraphStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 
     width: 100%;
-    margin: 50% auto;
+    margin: 40% auto;
+
+    ul {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+        width: 100%;
+        padding-top: 2rem;
+        li {
+            list-style: none;
+            background-color: ${({theme}) => theme.colorBgHeader};
+            width: 10rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            border-radius: 2rem;
+
+            img {
+                width: 1.8rem;
+                margin-left: 0.4rem;
+            }
+
+            span {
+                display: inline-block;
+                font-size: 0.7rem;
+            }
+        }
+    }
 `
 
 export const BlurContainerStyled = styled.div`
