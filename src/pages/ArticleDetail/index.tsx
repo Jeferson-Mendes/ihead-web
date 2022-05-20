@@ -18,16 +18,19 @@ import {
     ArticleStyled,
     ContentStyled,
     FormNewCommentStyled,
+    ArticleFooterInfo
 } from './style';
 
 import FavoriteIcon from '../../assets/heart-regular.svg';
+import HeartIcon from '../../assets/heart-solid.svg';
+import reportImg from '../../assets/report.svg';
 import Comment from "../../components/comment";
 // import Article from "../../components/article";
 import { ArrowLeft, ArrowRight } from "../Search/style";
 import { IArticle, IComment } from "../../ts/interfaces";
 import api from "../../service/api";
 import { format, parseISO } from "date-fns";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import { getAvatarPath } from "../../utils/getAvatarPath";
 
@@ -37,9 +40,11 @@ const ArticleDetail:React.FC = () => {
     const [commentsData, setCommentsData] = React.useState<IComment[]>([]);
     const [newComment, setNewComment] = React.useState<string>("");
     const [commentsQuantity, setCommentsQuantity] = React.useState<number>(0);
+    const [isFavorite, setIsFavorite] = React.useState<boolean>(false);
 
     const { user } = useContext(AuthContext);
     const location = useLocation();
+    const navigate = useNavigate();
 
     const { articleId } = location.state as any;
 
@@ -49,6 +54,7 @@ const ArticleDetail:React.FC = () => {
                 const response = await api.get(`articles/${articleId}`);
 
                 setArticle(response.data.article);
+                setIsFavorite(response.data.isFavorite)
             } catch (error: any) {
                 alert(error.response.data.message);
                 return;
@@ -103,6 +109,38 @@ const ArticleDetail:React.FC = () => {
         }
     }
 
+    async function handleMakeReport(articleId?: string): Promise<void> {
+        try {
+            await api.post('/reports', { publication: articleId });
+            alert('Publicação reportada.')
+            navigate('/')
+            return;
+        } catch (error: any) {
+            alert(error.response.data.message);
+            return;
+        }
+    }
+
+    async function handleFavoriteArticle() {
+        if (isFavorite) {
+            try {
+                await api.delete(`/articles/remove-favorite/${articleId}`)
+                setIsFavorite(false);
+                return;
+            } catch (error: any) {
+                alert(error.response.data.message);
+            }
+        } else {
+            try {
+                await api.post(`/articles/add-favorite/${articleId}`)
+                setIsFavorite(true)
+                return;
+            } catch (error: any) {
+                alert(error.response.data.message);
+            }
+        }
+    }
+
     return (
         <>
         <Navbar hasHeader={true} hasArrowBack={true}/>
@@ -110,8 +148,8 @@ const ArticleDetail:React.FC = () => {
             <ArticleDetailContainerStyled>
                 <GridItemArticleStyled>
                 <ArticleDetailContentStyled>
-                    <span>
-                        <img src={FavoriteIcon} alt="favoriteIcon" />
+                    <span onClick={handleFavoriteArticle}>
+                        <img src={isFavorite ? HeartIcon : FavoriteIcon} alt="favoriteIcon" />
                     </span>
                     <TitleArticleStyled>
                         <h2>{article?.title}</h2>
@@ -123,9 +161,17 @@ const ArticleDetail:React.FC = () => {
                         
                         </div>
                     </div>
-                        
                     </ContentArticleStyled>
                 </ArticleDetailContentStyled>
+                <ArticleFooterInfo>
+                    <div onClick={() => handleMakeReport(article?.id)}>
+                        <img src={reportImg} alt="reportImg" />
+                        <span>{`(${article?.views} Visualizações)`}</span>
+                    </div>
+                    <div>
+                        <span>Share</span>
+                    </div>
+                </ArticleFooterInfo>
                 </GridItemArticleStyled>
                 <GridItemAuthorStyled>
                 <div>

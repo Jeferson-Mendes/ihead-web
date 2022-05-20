@@ -28,15 +28,17 @@ export const ArticleDetailContainerStyled = styled.div`
 export const GridItemArticleStyled = styled.div`
     grid-area: Article;
     padding: 2rem;
-    
+
     border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};
     border-radius: 0.7rem;
 `
 
 export const ArticleDetailContentStyled = styled.div`
+    min-height: 90%;
     span:first-child {
         float: right;
+        cursor: pointer;
     }
 `
 
@@ -190,4 +192,27 @@ export const ArticleStyled = styled.div`
     border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};
     border-radius: 0.7rem;    
+`
+
+export const ArticleFooterInfo = styled.div`
+    padding: 2rem 0; 
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    div:first-child {
+        cursor: pointer;
+    }
+
+    div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    div span {
+        font-size: 0.8rem;
+        display: block;
+    }
 `

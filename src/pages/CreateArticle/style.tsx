@@ -106,6 +106,24 @@ export const RefLinksContainerStyled = styled.div`
         }
     } */
 
+    div {
+        span {
+            display: inline-block;
+            height: 2rem;
+            padding: 0.4rem;
+            background-color: ${({theme})=> theme.colorGray700};
+            border-radius: 0.4rem;
+            color: ${({theme})=> theme.colorGray200};
+            cursor: pointer;
+            transform: scale(0.9);
+            transition: all 400ms;
+
+            &:hover {
+                transform: scale(1);
+            }
+        }
+    }
+
     span:first-child {
         display: inline-block;
         color: ${({theme})=> theme.colorGray};
@@ -129,6 +147,7 @@ export const SubmitContainerStyled = styled.div`
 
     padding: 2rem 0;
 
+    span,
     button {
         margin-left: 0.7rem;
         border: none;
@@ -139,10 +158,10 @@ export const SubmitContainerStyled = styled.div`
         cursor: pointer;
     }
 
-    button:first-child {
-        background-color: ${({theme})=> theme.colorDarkGreen};
+    span {
+        background-color: ${({theme})=> theme.colorGray};
     }
     button:last-child {
-        background-color: ${({theme})=> theme.colorGray};
+        background-color: ${({theme})=> theme.colorDarkGreen};
     }
 `

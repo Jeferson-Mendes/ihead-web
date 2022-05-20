@@ -86,6 +86,10 @@ const CreateArticle:React.FC = () => {
         const { title, category, description } = formData;
         const refLinksArr = JSON.stringify(refLinks);
 
+        if (category === '') {
+            alert('Por Favor, informe uma categoria.')
+        }
+
         const data = new FormData();
 
         data.append('title', title);
@@ -102,8 +106,8 @@ const CreateArticle:React.FC = () => {
             await api.post('/articles', data);
             alert('Publicação salva com sucesso!');
             navigate('/perfil');
-        } catch (error) {
-            alert('Falha ao realizar publicação');
+        } catch (error:any) {
+            alert(error.response.data.message);
         }
     }
 
@@ -132,7 +136,7 @@ const CreateArticle:React.FC = () => {
                             <div>
                                 {/* <label htmlFor="category">Categoria</label> */}
                                 <select name="category" id="category" onChange={handleInputChange} required>
-                                    <option value="" disabled>Categoria</option>
+                                    <option value=''>Categoria</option>
                                     { Object.values(CategoryArticleEnum).map( (category, index) => (
                                         <option key={index} value={category}>{ category }</option>
                                     ) )}
@@ -181,6 +185,7 @@ const CreateArticle:React.FC = () => {
                                 onKeyDown={(event) => handleKeyDown(event)}
                                 onChange={(event) => setNewRefLink(event.target.value)}/>
                                 {/* <button onClick={handleAddRefLink} >Adicionar</button> */}
+                                <span onClick={handleAddRefLink}>Adicionar Link</span>
                             </div>
 
                             <ul>
@@ -191,8 +196,8 @@ const CreateArticle:React.FC = () => {
                         </RefLinksContainerStyled>
                     </TextEditorContainer>
                     <SubmitContainerStyled>
+                            <span onClick={() => navigate('/')}>Cancelar</span>
                             <button type="submit" form="article">Publicar</button>
-                            <button >Cancelar</button>
                     </SubmitContainerStyled>
                 </form>
                 </EditorContainerStyled>
