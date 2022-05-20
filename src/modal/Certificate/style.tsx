@@ -4,6 +4,10 @@ interface IModalIsOpen {
     modalIsOpen: boolean;
 }
 
+interface IHourButtonIndex {
+    index: number;
+}
+
 export const CertificateModalStyled = styled.div<IModalIsOpen>`
     position: fixed; /* Stay in place */
     z-index: 5; /* Sit on top */
@@ -49,12 +53,12 @@ export const TextContainerStyled = styled.div`
     }
 `
 export const HoursContainerStyled = styled.div`
-    padding: 2rem;
+    padding: 2rem 0;
 
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
 
     div {
         width: 7rem;
@@ -64,7 +68,7 @@ export const HoursContainerStyled = styled.div`
         display: block;
     }
 `
-export const HourButtonStyled = styled.button`
+export const HourButtonStyled = styled.button<IHourButtonIndex>`
     border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};
     border-radius: 0.7rem;
@@ -72,7 +76,17 @@ export const HourButtonStyled = styled.button`
     padding: 2rem;
     font-weight: bold;
 
-    &:first-child {
+    width: 8rem;
+    text-align: center;
+    transform: scale(0.9);
+    transition: all 400ms;
+    cursor: pointer;
+
+    &:hover {
+        transform: scale(1);
+    }
+
+    &:nth-child(${props => props.index + 1}) {
         background-color: ${({theme}) => theme.lightBlue};
     }
 

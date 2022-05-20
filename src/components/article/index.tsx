@@ -46,13 +46,27 @@ const Article:React.FC<IProps> = ({
 
     const handleFavorite = async () => {
         if (isFavorite) {
-            await api.delete(`/articles/remove-favorite/${articleId}`)
-            setIsFavoriteArticle(false);
-            return;
+            try {
+                await api.delete(`/articles/remove-favorite/${articleId}`)
+                setIsFavoriteArticle(false);
+                if (window.location.pathname === '/pesquisar') {
+                    window.location.reload();
+                } else {
+                    window.location.reload();
+                }
+                return;
+            } catch (error: any) {
+                alert(error.response.data.message);
+            }
         }
-        await api.post(`/articles/add-favorite/${articleId}`)
-        setIsFavoriteArticle(true)
-        return;
+        try {
+            await api.post(`/articles/add-favorite/${articleId}`)
+            setIsFavoriteArticle(true)
+            navigate('/favoritos')
+            return;
+        } catch (error: any) {
+            alert(error.response.data.message);
+        }
     }
     return (
         <ArticleContainerStyled>

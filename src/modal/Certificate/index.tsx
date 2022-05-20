@@ -15,6 +15,12 @@ interface IProps {
 }
 
 const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal }) => {
+    const [hoursOption, setHoursOption] = React.useState<string[]>(['20 Horas', '40 Horas', '60 Horas']);
+    const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+
+    function handleSelectArticle(index: number) {
+        setSelectedIndex(index);
+    }
 
     return (
         <CertificateModalStyled modalIsOpen={modalIsOpen}>
@@ -30,9 +36,13 @@ const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal }) => {
                 </TextContainerStyled>
 
                 <HoursContainerStyled>
-                    <HourButtonStyled> <h3>20 Horas</h3> </HourButtonStyled>
-                    <HourButtonStyled> <h3>40 Horas</h3> </HourButtonStyled>
-                    <HourButtonStyled> <h3>60 Horas</h3> </HourButtonStyled>
+                    {hoursOption.map((hour, index) => (
+                        <HourButtonStyled
+                        key={index}
+                        onClick={() => handleSelectArticle(index)}
+                        index={selectedIndex}
+                        > <h3>{hour}</h3> </HourButtonStyled>
+                    ))}
                     <div>
                         <h4>Certificado</h4>
                         <span>Requerido</span>
