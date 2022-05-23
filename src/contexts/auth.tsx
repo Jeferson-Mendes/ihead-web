@@ -31,6 +31,18 @@ export const AuthProvider:React.FC = ({ children }) => {
     const [loading, setLoading] = React.useState(true);
 
     React.useEffect(() => {
+        async function checkJwtTokenIvalid() {
+            try {
+                await api.get('/users')
+                return
+            } catch (error: any) {
+                if(error.response.data.message === 'Invalid JWT Token.') {
+                    console.log('hi')
+                    signOut();
+                }
+            }
+        } 
+
         async function loadStorageData() {
             const storagedUser = localStorage.getItem('Auth:user');
             const storagedToken = localStorage.getItem('Auth:token');
@@ -46,6 +58,7 @@ export const AuthProvider:React.FC = ({ children }) => {
         }
 
         loadStorageData();
+        checkJwtTokenIvalid();
     }, [])
 
     async function signIn({ email, password }: ISignInRequest): Promise<any> {
