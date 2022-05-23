@@ -2,6 +2,7 @@ import React, { FormEvent } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Article from '../../components/article';
 import Navbar from '../../components/Navbar';
+import Pagination from "../../components/pagination";
 import api from "../../service/api";
 import { CategoryArticleEnum } from "../../ts/enum";
 import { IArticle } from "../../ts/interfaces";
@@ -24,6 +25,7 @@ const Search:React.FC = () => {
     const [searchTerms, setSearchTerms] = React.useState<string>('');
     const [categories, setCategories] = React.useState<string[]>([]);
     const [resultsNumber, setResultsNumber] = React.useState<number>(0);
+    const [totalPages, setTotalPages] = React.useState<number>(0);
 
 
     const [currentGroupCategoryNum, setCurrentGroupCategoryNum] = React.useState<number>(3);
@@ -36,9 +38,10 @@ const Search:React.FC = () => {
         async function getArticles() {
             try {
                 const response = await api.get(`/articles`);
-
+                const results = response.data.resultsNumber
                 setArticles(response.data.articles);
-                setResultsNumber(response.data.resultsNumber);
+                setResultsNumber(results);
+                setTotalPages(Math.ceil(results/10));
             } catch (error: any) {
                 alert(error.response.data.message);
                 return;
@@ -51,6 +54,7 @@ const Search:React.FC = () => {
     
                 setArticlesResults(response.data.articles);
                 setResultsNumber(response.data.resultsNumber);
+                setTotalPages(Math.ceil(response.data.resultsNumber/10));
             } catch (error: any) {
                 alert(error.response.data.message);
                 return;
@@ -75,6 +79,7 @@ const Search:React.FC = () => {
 
             setArticlesResults(response.data.articles);
             setResultsNumber(response.data.resultsNumber);
+            setTotalPages(Math.ceil(response.data.resultsNumber/10));
         } catch (error: any) {
             alert(error.response.data.message);
             return;
@@ -137,12 +142,26 @@ const Search:React.FC = () => {
 
             if (!response.data.articles.length) {
                 setArticlesResults(null);
+                setResultsNumber(response.data.resultsNumber);
             } else {
                 setArticlesResults(response.data.articles);
                 setResultsNumber(response.data.resultsNumber);
+                setTotalPages(Math.ceil(response.data.resultsNumber/10));
 
             }
         } catch (error: any) {
+            alert(error.response.data.message);
+            return;
+        }
+    }
+
+    async function handleGoPage(page: number) {
+        try {
+            const response = await api.get(`/articles?limit=${10}&page=${page}`);
+            setArticles(response.data.articles);
+            setResultsNumber(response.data.resultsNumber);
+            setTotalPages(Math.ceil(response.data.resultsNumber/10));
+        } catch (error:any) {
             alert(error.response.data.message);
             return;
         }
@@ -240,6 +259,7 @@ const Search:React.FC = () => {
                             ))
                         }
                     </div>
+                    <Pagination handleGoPage={handleGoPage} totalPages={totalPages}/>
                 </ArticlesContainerStyled>
             </SearchContainerStyled>
         </>
