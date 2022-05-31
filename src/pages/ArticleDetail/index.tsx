@@ -1,6 +1,7 @@
 import React, { FormEvent, useContext } from "react";
 import Navbar from '../../components/Navbar';
 import 'react-quill/dist/quill.snow.css';
+import { Share as ShareIcon } from 'react-feather';
 
 import {
     ArticleDetailSectionStyled,
@@ -33,6 +34,7 @@ import { format, parseISO } from "date-fns";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import { getAvatarPath } from "../../utils/getAvatarPath";
+import Share from "../../modal/Share";
 
 const ArticleDetail:React.FC = () => {
 
@@ -41,6 +43,7 @@ const ArticleDetail:React.FC = () => {
     const [newComment, setNewComment] = React.useState<string>("");
     const [commentsQuantity, setCommentsQuantity] = React.useState<number>(0);
     const [isFavorite, setIsFavorite] = React.useState<boolean>(false);
+    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
 
     const { user } = useContext(AuthContext);
     const location = useLocation();
@@ -141,9 +144,14 @@ const ArticleDetail:React.FC = () => {
         }
     }
 
+    const handleCloseModal = () => {
+        setModalIsOpen(!modalIsOpen);
+    }
+
     return (
         <>
         <Navbar hasHeader={true} hasArrowBack={true}/>
+        <Share closeModal={handleCloseModal} modalIsOpen={modalIsOpen} link={'https://github.com/jeferson-mendes'} />
         <ArticleDetailSectionStyled>
             <ArticleDetailContainerStyled>
                 <GridItemArticleStyled>
@@ -169,7 +177,7 @@ const ArticleDetail:React.FC = () => {
                         <span>{`(${article?.views} Visualizações)`}</span>
                     </div>
                     <div>
-                        <span>Share</span>
+                        <ShareIcon onClick={handleCloseModal} style={{cursor: 'pointer'}}/>
                     </div>
                 </ArticleFooterInfo>
                 </GridItemArticleStyled>
