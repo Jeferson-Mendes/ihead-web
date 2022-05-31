@@ -28,6 +28,7 @@ import Certificate from "../../modal/Certificate";
 import { getAvatarPath } from "../../utils/getAvatarPath";
 import api from "../../service/api";
 import { IArticle, IUser } from "../../ts/interfaces";
+import { UserRoleEnum } from "../../ts/enum";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
@@ -96,7 +97,7 @@ const Profile:React.FC = () => {
                         <ActionButtonStyled> <Link to='/artigo/criar'>Fazer Publicação</Link> </ActionButtonStyled>
                         <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/favoritos'>Favoritos</Link> </ActionButtonStyled>
-                        <ModerationButtonStyled> <Link to='/denuncias/gerenciar'>Moderação</Link> </ModerationButtonStyled>
+                      { user?.userRole === UserRoleEnum.MODERATOR ? <ModerationButtonStyled> <Link to='/denuncias/gerenciar'>Moderação</Link> </ModerationButtonStyled> : '' } 
                     </div>
 
                 </GridItemActionsStyled>

@@ -63,6 +63,7 @@ const Search:React.FC = () => {
 
         const state = location.state as any;
         if (state as any) {
+            setSearchTerms(state.searchTerm)
             searchArticles(state.searchTerm)
             
             navigate(location.pathname, {}); 
@@ -156,9 +157,15 @@ const Search:React.FC = () => {
     }
 
     async function handleGoPage(page: number) {
+        const paramData = {
+            keyword: searchTerms ? searchTerms : '',
+            categories: categories ? categories.join() : '',
+        }
+
         try {
-            const response = await api.get(`/articles?limit=${10}&page=${page}`);
+            const response = await api.get(`/articles?keyword=${paramData.keyword}&categories=${paramData.categories}&limit=${10}&page=${page}`);
             setArticles(response.data.articles);
+            setArticlesResults(response.data.articles);
             setResultsNumber(response.data.resultsNumber);
             setTotalPages(Math.ceil(response.data.resultsNumber/10));
         } catch (error:any) {

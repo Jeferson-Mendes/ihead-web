@@ -30,3 +30,7 @@ export enum CategoryArticleEnum {
     AWS_CLOUD = 'Aws Cloud',
   }
   
+export enum UserRoleEnum {
+  USER = 'User',
+  MODERATOR = 'Moderator',
+}

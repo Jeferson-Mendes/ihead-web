@@ -1,4 +1,4 @@
-import { CategoryArticleEnum } from "../enum";
+import { CategoryArticleEnum, UserRoleEnum } from "../enum";
 
 export interface IUser {
     id: string;
@@ -15,6 +15,7 @@ export interface IUser {
     favoriteArticleComments: IComment[];
     socialName: string;
     resource?: IResource;
+    userRole: UserRoleEnum;
     createdAt: Date;
 }
 
