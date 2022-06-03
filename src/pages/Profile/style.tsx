@@ -23,7 +23,6 @@ export const GridProfileContainerStyled = styled.div`
     padding: 0 2rem 2rem;
     grid-template-columns: 0fr;
     grid-template-areas:
-    'profileField controlPanel controlPanel controlPanel controlPanel controlPanel'
     'profileField publications publications publications publications publications'
     'action publications publications publications publications publications';
 `
@@ -66,6 +65,7 @@ export const GridItemProfileFieldStyled = styled.div`
 
         p {
             font-weight: bold;
+            margin: 0.4rem 0;
 
             span {
                 font-weight: normal;
@@ -133,15 +133,15 @@ export const ModerationButtonStyled = styled.button`
     }
 `
 
-export const GridItemControlPanelStyled = styled.div`
-    grid-area: controlPanel;
+// export const GridItemControlPanelStyled = styled.div`
+//     grid-area: controlPanel;
 
-    border: 1px solid ${({theme}) => theme.lightBlue};
-    background-color: ${({theme}) => theme.colorWhite};
-    border-radius: 0.7rem;
+//     border: 1px solid ${({theme}) => theme.lightBlue};
+//     background-color: ${({theme}) => theme.colorWhite};
+//     border-radius: 0.7rem;
 
-    padding-bottom: 1rem;
-`
+//     padding-bottom: 1rem;
+// `
 
 export const ControlPanelTitleStyled = styled.h4`
     margin: 4rem 0 1rem 3rem;
@@ -201,7 +201,7 @@ export const GridItemPublicationsStyled = styled.div`
 
     flex-direction: column;
 
-    grid-row: 2 / 5;
+    grid-row: 1 / 5;
 
     h4:first-child {
         margin: 3rem 0 1rem 3rem;

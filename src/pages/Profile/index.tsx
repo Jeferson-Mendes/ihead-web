@@ -7,7 +7,7 @@ import {
     GridProfileContainerStyled,
     GridItemProfileFieldStyled,
     GridItemActionsStyled,
-    GridItemControlPanelStyled,
+    // GridItemControlPanelStyled,
     GridItemPublicationsStyled,
     ArticleFieldStyled,
     ControlPanelStyled,
@@ -73,7 +73,7 @@ const Profile:React.FC = () => {
 
     return (
         <>
-        <Certificate modalIsOpen={modalIsOpen} closeModal={handleCloseModal}/>
+        <Certificate modalIsOpen={modalIsOpen} closeModal={handleCloseModal} quantityHours={currentUser?.contributionTotalHours}/>
         <Navbar hasHeader={true} headerTitle="Perfil"/>
         <ProfileContainerStyled>
             <GridProfileContainerStyled>
@@ -84,9 +84,11 @@ const Profile:React.FC = () => {
                     </div>
 
                     <div>
-                        <p>Desde: <span> { user ? format(new Date(user.createdAt), 'dd/MM/YYY') : '' } </span></p>
+                        <p>Desde: <span> { user ? format(new Date(user.createdAt), 'dd/MM/YYY') : '' } </span></p>          
                         <p>E-mail: <span> { user?.email } </span></p>
                         <p>Período/Semestre: <span> { user?.semester || '' } </span></p>
+                        <p>Publicações: <span> { currentUser?.publicationsNumber || '' } </span></p>
+                        <p>Comentários: <span> { currentUser?.commentsNumber || '' } </span></p>
                     </div>
 
                 </GridItemProfileFieldStyled>
@@ -102,7 +104,7 @@ const Profile:React.FC = () => {
 
                 </GridItemActionsStyled>
 
-                <GridItemControlPanelStyled>
+                {/* <GridItemControlPanelStyled>
                     <ControlPanelTitleStyled>Painel de Controle</ControlPanelTitleStyled>
                     
                     <ControlPanelStyled>
@@ -132,7 +134,7 @@ const Profile:React.FC = () => {
 
                     </ControlPanelStyled>
 
-                </GridItemControlPanelStyled>
+                </GridItemControlPanelStyled> */}
 
                 <GridItemPublicationsStyled>
                     <h4>Publicações</h4>

@@ -6,6 +6,11 @@ interface IModalIsOpen {
 
 interface IHourButtonIndex {
     index: number;
+    isAvailable: boolean;
+}
+
+interface IAvailable {
+    isAvailable: boolean;
 }
 
 export const CertificateModalStyled = styled.div<IModalIsOpen>`
@@ -25,7 +30,7 @@ export const CertificateModalStyled = styled.div<IModalIsOpen>`
 
 export const ModalFieldStyled = styled.div`
     background-color: #fff;
-    width: 50%;
+    width: 70%;
     padding: 2rem;
 
     display: flex;
@@ -46,7 +51,8 @@ export const TextContainerStyled = styled.div`
     span {
         display: inline-block;
         color: ${({theme}) => theme.colorGray};
-        width: 70%;
+        font-size: 0.8rem;
+        width: 80%;
         padding: 0.7rem 0 0;
 
         border-bottom: 2px solid ${({theme}) => theme.lightGreen};
@@ -58,7 +64,7 @@ export const HoursContainerStyled = styled.div`
     width: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
 
     div {
         width: 7rem;
@@ -68,30 +74,44 @@ export const HoursContainerStyled = styled.div`
         display: block;
     }
 `
+export const QuantityHoursStyled = styled.div`
+    margin-top: 2rem;
+
+    b {
+        color: green;
+    }
+`
+
 export const HourButtonStyled = styled.button<IHourButtonIndex>`
     border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};
     border-radius: 0.7rem;
 
-    padding: 2rem;
+    padding: 0 2rem 2rem 2rem;
     font-weight: bold;
 
-    width: 8rem;
+    width: 10rem;
     text-align: center;
     transform: scale(0.9);
     transition: all 400ms;
     cursor: pointer;
 
     &:hover {
-        transform: scale(1);
+        transform: ${props => props.isAvailable ? 'scale(1)' : 'scale(0.9)'} ;
     }
 
     &:nth-child(${props => props.index + 1}) {
-        background-color: ${({theme}) => theme.lightBlue};
+        background-color: ${props => props.isAvailable ? ({theme}) => theme.lightBlue : ({theme}) => theme.colorWhite};
     }
 
     
 `
+
+export const AvailableTextStyled = styled.p<IAvailable>`
+    padding: 0.4rem 0 1.4rem 0;
+    color: ${props => props.isAvailable? 'green' : 'red'};
+`
+
 export const DownloadButtonStyled = styled.button`
     width: 100%;
     padding: 0.7rem;

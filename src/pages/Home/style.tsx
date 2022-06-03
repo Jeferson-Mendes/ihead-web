@@ -64,13 +64,15 @@ export const UserInfoStyled = styled.div`
 
         input {
             margin-top: 1rem;
-            padding: 0.4rem 1rem;
-            color: ${({theme}) => theme.colorBlack};
-            background-color: ${({theme}) => theme.colorWhite};
+            padding: 0.7rem 1rem;
+            color: ${({theme}) => theme.colorWhite};
+            background-color: ${({theme}) => theme.colorBlack04};
             cursor: pointer;
 
             border-radius: 0.4rem;
-            border: solid 2px ${({theme}) => theme.colorGray};
+            border: none;
+            font-family: 'Rubik', sans-serif;
+            font-size: 0.7rem;
         }
     }
 `
