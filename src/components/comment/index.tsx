@@ -9,19 +9,24 @@ import {
     ReportCommentStyled,
 } from './style';
 
-import FavoriteIcon from '../../assets/heart-regular.svg';
 import AvatarIcon from '../../assets/avatar.svg';
 import ReportIcon from '../../assets/report.svg';
 import { format, getHours, getMinutes, parseISO } from "date-fns";
+import { Trash2 } from 'react-feather';
+import DeleteComment from '../../modal/DeleteComment';
 
 interface IProps {
     authorPath?: string;
     authorName: string;
     comment: string;
     hour: string;
+    isOwner: boolean;
+    commentId: string;
 }
 
-const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour }) => {
+const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour, isOwner, commentId }) => {
+
+    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false); 
 
     const formatHour = (hourDate: string) => {
         const hour = getHours(parseISO(hourDate));
@@ -36,10 +41,16 @@ const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour }) => 
 
     }
 
+    const handleCloseModal = () => {
+        setModalIsOpen(!modalIsOpen);
+    }
+
     return (
+        <>
+        <DeleteComment modalIsOpen={modalIsOpen} closeModal={handleCloseModal} commentId={commentId}/>
         <CommentContainerStyled>
             <HeaderStyled>
-                <span><img src={FavoriteIcon} alt="favoriteIcon" /></span>
+                { isOwner ? <span> <Trash2 onClick={handleCloseModal}/> </span> : '' } 
                 <div>
                     <figure>
                         <img src={authorPath ? authorPath : AvatarIcon} alt="avatarIcon" />
@@ -57,6 +68,7 @@ const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour }) => 
                 </CommentFooterStyled>
             </BodyCommentStyled>
         </CommentContainerStyled>
+        </>
     )
 }
 export default Comment;

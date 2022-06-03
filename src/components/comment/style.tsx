@@ -13,6 +13,12 @@ export const HeaderStyled = styled.div`
 
     span:first-child {
         float: right;
+        margin-left: 1rem;
+
+        svg {
+            width: 1rem;
+            cursor: pointer;
+        }
     }
 
     div {

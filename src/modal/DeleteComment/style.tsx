@@ -4,7 +4,7 @@ interface IProp {
     modalIsOpen: boolean
 }
 
-export const ShareContainerStyled = styled.div<IProp>`
+export const ConfirmDeleteContainerStyled = styled.div<IProp>`
     position: fixed; /* Stay in place */
     z-index: 5; /* Sit on top */
     display: ${props => props.modalIsOpen? 'flex' : 'none'};
@@ -19,7 +19,7 @@ export const ShareContainerStyled = styled.div<IProp>`
     background-color: rgba(0,0,0,0.6); /* Black w/ opacity */
 `
 
-export const ShareFieldStyled = styled.div`
+export const ConfirmFieldStyled = styled.div`
     background-color: ${({theme}) => theme.colorWhite02};
     width: 40%;
     border-radius: 1rem;
@@ -47,7 +47,7 @@ export const ShareFieldStyled = styled.div`
         margin: 1rem;
     }
 `
-export const ButtonCopy = styled.button`
+export const ButtonConfirm = styled.button`
     border: none;
     background-color: ${({theme}) => theme.fontColorDarkBlue};
     padding: 1rem;
@@ -63,9 +63,25 @@ export const ButtonCopy = styled.button`
     }
 `
 
+export const ButtonCancel = styled.button`
+    border: none;
+    background-color: ${({theme}) => theme.colorGray500};
+    padding: 1rem;
+    width: 8rem;
+    border-radius: 2rem;
+    color: white;
+    cursor: pointer;
+    transform: scale(0.9);
+    transition: all 400ms;
+
+    &:hover {
+        transform: scale(1);
+    }
+`
+
 export const TitleHeaderStyled = styled.div`
     margin-bottom: 1rem;
-
+    
     div {
         width: 100%;
         text-align: right;
@@ -81,28 +97,14 @@ export const TitleHeaderStyled = styled.div`
             cursor: pointer;
         }
     }
+
 `
 
 export const Title = styled.h2`
     
 `
-export const SocialMediaContainerStyled = styled.div`
-    padding: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    ul {
-        li {
-            float: left;
-            margin: 0 1rem;
-            list-style: none;
 
-            svg {
-                border-radius: 50%;
-            }
-        }
-    }
-`
 export const SubTitle = styled.p`
     text-align: center;
+    margin-bottom: 2rem;
 `

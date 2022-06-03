@@ -1,5 +1,6 @@
 
 import React from "react";
+import { X } from "react-feather";
 import { WhatsappShareButton, WhatsappIcon, FacebookShareButton, FacebookIcon, LinkedinShareButton, LinkedinIcon } from "react-share";
 
 import {
@@ -34,7 +35,11 @@ const Share:React.FC<IProps> = ({ link, closeModal, modalIsOpen }) => {
         <ShareContainerStyled modalIsOpen={modalIsOpen}>
             <ShareFieldStyled>
                 <TitleHeaderStyled>
-                    <span onClick={closeModal}>X</span>
+                    <div>
+                        <span onClick={closeModal}>
+                            <X/>
+                        </span>
+                    </div>
                     <Title>Compartilhar Artigo</Title>
                 </TitleHeaderStyled>
                 <hr style={{ width: '100%' }} />

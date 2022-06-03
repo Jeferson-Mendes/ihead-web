@@ -221,6 +221,8 @@ const ArticleDetail:React.FC = () => {
                         </FormNewCommentStyled>
                         { commentsData.map(comment => (
                         <Comment
+                        commentId={comment.id}
+                        isOwner={ comment.user.id.toString() === user?.id.toString() }
                         authorName={comment.user.name}
                         comment={comment.commentContent}
                         hour={(comment.createdAt).toString()}
