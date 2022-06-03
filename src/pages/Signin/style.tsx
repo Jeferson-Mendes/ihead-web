@@ -19,11 +19,17 @@ export const PresentationContainerStyled = styled.div`
     height: 100%;
 
 `
-export const AppName = styled.h3`
+export const AppName = styled.div`
 
     padding: 3rem 0 0 4rem;
     color: ${({theme}) => theme.colorWhite};
 
+    img {
+        position: absolute;
+        width: 5rem;
+        top: 0;
+        left: 2rem;
+    }
 `
 export const ParagraphStyled = styled.div`
     display: flex;

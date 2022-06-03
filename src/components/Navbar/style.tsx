@@ -24,9 +24,19 @@ export const NavBarContentStyled = styled.div`
     padding: 0.4rem;
 `
 
-export const TitleStyled = styled.h3`
+export const TitleStyled = styled.div`
     color: ${({theme}) => theme.colorWhite };
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-right: 2rem;
+
+    img {
+        width: 4rem;
+    }
 `
 
 export const MenuOptionsContainerStyled = styled.ul`

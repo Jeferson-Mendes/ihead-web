@@ -14,6 +14,7 @@ import { useContext } from 'react';
 import { AuthContext } from '../../contexts/auth';
 import { Link, useNavigate } from 'react-router-dom';
 import { getAvatarPath } from '../../utils/getAvatarPath';
+import Logo from '../../assets/logo.png'
 
 interface IProps {
     hasHeader: boolean;
@@ -38,7 +39,9 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle, hasArrowBack }) => {
         <>
         <NavbarContainerStyled>
             <NavBarContentStyled>
-                <TitleStyled onClick={handleNavigateToHome}>iHead</TitleStyled>
+                <TitleStyled onClick={handleNavigateToHome}>
+                    <img src={Logo} alt="logo" />
+                </TitleStyled>
                 <MenuOptionsContainerStyled>
                     <li> <Link to='/pesquisar'> Pesquise </Link> </li>
                     <li> <Link to='/perfil'>Perfil</Link> </li>

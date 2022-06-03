@@ -25,6 +25,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import api from "../../service/api";
 import { normalizePhoneNumber } from "../../utils/formatPhoneNumber";
 import { checkOrganizationalEmail } from "../../utils/checkOrganizationalEmail";
+import Logo from '../../assets/logo.png'
 
 type Inputs = {
     name: string;
@@ -120,7 +121,9 @@ const Register:React.FC = () => {
         <TermsOfUseModal modalIsOpen={modalIsOpen} closeModal={handleCloseModal}/>
         <SignupContainerStyled>
             <ImageLogoContainerStyled>
-                <AppName> iHead </AppName>
+                <AppName> 
+                    <img src={Logo} alt="logo" />
+                </AppName>
             </ImageLogoContainerStyled>
 
             <RegisterContainerStyled>

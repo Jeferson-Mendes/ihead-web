@@ -27,6 +27,7 @@ import likeIcon from '../../assets/like.svg';
 import searchIcon from '../../assets/search.svg';
 import lightIcon from '../../assets/light.svg';
 import certifiedIcon from '../../assets/certified.svg';
+import Logo from '../../assets/logo.png'
 
 type Inputs = {
     email: string;
@@ -64,7 +65,9 @@ const Signin: React.FC = () => {
     return (
         <SignInPageStyled>
             <PresentationContainerStyled>
-                <AppName>iHead</AppName>
+                <AppName>
+                    <img src={Logo} alt="logo" />
+                </AppName>
                 <ParagraphStyled>
                     <BlurContainerStyled>
                         
