@@ -2,6 +2,7 @@ import { useContext } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AuthContext } from '../contexts/auth';
 import Home from '../pages/Home';
+import LandingPage from '../pages/Landing';
 import Register from '../pages/Register';
 import Search from '../pages/Search';
 import Signin from '../pages/Signin';
@@ -11,8 +12,9 @@ const AppRoutes:React.FC = () => {
     const { signed } = useContext(AuthContext);
     return (
         <Routes>
-            <Route path="/" element={ !signed ? <Navigate replace to='login' /> : <Home/>} />
+            <Route path="/" element={ !signed ? <Navigate replace to='landing' /> : <Home/>} />
             <Route path="/login" element={ signed ? <Navigate replace to="/" /> : <Signin/> } />
+            <Route path="/landing" element={ signed ? <Navigate replace to="/" /> : <LandingPage/> } />
             <Route path="/register" element={ signed ? <Navigate replace to="/" /> : <Register/> } />
             <Route path="/pesquisar" element={ !signed ? <Navigate replace to="/" /> : <Search/> } />
             <Route path="/perfil" element={ <Navigate replace to="/" /> } />
