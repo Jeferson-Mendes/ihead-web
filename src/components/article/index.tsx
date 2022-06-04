@@ -41,7 +41,8 @@ const Article:React.FC<IProps> = ({
     const navigate = useNavigate();
 
     const handleNavigateToArticleDetail = () => {
-        navigate('/artigo', { state: { articleId } })
+        window.scrollTo({ top: 0 })
+        navigate('/artigo', { state: { articleId, category } })
     }
 
     const handleFavorite = async () => {

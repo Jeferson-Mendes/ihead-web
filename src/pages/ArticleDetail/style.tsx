@@ -177,6 +177,8 @@ export const ContentStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 100%;
+    min-height: 10rem;
 `
 
 export const ArticleRecommendationFieldStyled = styled.div`
@@ -184,10 +186,11 @@ export const ArticleRecommendationFieldStyled = styled.div`
     align-items: center;
     justify-content: center;
 
-    width: 70%;
+    width: 80%;
 `
 export const ArticleStyled = styled.div`
     margin: 1rem;
+    width: 50%;
 
     border: 1px solid ${({theme}) => theme.lightBlue};
     background-color: ${({theme}) => theme.colorWhite};

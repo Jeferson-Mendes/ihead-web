@@ -11,9 +11,11 @@ export const ArticleContainerStyled = styled.div`
     padding: 1rem;
 `
 export const ImageContainerStyled = styled.div`
+    width: 20rem;
     height: 8rem;
     cursor: pointer;
     img {
+        width: 100%;
         height: 100%;
 
         border-radius: 0.7rem;

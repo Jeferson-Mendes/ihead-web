@@ -31,27 +31,33 @@ import { ArrowLeft, ArrowRight } from "../Search/style";
 import { IArticle, IComment } from "../../ts/interfaces";
 import api from "../../service/api";
 import { format, parseISO } from "date-fns";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import { getAvatarPath } from "../../utils/getAvatarPath";
 import Share from "../../modal/Share";
+import ModalReport from "../../modal/ModalReport";
+import Article from "../../components/article";
 
 const ArticleDetail:React.FC = () => {
 
     const [article, setArticle] = React.useState<IArticle | null>(null);
+    const [articleRecommendations, setArticleRecommendations] = React.useState<{article: IArticle; isFavorite: boolean}[] | null>(null);
+    const [startPositionRecommentation, setStartPositionRecommendation] = React.useState<number>(0);
     const [commentsData, setCommentsData] = React.useState<IComment[]>([]);
     const [newComment, setNewComment] = React.useState<string>("");
     const [commentsQuantity, setCommentsQuantity] = React.useState<number>(0);
     const [isFavorite, setIsFavorite] = React.useState<boolean>(false);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+    const [modalReportIsOpen, setModalReportIsOpen] = React.useState<boolean>(false);
 
     const { user } = useContext(AuthContext);
     const location = useLocation();
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
 
-    const { articleId } = location.state as any;
+    const { articleId, category } = location.state as any;
 
     React.useEffect(() => {
+        
         const getArticle = async (articleId: string) => {
             try {
                 const response = await api.get(`articles/${articleId}`);
@@ -65,8 +71,8 @@ const ArticleDetail:React.FC = () => {
         }
 
         getArticle(String(articleId))
-        
-    }, [])
+
+    }, [articleId, category])
 
     React.useEffect(() => {
         const getComments = async (articleId: string) => {
@@ -83,7 +89,23 @@ const ArticleDetail:React.FC = () => {
 
         getComments(String(articleId))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
+    },[articleId, category])
+
+    React.useEffect(() => {
+        const getArticleRecommendations = async (category?: string) => {
+            try {
+                const response = await api.get(`articles?limit=${4}&page=${1}&categories=${category}`);
+                const articles = response.data.articles.filter((article: any) => article.article.id !== articleId);
+                console.log(articles)
+                setArticleRecommendations(articles);
+            } catch (error: any) {
+                alert(error.response.data.message);
+                return;
+            }
+        }
+
+        getArticleRecommendations(category);
+    },[articleId, category])
 
     const setContent = (content: string) => {
         const str = content.replace(/\\n/g, '\n');
@@ -113,15 +135,7 @@ const ArticleDetail:React.FC = () => {
     }
 
     async function handleMakeReport(articleId?: string): Promise<void> {
-        try {
-            await api.post('/reports', { publication: articleId });
-            alert('Publicação reportada.')
-            navigate('/')
-            return;
-        } catch (error: any) {
-            alert(error.response.data.message);
-            return;
-        }
+        setModalReportIsOpen(true);
     }
 
     async function handleFavoriteArticle() {
@@ -148,10 +162,27 @@ const ArticleDetail:React.FC = () => {
         setModalIsOpen(!modalIsOpen);
     }
 
+    const handleCloseModalReport = () => {
+        setModalReportIsOpen(!modalReportIsOpen);
+    }
+
+    const handleRightClickRecommendation = () => {
+        if (startPositionRecommentation === 0) {
+            setStartPositionRecommendation(2)
+        } else if (startPositionRecommentation === 2) {
+            setStartPositionRecommendation(0)
+        }
+    }
+
     return (
         <>
         <Navbar hasHeader={true} hasArrowBack={true}/>
         <Share closeModal={handleCloseModal} modalIsOpen={modalIsOpen} link={'https://github.com/jeferson-mendes'} />
+        <ModalReport
+        closeModal={handleCloseModalReport}
+        modalIsOpen={modalReportIsOpen}
+        articleId={articleId}
+        />
         <ArticleDetailSectionStyled>
             <ArticleDetailContainerStyled>
                 <GridItemArticleStyled>
@@ -239,16 +270,25 @@ const ArticleDetail:React.FC = () => {
             <RecommendationContainerStyled>
                 <h4>Recomendações</h4>
                 <ContentStyled>
-                    <ArrowLeft/>
+                    <ArrowLeft onClick={handleRightClickRecommendation} />
                     <ArticleRecommendationFieldStyled>
-                        <ArticleStyled>
-                            {/* <Article isFavorite={false} isRecommendation={true}/> */}
-                        </ArticleStyled>
-                        <ArticleStyled>
-                            {/* <Article isFavorite={false} isRecommendation={true}/> */}
-                        </ArticleStyled>
+                        { articleRecommendations ? articleRecommendations?.slice(startPositionRecommentation, startPositionRecommentation + 2).map(article => (
+                            <ArticleStyled key={article.article.id}>
+                                <Article
+                                isFavorite={false}
+                                isRecommendation={true}
+                                articleId={article.article.id}
+                                authorName={article.article.author.name}
+                                category={article.article.category}
+                                description={article.article.description}
+                                title={article.article.title}
+                                views={article.article.views}
+                                coverImagePath={article.article.coverImage?.secure_url}
+                                />
+                            </ArticleStyled>
+                        )) : '' }
                     </ArticleRecommendationFieldStyled>
-                    <ArrowRight/>
+                    <ArrowRight onClick={handleRightClickRecommendation}/>
                 </ContentStyled>
             </RecommendationContainerStyled>
         </ArticleDetailSectionStyled>
