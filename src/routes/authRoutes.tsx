@@ -11,10 +11,11 @@ import Register from '../pages/Register';
 import Search from '../pages/Search';
 import Signin from '../pages/Signin';
 import Update from '../pages/Update';
+import { UserRoleEnum } from '../ts/enum';
 
 const AuthRoutes:React.FC = () => {
 
-    const { signed } = useContext(AuthContext);
+    const { signed, user } = useContext(AuthContext);
     return (
         <Routes>
             <Route path="/" element={<Home/>} />
@@ -26,7 +27,7 @@ const AuthRoutes:React.FC = () => {
             <Route path="/artigo" element={ <ArticleDetail/> } />
             <Route path="/favoritos" element={ <FavoritesArticle/> } />
             <Route path="/artigo/criar" element={ <CreateArticle/> } />
-            <Route path="/denuncias/gerenciar" element={ <ManageReports/> } />
+            <Route path="/denuncias/gerenciar" element={ signed && user?.userRole === UserRoleEnum.MODERATOR ? <ManageReports/> : <Navigate replace to="/"/> } />
             
         </Routes>
     )

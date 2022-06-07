@@ -1,4 +1,4 @@
-import { CategoryArticleEnum, UserRoleEnum } from "../enum";
+import { CategoryArticleEnum, ReportTypeEnum, UserRoleEnum } from "../enum";
 
 export interface IUser {
     id: string;
@@ -46,4 +46,13 @@ export interface IComment {
   numberLikes: number;
   reportsReceived: number;
   createdAt: Date;
+}
+
+export interface IReport {
+  id: string;
+  denounced: IUser;
+  type: ReportTypeEnum;
+  reason: string;
+  publication?: IArticle;
+  comment?: IComment;
 }

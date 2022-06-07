@@ -31,7 +31,7 @@ export const TableFieldStyled = styled.div`
     margin: auto;
     margin-top: 4rem;
 
-    border: 1px solid ${({theme}) => theme.lightBlue};
+    /* border: 1px solid ${({theme}) => theme.lightBlue}; */
     background-color: ${({theme}) => theme.colorWhite};
     border-radius: 0.7rem;
 
@@ -68,10 +68,16 @@ export const TableStyled = styled.table`
         }
     }
    
-    tr:hover {background-color: #ddd;}
+    td:hover {background-color: #ddd;}
 
     td {
         text-align: -webkit-center;
+
+        svg {
+            color: green;
+            width: 1rem;
+            cursor: pointer;
+        }
 
         figure {
                 width: 1rem;
@@ -79,13 +85,16 @@ export const TableStyled = styled.table`
                 img {
                     width: 100%;
                     height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius: 50%;
                 }
             }
 
         &:first-child {
             display: flex;
             align-items: center;
-            justify-content: space-between;
+            justify-content: flex-start;
 
             figure {
                 width: 2rem;
@@ -93,9 +102,14 @@ export const TableStyled = styled.table`
                 img {
                     width: 100%;
                     height: 100%;
+                    object-fit: cover;
+                    object-position: center;
+                    border-radius: 50%;
                 }
             }
-
+            span {
+                margin-left: 1rem;
+            }
         }
     }
 

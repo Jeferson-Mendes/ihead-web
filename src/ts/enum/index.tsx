@@ -35,3 +35,8 @@ export enum UserRoleEnum {
   USER = 'User',
   MODERATOR = 'Moderator',
 }
+
+export enum ReportTypeEnum {
+  ARTICLE = 'Article',
+  COMMENT = 'Comment',
+}
