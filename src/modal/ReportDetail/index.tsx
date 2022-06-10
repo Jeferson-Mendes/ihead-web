@@ -36,6 +36,7 @@ const ReportDetail:React.FC<IProps> = ({ report, modalIsOpen, closeModal }) => {
         } catch (error: any) {
             closeModal()
             alert(error.response.data.message);
+            setLoading(false);
             return
         }
     }
@@ -50,6 +51,7 @@ const ReportDetail:React.FC<IProps> = ({ report, modalIsOpen, closeModal }) => {
         } catch (error: any) {
             closeModal()
             alert(error.response.data.message);
+            setLoading(false);
             return  
         }
     }

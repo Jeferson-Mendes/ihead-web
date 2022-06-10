@@ -70,6 +70,8 @@ export const ReportCommentStyled = styled.div`
     justify-content: center;
     flex-direction: column;
 
+    cursor: pointer;
+
     img {
         width: 2.4rem;
     }

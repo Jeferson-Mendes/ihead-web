@@ -38,6 +38,12 @@ import Share from "../../modal/Share";
 import ModalReport from "../../modal/ModalReport";
 import Article from "../../components/article";
 
+function useQuery() {
+    const { search } = useLocation();
+  
+    return React.useMemo(() => new URLSearchParams(search), [search]);
+  }
+
 const ArticleDetail:React.FC = () => {
 
     const [article, setArticle] = React.useState<IArticle | null>(null);
@@ -54,7 +60,12 @@ const ArticleDetail:React.FC = () => {
     const location = useLocation();
     // const navigate = useNavigate();
 
-    const { articleId, category } = location.state as any;
+    const locationState = location.state as any;
+    
+    let query = useQuery();
+
+    const articleId = locationState ? locationState.articleId : query.get("search");
+    const category = locationState ? locationState.category : query.get("category");
 
     React.useEffect(() => {
         
@@ -177,7 +188,7 @@ const ArticleDetail:React.FC = () => {
     return (
         <>
         <Navbar hasHeader={true} hasArrowBack={true}/>
-        <Share closeModal={handleCloseModal} modalIsOpen={modalIsOpen} link={'https://github.com/jeferson-mendes'} />
+        <Share closeModal={handleCloseModal} modalIsOpen={modalIsOpen} link={`https://ihead-web-development.herokuapp.com/artigo?search=${articleId}&category=${category}`} />
         <ModalReport
         closeModal={handleCloseModalReport}
         modalIsOpen={modalReportIsOpen}

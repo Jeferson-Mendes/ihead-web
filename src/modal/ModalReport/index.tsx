@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { FormEvent } from "react";
 import api from "../../service/api";
 import { X } from 'react-feather';
 
@@ -25,7 +25,9 @@ const ModalReport:React.FC<IProps> = ({ articleId, commentId, closeModal, modalI
     const [loading, setLoading] = React.useState<boolean>(false);
     const [reason, setReason] = React.useState<string>('');
 
-    async function handleDeleteComment() {
+    async function handleDeleteComment(event: FormEvent) {
+        event.preventDefault();
+
         let data;
 
         if (articleId) {
@@ -50,6 +52,7 @@ const ModalReport:React.FC<IProps> = ({ articleId, commentId, closeModal, modalI
             return;
         } catch (error: any) {
             alert(error.response.data.message);
+            setLoading(false);
             return;
         }
     }
@@ -63,12 +66,14 @@ const ModalReport:React.FC<IProps> = ({ articleId, commentId, closeModal, modalI
                             <X/>
                         </span>
                     </div>
-                    <Title>Por que você quer denunciar essa publicação?</Title>
+                    <Title>Por que você quer denunciar {articleId ? 'essa publicação?' : 'este comentário?'} </Title>
                 </TitleHeaderStyled>
                 <SubTitle>Descreva os detalhes de sua denúncia</SubTitle>
-                <input type="text" placeholder="Nos informe aqui o motivo da denúncia" onChange={(event) => setReason(event.target.value)}/>
-                <ButtonCancel onClick={closeModal}>Cancelar</ButtonCancel>
-                <ButtonConfirm onClick={handleDeleteComment}> { loading ? <LoadingStyled/> : 'Denunciar'} </ButtonConfirm>
+                <form onSubmit={handleDeleteComment}>
+                    <input type="text" required placeholder="Nos informe aqui o motivo da denúncia" onChange={(event) => setReason(event.target.value)}/>
+                    <ButtonCancel onClick={closeModal}>Cancelar</ButtonCancel>
+                    <ButtonConfirm type="submit"> { loading ? <LoadingStyled/> : 'Denunciar'} </ButtonConfirm>
+                </form>
             </ConfirmFieldStyled>
         </ConfirmDeleteContainerStyled>
     )

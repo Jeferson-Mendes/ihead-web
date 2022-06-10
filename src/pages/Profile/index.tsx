@@ -10,17 +10,11 @@ import {
     // GridItemControlPanelStyled,
     GridItemPublicationsStyled,
     ArticleFieldStyled,
-    ControlPanelStyled,
-    ControlPanelInfoFieldStyled,
-    ControlPanelTitleStyled,
     ModerationButtonStyled,
     ActionButtonStyled,
 }
 from './style';
 
-import publicationsIcon from '../../assets/publication.svg';
-import commentsIcon from '../../assets/comments.svg';
-import hoursIcon from '../../assets/hours.svg';
 import { AuthContext } from "../../contexts/auth";
 import { format } from "date-fns";
 import { Link } from "react-router-dom";
@@ -29,13 +23,14 @@ import { getAvatarPath } from "../../utils/getAvatarPath";
 import api from "../../service/api";
 import { IArticle, IUser } from "../../ts/interfaces";
 import { UserRoleEnum } from "../../ts/enum";
+import BasicPagination from "../../components/pagination";
 
 const Profile:React.FC = () => {
     const { user } = useContext(AuthContext);
     const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
     const [currentUser, setCurrentUser] = React.useState<IUser>();
     const [userArticles, setUserArticles] = React.useState<{article: IArticle, isFavorite: boolean}[]>([]);
-
+    const [totalPages, setTotalPages] = React.useState<number>(0);
 
     const handleCloseModal = () => {
         modalIsOpen ? setModalIsOpen(false) : setModalIsOpen(true);
@@ -61,6 +56,8 @@ const Profile:React.FC = () => {
             try {
                 const response = await api.get(`/articles/by-user/${userId}`);
                 setUserArticles(response.data.articles);
+                const results = response.data.resultsNumber;
+                setTotalPages(Math.ceil(results/10))
             } catch (error: any) {
                 alert(error.response.data.message);
                 return;
@@ -70,6 +67,18 @@ const Profile:React.FC = () => {
         getUserArticles(user ? user.id : '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
+
+    async function handleGoPage(page: number) {
+        try {
+            const response = await api.get(`/articles/by-user/${user ? user.id : ''}?limit=${10}&page=${page}`);
+            setUserArticles(response.data.articles);
+            // setResultsNumber(response.data.resultsNumber);
+            // setTotalPages(Math.ceil(response.data.resultsNumber/10));
+        } catch (error:any) {
+            alert(error.response.data.message);
+            return;
+        }
+    }
 
     return (
         <>
@@ -158,6 +167,8 @@ const Profile:React.FC = () => {
 
                     </ArticleFieldStyled>
                     
+                    <BasicPagination handleGoPage={handleGoPage} totalPages={totalPages}/>
+
                 </GridItemPublicationsStyled>
             </GridProfileContainerStyled>
         </ProfileContainerStyled>

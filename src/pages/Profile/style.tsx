@@ -218,5 +218,7 @@ export const ArticleFieldStyled = styled.div`
     align-items: center;
     justify-content: flex-start;
     flex-direction: column;
+
+    min-height: 100vh;
     
 `

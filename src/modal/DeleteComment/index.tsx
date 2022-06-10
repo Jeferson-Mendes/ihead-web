@@ -34,6 +34,7 @@ const DeleteComment:React.FC<IProps> = ({ commentId, closeModal, modalIsOpen }) 
             return;
         } catch (error: any) {
             alert(error.response.data.message);
+            setLoading(false);
             return;
         }
     }

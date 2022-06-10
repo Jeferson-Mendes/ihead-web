@@ -14,6 +14,7 @@ import ReportIcon from '../../assets/report.svg';
 import { format, getHours, getMinutes, parseISO } from "date-fns";
 import { Trash2 } from 'react-feather';
 import DeleteComment from '../../modal/DeleteComment';
+import ModalReport from "../../modal/ModalReport";
 
 interface IProps {
     authorPath?: string;
@@ -26,7 +27,8 @@ interface IProps {
 
 const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour, isOwner, commentId }) => {
 
-    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false); 
+    const [modalIsOpen, setModalIsOpen] = React.useState<boolean>(false);
+    const [reportCommentModalIsOpen, setReportCommentModalIsOpen] = React.useState<boolean>(false);
 
     const formatHour = (hourDate: string) => {
         const hour = getHours(parseISO(hourDate));
@@ -45,8 +47,13 @@ const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour, isOwn
         setModalIsOpen(!modalIsOpen);
     }
 
+    const handleCloseReportCommentModal = () => {
+        setReportCommentModalIsOpen(!reportCommentModalIsOpen);
+    }
+
     return (
         <>
+        <ModalReport closeModal={handleCloseReportCommentModal} modalIsOpen={reportCommentModalIsOpen} commentId={commentId}/>
         <DeleteComment modalIsOpen={modalIsOpen} closeModal={handleCloseModal} commentId={commentId}/>
         <CommentContainerStyled>
             <HeaderStyled>
@@ -62,7 +69,7 @@ const Comment:React.FC<IProps> = ({ authorName, authorPath, comment, hour, isOwn
                 <p>{ comment }</p>
                 <CommentFooterStyled>
                     <CommentHourStyled>{formatHour(hour)}</CommentHourStyled>
-                    <ReportCommentStyled>
+                    <ReportCommentStyled onClick={handleCloseReportCommentModal}>
                         <img src={ReportIcon} alt="ReportIcon" />
                     </ReportCommentStyled>
                 </CommentFooterStyled>

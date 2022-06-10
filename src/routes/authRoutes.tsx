@@ -5,6 +5,7 @@ import ArticleDetail from '../pages/ArticleDetail';
 import CreateArticle from '../pages/CreateArticle';
 import FavoritesArticle from '../pages/FavoritesArticle';
 import Home from '../pages/Home';
+import LandingPage from '../pages/Landing';
 import ManageReports from '../pages/ManageReports';
 import Profile from '../pages/Profile';
 import Register from '../pages/Register';
@@ -28,7 +29,8 @@ const AuthRoutes:React.FC = () => {
             <Route path="/favoritos" element={ <FavoritesArticle/> } />
             <Route path="/artigo/criar" element={ <CreateArticle/> } />
             <Route path="/denuncias/gerenciar" element={ signed && user?.userRole === UserRoleEnum.MODERATOR ? <ManageReports/> : <Navigate replace to="/"/> } />
-            
+            <Route path="/landing" element={ signed ? <Navigate replace to="/" /> : <LandingPage/> } />
+
         </Routes>
     )
 }

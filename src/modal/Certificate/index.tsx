@@ -1,4 +1,5 @@
 import React from "react";
+import { convertMinuteToHour } from "../../utils/convertMinuteToHour";
 
 import {
     CertificateModalStyled,
@@ -59,7 +60,7 @@ Enquanto você não publicar e comentar na plataforma todos os itens abaixo não
                 </TextContainerStyled>
 
                 <QuantityHoursStyled>
-                    <h4>Você possui <b> { quantityHours } horas  </b> </h4>
+                    <h4>Você possui <b> { convertMinuteToHour(quantityHours || 0) } horas  </b> </h4>
                 </QuantityHoursStyled>
 
                 <HoursContainerStyled>

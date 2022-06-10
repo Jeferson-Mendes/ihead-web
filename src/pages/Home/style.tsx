@@ -114,12 +114,18 @@ export const FieldStyled = styled.div`
     width: 90%;
     height: 100%;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
     border-radius: 0.7rem;
     border: 1px solid ${({theme}) => theme.colorGray};
     p {
         padding: 1rem 0 0.4rem 1rem;
         color: ${({theme}) => theme.colorAllBlack};
         font-weight: bold;
+        width: 100%;
     }
     `
 export const GridContentStyled = styled.div`
