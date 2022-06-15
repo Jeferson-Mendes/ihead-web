@@ -198,7 +198,12 @@ export const ArticleStyled = styled.div`
 `
 
 export const ArticleFooterInfo = styled.div`
-    padding: 2rem 0; 
+    /* padding: 2rem 0;  */
+    ul {
+    }
+`
+
+export const ShareFieldStyled = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;

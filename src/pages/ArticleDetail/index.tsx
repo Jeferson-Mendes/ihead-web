@@ -19,7 +19,8 @@ import {
     ArticleStyled,
     ContentStyled,
     FormNewCommentStyled,
-    ArticleFooterInfo
+    ArticleFooterInfo,
+    ShareFieldStyled,
 } from './style';
 
 import FavoriteIcon from '../../assets/heart-regular.svg';
@@ -214,13 +215,20 @@ const ArticleDetail:React.FC = () => {
                     </ContentArticleStyled>
                 </ArticleDetailContentStyled>
                 <ArticleFooterInfo>
-                    <div onClick={() => handleMakeReport(article?.id)}>
-                        <img src={reportImg} alt="reportImg" />
-                        <span>{`(${article?.views} Visualizações)`}</span>
-                    </div>
-                    <div>
-                        <ShareIcon onClick={handleCloseModal} style={{cursor: 'pointer'}}/>
-                    </div>
+                    <ShareFieldStyled>
+                        <div onClick={() => handleMakeReport(article?.id)}>
+                            <img src={reportImg} alt="reportImg" />
+                            <span>{`(${article?.views} Visualizações)`}</span>
+                        </div>
+                        <div>
+                            <ShareIcon onClick={handleCloseModal} style={{cursor: 'pointer'}}/>
+                        </div>
+                    </ShareFieldStyled>
+                        <ul>
+                            {article?.references?.map((link, index) => (
+                                <li key={index} >{link}</li>
+                            ))}
+                        </ul>
                 </ArticleFooterInfo>
                 </GridItemArticleStyled>
                 <GridItemAuthorStyled>
@@ -258,6 +266,7 @@ const ArticleDetail:React.FC = () => {
                             id="newComment"
                             placeholder="Adicionar um comentário público"
                             value={newComment}
+                            required
                             onChange={(event) => setNewComment(event.target.value)}
                             />
                         </FormNewCommentStyled>

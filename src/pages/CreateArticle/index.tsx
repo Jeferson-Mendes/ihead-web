@@ -162,7 +162,7 @@ const CreateArticle:React.FC = () => {
                     <TextEditorContainer>
                         <RichEditor setTextContent={setTextContent}/>
                         <ArticleDescriptionStyled>
-                            <span>Adicione uma descrição para melhorar a vizualização do seu artigo.</span>
+                            <span>Adicione uma descrição para melhorar a visualização do seu artigo.</span>
                             <textarea
                             name="description"
                             id="description"
