@@ -50,7 +50,7 @@ export const TitleArticleStyled = styled.div`
 `
 
 export const ContentArticleStyled = styled.div`
-    margin-top: 2rem;
+    margin: 2rem 0 8rem 0;
 
     p {
         text-align: justify;
@@ -200,6 +200,7 @@ export const ArticleStyled = styled.div`
 export const ArticleFooterInfo = styled.div`
     /* padding: 2rem 0;  */
     ul {
+        margin-top: 1rem;
     }
 `
 

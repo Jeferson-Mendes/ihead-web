@@ -48,7 +48,7 @@ const CreateArticle:React.FC = () => {
 
     const handleAddRefLink = () => {
 
-        const regExp = /(http:\/\/)?www\.\w+\.com.+/g;
+        const regExp = /^(https?):\/\/[^\s$.?#].[^\s]*$/g;
         const url = newRefLink;
         const resultado = regExp.test(url); //retorna true ou false
 

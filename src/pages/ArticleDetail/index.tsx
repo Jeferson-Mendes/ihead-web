@@ -213,7 +213,6 @@ const ArticleDetail:React.FC = () => {
                         </div>
                     </div>
                     </ContentArticleStyled>
-                </ArticleDetailContentStyled>
                 <ArticleFooterInfo>
                     <ShareFieldStyled>
                         <div onClick={() => handleMakeReport(article?.id)}>
@@ -224,12 +223,16 @@ const ArticleDetail:React.FC = () => {
                             <ShareIcon onClick={handleCloseModal} style={{cursor: 'pointer'}}/>
                         </div>
                     </ShareFieldStyled>
+                    <hr style={{ marginTop: '1rem' }}/>
                         <ul>
                             {article?.references?.map((link, index) => (
-                                <li key={index} >{link}</li>
+                                <>
+                                <li key={index} > <a href={link}>{link}</a> </li>
+                               </>
                             ))}
                         </ul>
                 </ArticleFooterInfo>
+                </ArticleDetailContentStyled>
                 </GridItemArticleStyled>
                 <GridItemAuthorStyled>
                 <div>
