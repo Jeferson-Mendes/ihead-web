@@ -48,6 +48,15 @@ const CreateArticle:React.FC = () => {
 
     const handleAddRefLink = () => {
 
+        const regExp = /(http:\/\/)?www\.\w+\.com.+/g;
+        const url = newRefLink;
+        const resultado = regExp.test(url); //retorna true ou false
+
+        if (!resultado) {
+            alert('Link inválido!')
+            return;
+        }
+
         if (!!newRefLink) {
             setRefLinks([...refLinks, newRefLink]);
         }
