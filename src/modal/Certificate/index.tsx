@@ -27,25 +27,25 @@ interface IHoursOptions {
 }
 
 const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }) => {
-    const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+    const [selectedIndex, setSelectedIndex] = React.useState<number>(-1);
 
     const [confirmCertificateModalIsOpen, setConfirmCertificateModalIsOpen] = React.useState<boolean>(false);
-    const [hours, setHours] = React.useState<number>(0);
+    const [hours, setHours] = React.useState<number>(-1);
 
     const { user } = useContext(AuthContext);
 
     const hoursOption: IHoursOptions[] = [
         {
             hours: '20 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 20 * 60 : false,
+            isAvailable: quantityHours ? quantityHours >= 20 * 60 : false,
         },
         {
             hours: '40 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 40 * 60 : false,
+            isAvailable: quantityHours ? quantityHours >= 40 * 60 : false,
         },
         {
             hours: '60 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 60 * 60 : false,
+            isAvailable: quantityHours ? quantityHours >= 60 * 60 : false,
         }
     ]
 
@@ -54,16 +54,28 @@ const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }
 
         switch (index) {
             case 1:
-                setHours(20);
+                if(hoursOption[0].isAvailable) {
+                    setHours(20);
+                    break
+                }
+                setHours(-1);
                 break;
             case 2:
-                setHours(40);
+                if (hoursOption[1].isAvailable) {
+                    setHours(40);
+                    break
+                }
+                setHours(-1);
                 break;
             case 3:
-                setHours(60);
+                if (hoursOption[2].isAvailable) {
+                    setHours(60);
+                    break;
+                }
+                setHours(-1);
                 break;
             default:
-                setHours(0);
+                setHours(-1);
                 break;
         }
     }
@@ -73,8 +85,13 @@ const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }
     }
 
     const handleGetCertificate = () => {
-        if (user?.contributionTotalHours) {
-            if (user?.contributionTotalHours < 20 * 60) {
+        if (hours <= 0) {
+            alert('Selecione alguma quantidade de horas.')
+            return
+        }
+
+        if (quantityHours) {
+            if (quantityHours < 20 * 60) {
                 alert('Você ainda não possui interação suficiente com a plataforma para emitir certificado.')
                 closeModal();
                 return;
