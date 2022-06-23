@@ -25,9 +25,10 @@ const modules = {
 interface IProps {
   // textContent: string;
   setTextContent: React.Dispatch<React.SetStateAction<string>>;
+  defaultText?: string;
 }
 
-const RichEditor:React.FC<IProps> = ({ setTextContent }) => {
+const RichEditor:React.FC<IProps> = ({ setTextContent, defaultText }) => {
   // const [value, setValue] = React.useState<string>("");
 
   function handleChangeTextContent(content: string) {
@@ -48,6 +49,7 @@ const RichEditor:React.FC<IProps> = ({ setTextContent }) => {
           <ReactQuill
           modules={modules}
           theme="snow"
+          defaultValue={defaultText}
           onChange={(content: string) => handleChangeTextContent(content)}
           placeholder="Comece a digitar por aqui..." />
           {/* <button onClick={handleClick}>Ver html</button> */}

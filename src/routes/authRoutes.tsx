@@ -12,6 +12,7 @@ import Register from '../pages/Register';
 import Search from '../pages/Search';
 import Signin from '../pages/Signin';
 import Update from '../pages/Update';
+import UpdateArticle from '../pages/UpdateArticle';
 import { UserRoleEnum } from '../ts/enum';
 
 const AuthRoutes:React.FC = () => {
@@ -28,6 +29,7 @@ const AuthRoutes:React.FC = () => {
             <Route path="/artigo" element={ <ArticleDetail/> } />
             <Route path="/favoritos" element={ <FavoritesArticle/> } />
             <Route path="/artigo/criar" element={ <CreateArticle/> } />
+            <Route path="/artigo/editar" element={ <UpdateArticle/> } />
             <Route path="/denuncias/gerenciar" element={ signed && user?.userRole === UserRoleEnum.MODERATOR ? <ManageReports/> : <Navigate replace to="/"/> } />
             <Route path="/landing" element={ signed ? <Navigate replace to="/" /> : <LandingPage/> } />
 

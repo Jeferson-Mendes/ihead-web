@@ -1,5 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
+// import CertificateDocument from "../../components/certificateDocument";
+import { AuthContext } from "../../contexts/auth";
 import { convertMinuteToHour } from "../../utils/convertMinuteToHour";
+import ConfirmCertificate from "../ConfirmCertificate";
 
 import {
     CertificateModalStyled,
@@ -24,29 +27,65 @@ interface IHoursOptions {
 }
 
 const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }) => {
+    const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
+
+    const [confirmCertificateModalIsOpen, setConfirmCertificateModalIsOpen] = React.useState<boolean>(false);
+    const [hours, setHours] = React.useState<number>(0);
+
+    const { user } = useContext(AuthContext);
+
     const hoursOption: IHoursOptions[] = [
         {
             hours: '20 Horas',
-            isAvailable: true,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 20 : false,
         },
         {
             hours: '40 Horas',
-            isAvailable: true,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 40 : false,
         },
         {
             hours: '60 Horas',
-            isAvailable: false,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 60 : false,
         }
     ]
 
-    const [selectedIndex, setSelectedIndex] = React.useState<number>(0);
-
     function handleSelectArticle(index: number) {
-        setSelectedIndex(index);
+        setSelectedIndex(index-1);
+
+        switch (index) {
+            case 1:
+                setHours(20);
+                break;
+            case 2:
+                setHours(40);
+                break;
+            case 3:
+                setHours(60);
+                break;
+            default:
+                setHours(0);
+                break;
+        }
+    }
+
+    const handleCloseModal = () => {
+        confirmCertificateModalIsOpen ? setConfirmCertificateModalIsOpen(false) : setConfirmCertificateModalIsOpen(true);
+    }
+
+    const handleGetCertificate = () => {
+        if (user?.contributionTotalHours) {
+            if (user?.contributionTotalHours < 20) {
+                alert('Você ainda não possui interação suficiente com a plataforma para emitir certificado.')
+                closeModal();
+                return;
+            }
+        }
+        confirmCertificateModalIsOpen ? setConfirmCertificateModalIsOpen(false) : setConfirmCertificateModalIsOpen(true);
     }
 
     return (
         <CertificateModalStyled modalIsOpen={modalIsOpen}>
+            <ConfirmCertificate userName={user?.name} hours={hours} modalIsOpen={confirmCertificateModalIsOpen} closeModal={handleCloseModal} />
             <ModalFieldStyled>
                 <span onClick={closeModal} >X</span>
                 <TextContainerStyled>
@@ -67,7 +106,7 @@ Enquanto você não publicar e comentar na plataforma todos os itens abaixo não
                     {hoursOption.map((hour, index) => (
                         <HourButtonStyled
                         key={index}
-                        onClick={() => handleSelectArticle(index)}
+                        onClick={() => handleSelectArticle(index+1)}
                         index={selectedIndex}
                         isAvailable={hour.isAvailable}
                         > <h3>
@@ -77,7 +116,7 @@ Enquanto você não publicar e comentar na plataforma todos os itens abaixo não
                     <div>
                         <h4>Certificado</h4>
                         <span>Requerido</span>
-                        <DownloadButtonStyled>Baixar</DownloadButtonStyled>
+                        <DownloadButtonStyled onClick={handleGetCertificate}>Baixar</DownloadButtonStyled>
                     </div>
                 </HoursContainerStyled>
 

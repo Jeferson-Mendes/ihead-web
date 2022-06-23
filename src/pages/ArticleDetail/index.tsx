@@ -1,7 +1,7 @@
 import React, { FormEvent, useContext } from "react";
 import Navbar from '../../components/Navbar';
 import 'react-quill/dist/quill.snow.css';
-import { Share as ShareIcon } from 'react-feather';
+import { Share as ShareIcon, Edit, Trash } from 'react-feather';
 
 import {
     ArticleDetailSectionStyled,
@@ -32,7 +32,7 @@ import { ArrowLeft, ArrowRight } from "../Search/style";
 import { IArticle, IComment } from "../../ts/interfaces";
 import api from "../../service/api";
 import { format, parseISO } from "date-fns";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../contexts/auth";
 import { getAvatarPath } from "../../utils/getAvatarPath";
 import Share from "../../modal/Share";
@@ -67,6 +67,8 @@ const ArticleDetail:React.FC = () => {
 
     const articleId = locationState ? locationState.articleId : query.get("search");
     const category = locationState ? locationState.category : query.get("category");
+
+    const navigate = useNavigate();
 
     React.useEffect(() => {
         
@@ -186,6 +188,27 @@ const ArticleDetail:React.FC = () => {
         }
     }
 
+    const handleNatigateToEdit = () => {
+        navigate('/artigo/editar', { state: { article } })
+    }
+
+    const handleDeleteArticle = async () => {
+
+        // eslint-disable-next-line no-restricted-globals
+        const confirmed = confirm('Esta ação irá remover o seu artigo. Deseja continuar?')
+        if (confirmed) {
+            try {
+                await api.delete(`/articles/${article?.id || article?._id}`)
+                alert('Artigo removido com sucesso!')
+                navigate('/pesquisar')
+            } catch (error:any) {
+                alert(error.response.data.message);   
+            }
+        } else {
+            return;
+        }
+    }
+
     return (
         <>
         <Navbar hasHeader={true} hasArrowBack={true}/>
@@ -199,9 +222,18 @@ const ArticleDetail:React.FC = () => {
             <ArticleDetailContainerStyled>
                 <GridItemArticleStyled>
                 <ArticleDetailContentStyled>
+                    {article?.author.id === user?.id ? (
+                        <span>
+                            <>
+                                <Edit style={{ marginLeft: '0.4rem' }} onClick={handleNatigateToEdit}/>
+                                <Trash onClick={handleDeleteArticle} style={{ marginLeft: '0.4rem' }}/>
+                            </>
+                        </span>
+                    ) : (
                     <span onClick={handleFavoriteArticle}>
                         <img src={isFavorite ? HeartIcon : FavoriteIcon} alt="favoriteIcon" />
                     </span>
+                    )}
                     <TitleArticleStyled>
                         <h2>{article?.title}</h2>
                         <span>{article?.category}</span>
@@ -226,9 +258,7 @@ const ArticleDetail:React.FC = () => {
                     <hr style={{ marginTop: '1rem' }}/>
                         <ul>
                             {article?.references?.map((link, index) => (
-                                <>
                                 <li key={index} > <a href={link}>{link}</a> </li>
-                               </>
                             ))}
                         </ul>
                 </ArticleFooterInfo>

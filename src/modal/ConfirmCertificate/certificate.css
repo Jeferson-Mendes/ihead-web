@@ -1,0 +1,64 @@
+#certificate {
+    background-image: url('../../assets/certificate-img.jpg');
+    background-size: cover;
+    background-position: top;
+    width: 70%;
+    height: 100%;
+    padding: 4rem 0;
+    margin: 0;
+    
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: column;
+    color: black;
+
+    font-size: 60%;
+  }
+  
+  .paragraph {
+    width: 80%;
+    text-align: center;
+    
+  }
+  
+  footer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column
+  }
+  
+  .line {
+    margin-top: 4rem;
+    width: 20%;
+    border-bottom: 2px solid black;
+  }
+
+  .btn-cancel,
+  .btn-download {
+    border: none;
+    border-radius: 1rem;
+    /* display: inline-block; */
+    width: 10rem;
+    margin: 0.4rem 0;
+    padding: 0.4rem;
+    color: white;
+    cursor: pointer;
+
+    transition: all 400ms;
+    transform: scale(0.9);
+  }
+
+  button:hover {
+    transform: scale(1);
+  }
+
+  .btn-cancel {
+    background-color: #F4D35E;
+  }
+  
+  .btn-download {
+    background-color: #196C3D;
+  }
