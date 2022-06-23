@@ -25,9 +25,9 @@ export enum CategoryArticleEnum {
     PHP = 'Php',
     ASP = 'Asp',
     NODE_JS = 'Nodejs',
-    RASPBERRY_Pi = 'Raspberry Pi',
+    RASPBERRY_Pi = 'Raspberry-Pi',
     GIT = 'Git',
-    AWS_CLOUD = 'Aws Cloud',
+    AWS_CLOUD = 'Aws-Cloud',
     OTHER = 'Outra'
   }
   

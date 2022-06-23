@@ -68,7 +68,7 @@ export const TableStyled = styled.table`
         }
     }
    
-    td:hover {background-color: #ddd;}
+    tr:hover {background-color: #ddd;}
 
     td {
         text-align: -webkit-center;

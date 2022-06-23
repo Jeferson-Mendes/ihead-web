@@ -113,7 +113,7 @@ const Search:React.FC = () => {
         setCurrentGroupCategoryNum(currentGroupCategoryNum - 3);
 
         if (currentGroupCategoryNum <= 0) {
-            setCurrentGroupCategory(['Git', 'Aws Cloud']);
+            setCurrentGroupCategory(['Git', 'Aws-Cloud']);
             setCurrentGroupCategoryNum(27);
 
             return;

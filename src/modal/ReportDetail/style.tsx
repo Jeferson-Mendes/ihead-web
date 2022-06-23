@@ -113,6 +113,10 @@ export const ReportInfo = styled.div`
         display: flex;
         align-items: center;
 
+        b {
+            margin-right: 0.4rem;
+        }
+
         svg {
             width: 1rem;
         }

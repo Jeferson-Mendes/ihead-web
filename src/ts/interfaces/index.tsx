@@ -17,6 +17,7 @@ export interface IUser {
     resource?: IResource;
     userRole: UserRoleEnum;
     createdAt: Date;
+    isGoogleAccount: boolean;
 }
 
 export interface IResource {
@@ -24,6 +25,7 @@ export interface IResource {
 }
 
 export interface IArticle {
+  _id: string;
   id: string;
   title: string;
   author: IUser;

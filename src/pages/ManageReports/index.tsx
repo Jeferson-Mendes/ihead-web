@@ -16,6 +16,7 @@ import api from "../../service/api";
 import { getAvatarPath } from "../../utils/getAvatarPath";
 import { ReportTypeEnum } from "../../ts/enum";
 import ReportDetail from "../../modal/ReportDetail";
+import BasicPagination from "../../components/pagination";
 
 const ManageReports:React.FC = () => {
 
@@ -45,11 +46,26 @@ const ManageReports:React.FC = () => {
         setModalIsOpen(!modalIsOpen);
     }
 
+    function handleCloseModal() {
+        setModalIsOpen(!modalIsOpen);
+        window.location.reload();
+    }
+
+    async function handleGoPage(page: number) {
+        try {
+            const response = await api.get(`reports/?limit=${10}&page=${page}`);
+            setReports(response.data.reports);
+        } catch (error:any) {
+            alert(error.response.data.message);
+            return;
+        }
+    }
+
     return (
         <>
             <Navbar hasHeader={true} headerTitle='Gerênciar Denúncias'/>
             {currentReport ?
-            <ReportDetail modalIsOpen={modalIsOpen} closeModal={() => setModalIsOpen(!modalIsOpen)} report={currentReport}/>
+            <ReportDetail type={currentReport.type} modalIsOpen={modalIsOpen} closeModal={handleCloseModal} report={currentReport}/>
              : ''
              }
             <ManageReportsSectionStyled>
@@ -85,6 +101,7 @@ const ManageReports:React.FC = () => {
                         </tbody>
                         </TableStyled>
                     </TableFieldStyled>
+                    <BasicPagination handleGoPage={handleGoPage} totalPages={Math.ceil(reportsNum/10)}/>
                 </ManageReportsContainerStyled>
             </ManageReportsSectionStyled>
         </>

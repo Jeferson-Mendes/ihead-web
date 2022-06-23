@@ -46,8 +46,8 @@ const ModalReport:React.FC<IProps> = ({ articleId, commentId, closeModal, modalI
             setLoading(true)
             await api.post('/reports', data);
             alert('Publicação reportada.')
-            setLoading(false)
             setReason('')
+            setLoading(false)
             closeModal()
             return;
         } catch (error: any) {
@@ -70,7 +70,7 @@ const ModalReport:React.FC<IProps> = ({ articleId, commentId, closeModal, modalI
                 </TitleHeaderStyled>
                 <SubTitle>Descreva os detalhes de sua denúncia</SubTitle>
                 <form onSubmit={handleDeleteComment}>
-                    <input type="text" required placeholder="Nos informe aqui o motivo da denúncia" onChange={(event) => setReason(event.target.value)}/>
+                    <input type="text" value={reason} required placeholder="Nos informe aqui o motivo da denúncia" onChange={(event) => setReason(event.target.value)}/>
                     <ButtonCancel onClick={closeModal}>Cancelar</ButtonCancel>
                     <ButtonConfirm type="submit"> { loading ? <LoadingStyled/> : 'Denunciar'} </ButtonConfirm>
                 </form>

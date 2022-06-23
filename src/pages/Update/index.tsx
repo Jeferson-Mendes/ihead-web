@@ -90,15 +90,22 @@ const Update:React.FC = () => {
 
         const { name, email, phoneNumber, semester, genderIdentity, socialName } = formData;
 
-        if (!checkOrganizationalEmail(email)) {
-            alert('Insira um email de dentro da Instituição.')
-            return
+
+        if(!user?.isGoogleAccount) {
+            if (!checkOrganizationalEmail(email)) {
+                alert('Insira um email de dentro da Instituição.')
+                return
+            }
         }
 
         const data = new FormData();
 
         data.append('name', name);
-        data.append('email', email);
+
+        if(!user?.isGoogleAccount) {
+            data.append('email', email);
+        }
+
         data.append('phoneNumber', phoneNumber);
         data.append('semester', String(semester));
 
@@ -122,8 +129,9 @@ const Update:React.FC = () => {
             updateUserContext(response.data.user);
             setIsLoading(false)
             navigate('/perfil');
-        } catch (error) {
-            alert('Falha ao editar usuário');
+        } catch (error: any) {
+            alert(error.response.data.message);
+            setIsLoading(false);
         }
 
     } 
@@ -133,20 +141,22 @@ const Update:React.FC = () => {
             <Navbar hasHeader={true} headerTitle='Edição de Dados'/>
             <UpdateUserSectionStyled>
                 <UpdateUserContentStyled>
-                    <AvatarContainerStyled>
-                        <figure>
-                            <img src={ previewProfileImage ? previewProfileImage : user?.picture ? `${user?.picture}` : (user?.resource ? user.resource.secure_url : AvatarIcon) } alt="avatarImg" />
-                        </figure>
-                        <form>
-                            <div>
-                                {
-                                    
-                                }
-                                <label htmlFor="file">Editar Foto</label>
-                                <input type="file" name="file" id="file" onChange={handleFileSelected}/>
-                            </div>
-                        </form>
-                    </AvatarContainerStyled>
+                    { !user?.isGoogleAccount ? (
+                        <AvatarContainerStyled>
+                            <figure>
+                                <img src={ previewProfileImage ? previewProfileImage : user?.picture ? `${user?.picture}` : (user?.resource ? user.resource.secure_url : AvatarIcon) } alt="avatarImg" />
+                            </figure>
+                            <form>
+                                <div>
+                                    {
+                                        
+                                    }
+                                    <label htmlFor="file">Editar Foto</label>
+                                    <input type="file" name="file" id="file" onChange={handleFileSelected}/>
+                                </div>
+                            </form>
+                        </AvatarContainerStyled>
+                    ) : '' }
 
                     <RegisterFieldStyled>
                     <TitleEditStyled>Dados Gerais</TitleEditStyled>
@@ -167,7 +177,7 @@ const Update:React.FC = () => {
                                 type="email"
                                 name="email"
                                 onChange={handleInputChange}
-                                required
+                                disabled={user?.isGoogleAccount}
                                 value={formData.email}
                                 />
 
@@ -191,7 +201,7 @@ const Update:React.FC = () => {
                         <RightFieldInputStyled>
                             
                                 <LabelStyled htmlFor="socialname"> Nome Social </LabelStyled>
-                                <InputStyled type="text"  name="socialName" value={formData.socialName} onChange={handleInputChange}/>
+                                <InputStyled type="text"  name="socialName" required={false} value={formData.socialName} onChange={handleInputChange}/>
 
                                 <LabelStyled htmlFor="genderIdentity"> Identidade de Gênero </LabelStyled>
                                 <SelectStyled onChange={handleInputChange} value={formData.genderIdentity} name="genderIdentity" >

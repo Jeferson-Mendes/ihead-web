@@ -4,6 +4,7 @@ import { X, Link } from 'react-feather';
 import { useNavigate } from "react-router-dom";
 import { LoadingStyled } from "../../pages/Signin/style";
 import api from "../../service/api";
+import { ReportTypeEnum } from "../../ts/enum";
 import { IReport } from "../../ts/interfaces";
 import { 
     ButtonCancel,
@@ -19,9 +20,10 @@ import {
     report: IReport;
     modalIsOpen: boolean;
     closeModal(): void;
+    type: ReportTypeEnum
 }
 
-const ReportDetail:React.FC<IProps> = ({ report, modalIsOpen, closeModal }) => {
+const ReportDetail:React.FC<IProps> = ({ report, modalIsOpen, closeModal, type }) => {
     const [loading, setLoading] = React.useState<boolean>(false);
 
     const navigate = useNavigate();
@@ -78,11 +80,17 @@ const ReportDetail:React.FC<IProps> = ({ report, modalIsOpen, closeModal }) => {
                         <b>Denunciado: </b> {report.denounced.name}
                         </li>
                         <li>
-                        <b>Denuncia em: </b> {report.type}
+                        <b>Denuncia em: </b> {report.type === 'Comment' ? 'Comentário' : 'Artigo'}
                         </li>
-                        <li onClick={handleNavigateToArticleDetail}>
-                        <b>Link da página: </b> <Link/>
-                        </li>
+                        { type === ReportTypeEnum.ARTICLE ? (
+                            <li onClick={handleNavigateToArticleDetail}>
+                            <b>Link da página: </b> <Link/>
+                            </li>
+                        ) : (
+                            <li>
+                                <b>Comentário: </b> "{ report.comment?.commentContent }"
+                            </li>
+                        )}
                         <li>
                         <b>Descrição: </b>
                         </li>
