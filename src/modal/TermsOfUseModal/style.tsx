@@ -61,3 +61,12 @@ export const ModalContentStyled = styled.div`
         color: ${({theme}) => theme.fontColorDarkBlue};
     }
 `
+
+export const Paragraph = styled.p`
+    height: 30rem;
+    overflow: auto;
+
+    p {
+        margin-top: 1rem;
+    }
+`
