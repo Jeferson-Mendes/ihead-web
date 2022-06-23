@@ -38,6 +38,7 @@ import { getAvatarPath } from "../../utils/getAvatarPath";
 import Share from "../../modal/Share";
 import ModalReport from "../../modal/ModalReport";
 import Article from "../../components/article";
+import { convertMinuteToHour } from "../../utils/convertMinuteToHour";
 
 function useQuery() {
     const { search } = useLocation();
@@ -276,7 +277,7 @@ const ArticleDetail:React.FC = () => {
                         <li> <b>Email:</b>{article?.author.email }</li>
                         <li> <b>Desde:</b>{ article ? format(parseISO((article.author.createdAt).toString()), 'dd/MM/YYY') : '' }</li>
                         <li> <b>Registros:</b>{ article?.author.publicationsNumber }</li>
-                        <li> <b>Horas:</b>{ article?.author.contributionTotalHours }</li>
+                        <li> <b>Horas:</b>{ convertMinuteToHour(article?.author.contributionTotalHours || 0) }</li>
                     </ul>
                 </div>
 

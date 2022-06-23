@@ -37,15 +37,15 @@ const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }
     const hoursOption: IHoursOptions[] = [
         {
             hours: '20 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 20 : false,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 20 * 60 : false,
         },
         {
             hours: '40 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 40 : false,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 40 * 60 : false,
         },
         {
             hours: '60 Horas',
-            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 60 : false,
+            isAvailable: user?.contributionTotalHours ? user.contributionTotalHours >= 60 * 60 : false,
         }
     ]
 
@@ -74,7 +74,7 @@ const Certificate:React.FC<IProps> = ({ modalIsOpen, closeModal, quantityHours }
 
     const handleGetCertificate = () => {
         if (user?.contributionTotalHours) {
-            if (user?.contributionTotalHours < 20) {
+            if (user?.contributionTotalHours < 20 * 60) {
                 alert('Você ainda não possui interação suficiente com a plataforma para emitir certificado.')
                 closeModal();
                 return;
