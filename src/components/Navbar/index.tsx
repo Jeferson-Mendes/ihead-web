@@ -46,7 +46,7 @@ const Navbar:React.FC<IProps> = ({ hasHeader, headerTitle, hasArrowBack }) => {
                     <li> <Link to='/pesquisar'> Pesquise </Link> </li>
                     <li> <Link to='/perfil'>Perfil</Link> </li>
                     <li> <Link to='/artigo/criar'>Publicar</Link> </li>
-                    <li> <Link to='/'>Notificações</Link> </li>
+                    {/* <li> <Link to='/'>Notificações</Link> </li> */}
                 </MenuOptionsContainerStyled>
                 <ProfileContentStyled>
                     <figure>

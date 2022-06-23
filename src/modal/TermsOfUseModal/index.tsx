@@ -21,7 +21,41 @@ const TermsOfUseModal: React.FC<IProps> = ({ modalIsOpen, closeModal }) => {
                 </CloseModalStyled>
                 <h2>Termos de Uso</h2>
                 <p>
-                    Lorem ipsum dolor sit amet. Et deserunt officiis aut ducimus placeat id quas facere? Ut doloremque ducimus eum corporis doloribus ex temporibus galisum sit reiciendis iusto eos omnis laborum ab nostrum optio. Et ducimus illo a labore molestias ut consequuntur odio sit consequatur iure id vitae animi. Non impedit doloremque eos voluptatem accusantium quo dolorum sint At delectus dolore At officia modi sit voluptatem vitae? Qui impedit amet aut consequuntur omnis 33 aliquid earum ut quia earum eum quidem dolor. Ex eveniet magnam eos quia inventore ea atque vero  maiores omnis ab unde delectus. Sit voluptas expedita eum temporibus possimus est commodi porro eum corporis itaque et fugit corrupti. Est unde quam qui facilis eligendi et sunt modi sit omnis possimus est nulla dolores quo  harum? </p><p>Cum enim reprehenderit ex velit enim et quas quos ex asperiores saepe? Qui temporibus pariatur non molestiae deserunt id nihil unde ut autem commodi non autem voluptas. In internos provident et voluptate dicta non magnam sint a quia quisquam! Hic magni quia ut porro quia 33 inventore molestiae  quis autem rem dicta tempora id error accusantium eos dolorem commodi. Est voluptatem veniam ad voluptatum quod sit galisum enim vel perferendis corporis in earum eius ut repudiandae necessitatibus. Est iure fuga est repudiandae omnis aut soluta aspernatur qui minima molestias eos explicabo veniam. Qui iure facere ab commodi molestias ad rerum placeat. Et architecto quaerat est doloribus cumque sit voluptas deserunt et expedita dolores qui consequatur eaque. Id repellat molestiae qui libero dolor ea aperiam voluptates aut quibusdam obcaecati. Ut animi odio vel quia quia sed quas voluptatem.
+                Termos de uso
+Bem-vindo ao iHead!
+
+Estes termos de uso descrevem as regras e regulamentos para a utilização do iHead, localizado em https://ihead-web-development.herokuapp.com/.
+
+Ao confirmar na caixa de seleção, assumimos que aceita estes termos e condições. Não continue a utilizar o iHead se não concordar em aceitar todos os termos de uso indicados nesta página.
+
+Licença:
+Todos os direitos de propriedade intelectual dos usuários cadastrados são reservados. 
+
+Não deve fazê-lo:
+
+•Copiar e republicar o material do iHead
+•Venda, aluguer ou sub-licenciamento de material do iHead
+•Reproduzir, duplicar ou copiar material do iHead
+•O presente Acordo terá início na data do mesmo.
+
+Partes deste site oferecem aos utilizadores uma oportunidade de publicar e trocar opiniões e informações em certas áreas do site. iHead não revê Comentários e Artigos antes da sua presença no site. Os comentários e artigos não refletem os pontos de vista e opiniões do iHead. Os comentários e artigos refletem os pontos de vista e opiniões da pessoa que publica os seus pontos de vista e opiniões. Na medida do permitido pela legislação aplicável, iHead não será responsável pelos Comentários, Artigos ou qualquer responsabilidade, danos, ou despesas causadas e/ou sofridas como resultado de qualquer utilização e/ou publicação e/ou aparecimento dos Comentários e Artigos neste site.
+
+O iHead reserva-se o direito de monitorizar todos os Comentários e Artigos, para remover quaisquer Comentários e Artigos que possam ser considerados inadequados, ofensivos, ou que causem a violação destes Termos de uso.
+
+O utilizador garante e representa isso:
+
+•Tem o direito de publicar os Comentários e Artigos no nosso site e tem todas as licenças e consentimentos necessários para o fazer;
+•Os Comentários não invadem qualquer direito de propriedade intelectual, incluindo, sem limitação, direitos de autor, patentes, ou marcas comerciais de terceiros;
+•Os Comentários e Artigos não contêm qualquer material difamatório, calunioso, ofensivo, indecente, ou de outra forma ilegal, o que constitui uma invasão de privacidade.
+•Os Comentários e Artigos não serão utilizados para solicitar ou promover negócios ou costume ou apresentar atividades comerciais ou atividades ilícitas.
+
+Remoção de links do nosso site:
+Se encontrar qualquer link no nosso site que seja ofensivo por qualquer razão, é livre de nos contatar e informar-nos a qualquer momento. Consideraremos pedidos de remoção de links, mas não somos obrigados a fazê-lo ou a responder diretamente ao cliente.
+
+Desde que o site e as informações e serviços no site sejam fornecidos gratuitamente, não seremos responsáveis por qualquer perda ou dano de qualquer natureza.
+
+
+
                 </p>
             </ModalContentStyled>
         </TermsOfServiceModalContainerStyled>

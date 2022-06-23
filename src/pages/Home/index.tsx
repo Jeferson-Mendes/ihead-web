@@ -101,7 +101,9 @@ const Home: React.FC = () => {
                             imageUrl="https://images.unsplash.com/photo-1567845735143-5e5d9d3f8f81?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80">
                                 <figcaption> <span> Postagens curtidas </span> </figcaption>
                             </GridStyled>
-                            <GridStyled imageUrl="https://images.pexels.com/photos/6651190/pexels-photo-6651190.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
+                            <GridStyled
+                            onClick={handleNavigateToProfile}
+                            imageUrl="https://images.pexels.com/photos/6651190/pexels-photo-6651190.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940">
                                 <figcaption> <span> Emitir Certificado </span> </figcaption>
                             </GridStyled>
                         </GridContentStyled>

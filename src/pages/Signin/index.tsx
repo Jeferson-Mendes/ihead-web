@@ -73,7 +73,7 @@ const Signin: React.FC = () => {
                         
                         <div>
                             <img src={likeIcon} alt="likeicon" />
-                            <span>  Partícipe desta comunidade </span>
+                            <span>  Participe desta comunidade </span>
                         </div>
                         <p>
                         Um lugar para compartilhar conhecimento
