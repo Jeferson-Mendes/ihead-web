@@ -12,6 +12,7 @@ import {
     RefLinksContainerStyled,
     SubmitContainerStyled,
     ArticleDescriptionStyled,
+    DescriptionLabelStyled
 } from './style';
 
 import educationIcon from '../../assets/education.svg';
@@ -171,14 +172,16 @@ const CreateArticle:React.FC = () => {
                     <TextEditorContainer>
                         <RichEditor setTextContent={setTextContent}/>
                         <ArticleDescriptionStyled>
-                            <span>Adicione uma descrição para melhorar a visualização do seu artigo.</span>
-                            <textarea
+                            <DescriptionLabelStyled>
+                                <p>Descrição</p>
+                                <span title="Adicione uma descrição para melhorar a visualização do seu artigo.">?</span>
+                            </DescriptionLabelStyled>
+                            <input
                             name="description"
                             id="description"
                             required
-                            cols={30}
                             onChange={handleInputChange}
-                            rows={4}></textarea>
+                            />
                         </ArticleDescriptionStyled>
                         <RefLinksContainerStyled>
                             <span>Adicione links de referência</span>

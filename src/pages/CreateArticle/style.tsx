@@ -74,15 +74,28 @@ export const TextEditorContainer = styled.div`
 
 export const ArticleDescriptionStyled = styled.div`
     padding-top: 2rem;
-    span {
-        display: block;
-        color: ${({theme})=> theme.colorGray};
-    }
 
-    textarea {
-        margin: 1rem 0.4rem 1rem 0;
+    input {
+        margin: 0.4rem 0.4rem 1rem 0;
         padding: 0.4rem;
         font-family: 'Rubik', sans-serif;
+    }
+`
+
+export const DescriptionLabelStyled = styled.div`
+    display: flex;
+    color: ${({theme})=> theme.colorGray};
+
+    span {
+        margin-left: 0.4rem;
+        background-color: gray;
+        border-radius: 50%;
+        width: 12px;
+        height: 12px;
+        text-align: center;
+        color: white;
+        font-size: 0.7rem;
+        cursor: pointer;
     }
 `
 
