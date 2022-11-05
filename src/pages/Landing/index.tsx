@@ -46,7 +46,7 @@ const LandingPage:React.FC = () => {
             </HeaderSectionStyled>
             <SectionDividerStyled>
                 <p>
-                Então não perca tempo! Aqui você pode fazer publicações com soluções de problemas recorrentes de tecnologia, conhecer e interagir com gente do IFCE, além de desenvolver atividades e adquirir certificados pela sua contribuição. Tudo isso sem pagar nada!
+                Então não perca tempo! Aqui você pode fazer publicações com soluções de problemas recorrentes de tecnologia, conhecer e interagir com gente do IFCE. Tudo isso sem pagar nada!
                 </p>
             </SectionDividerStyled>
             <InfoCardsSectionStyled>

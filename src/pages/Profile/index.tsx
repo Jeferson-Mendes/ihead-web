@@ -106,7 +106,7 @@ const Profile:React.FC = () => {
                     <div>
                         <ActionButtonStyled> <Link to='/editar'>Editar Cadastro</Link> </ActionButtonStyled>
                         <ActionButtonStyled> <Link to='/artigo/criar'>Fazer Publicação</Link> </ActionButtonStyled>
-                        <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled>
+                        {/* <ActionButtonStyled onClick={handleCloseModal}> Emitir Certificado </ActionButtonStyled> */}
                         <ActionButtonStyled> <Link to='/favoritos'>Favoritos</Link> </ActionButtonStyled>
                       { user?.userRole === UserRoleEnum.MODERATOR ? <ModerationButtonStyled> <Link to='/denuncias/gerenciar'>Moderação</Link> </ModerationButtonStyled> : '' } 
                     </div>

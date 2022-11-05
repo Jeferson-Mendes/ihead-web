@@ -26,7 +26,7 @@ import {
 import likeIcon from '../../assets/like.svg';
 import searchIcon from '../../assets/search.svg';
 import lightIcon from '../../assets/light.svg';
-import certifiedIcon from '../../assets/certified.svg';
+// import certifiedIcon from '../../assets/certified.svg';
 import Logo from '../../assets/logo.png'
 
 type Inputs = {
@@ -85,7 +85,7 @@ const Signin: React.FC = () => {
                     <ul>
                         <li> <img src={searchIcon} alt="searchIcon" /> <span>Pesquise respostas</span> </li>
                         <li> <img src={lightIcon} alt="lightIcon" /> <span>Crie soluções</span>  </li>
-                        <li> <img src={certifiedIcon} alt="certifiedIcon" /> <span>Conquiste certificados</span> </li>
+                        {/* <li> <img src={certifiedIcon} alt="certifiedIcon" /> <span>Conquiste certificados</span> </li> */}
                     </ul>
                 </ParagraphStyled>
             </PresentationContainerStyled>
